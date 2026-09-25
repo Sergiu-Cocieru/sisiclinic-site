@@ -16,7 +16,7 @@ const nav = [
   ['blog', 'Blog'],
   ['contact', 'Contact'],
 ];
-const isCurrent = (p: string) => current.replace(/\/$/, '').endsWith('/' + p);
+const isCurrent = (p: string) => current === `${import.meta.env.BASE_URL}${p}/` || current.startsWith(`${import.meta.env.BASE_URL}${p}/`);
 const ann = site.announcement;
 ---
 {ann?.active && ann.text && (

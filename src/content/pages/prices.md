@@ -1,5 +1,5 @@
 ---
-title: Sugaring and laser prices in Manchester
+title: "Sugaring and laser prices in *Manchester*"
 path: sugaring-prices-manchester
 seo:
   title: Sugaring Prices Manchester | Laser Prices | SISI Clinic

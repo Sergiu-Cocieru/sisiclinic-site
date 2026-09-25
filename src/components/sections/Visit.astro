@@ -7,7 +7,7 @@ const hours = await getHours();
 ---
 <section class="chapter" data-tone="warm">
   <div class="wrap visit-grid">
-    <div class="visit-media reveal framed"><Img src="/src/assets/uploads/therapist-sugaring-studio.jpg" alt="SISI Clinic therapist at work in the studio, with the SISI logo on the wall" sizes="(max-width: 860px) 86vw, 40vw" widths={[800, 1200]} /><span class="frame" aria-hidden="true"></span></div>
+    <div class="visit-media reveal framed"><Img src={s.image ?? "/src/assets/uploads/therapist-portrait.jpg"} alt={s.imageAlt ?? "Alina, the SISI Clinic therapist, in the studio under the SISI logo"} sizes="(max-width: 860px) 86vw, 40vw" widths={[800, 1200]} /><span class="frame" aria-hidden="true"></span></div>
     <div class="visit-copy">
       <span class="eyebrow">{s.eyebrow ?? 'Find us'}</span>
       <span class="postcode" aria-hidden="true">{site.address.postcode}</span>

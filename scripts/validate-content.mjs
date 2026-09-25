@@ -58,6 +58,7 @@ const checkers = {
       if (s.type === 'hero' && !s.title) err(f, `section ${i + 1}: hero needs a title`);
       if ((s.type === 'imageText') && (!imgOk(s.image) || !s.imageAlt || !s.body)) err(f, `section ${i + 1}: imageText needs body, image and imageAlt`);
       if (s.type === 'hero' && s.image && !imgOk(s.image)) err(f, `section ${i + 1}: image not found ${s.image}`);
+      if (s.type === 'visit' && s.image && !imgOk(s.image)) err(f, `section ${i + 1}: image not found ${s.image}`);
       if (s.type === 'statement' && s.image && !imgOk(s.image)) err(f, `section ${i + 1}: image not found ${s.image}`);
       if (s.type === 'hero' && s.image2 && !imgOk(s.image2)) err(f, `section ${i + 1}: second image not found ${s.image2}`);
       if (s.type === 'imageText' && s.quote && s.quote.split(/\s+/).length > 22) err(f, `section ${i + 1}: keep the pull-quote under 22 words`);

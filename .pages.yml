@@ -316,7 +316,7 @@ content:
               - { name: cta, label: Button, component: link }
           - name: visit
             label: How to find us
-            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: image, label: Photo, component: image }, { name: imageAlt, label: Photo description, type: string }]
       - { name: body, label: "Simple page text (used by policy pages)", type: rich-text }
 
   - name: offers

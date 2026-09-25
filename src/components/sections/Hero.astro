@@ -33,7 +33,7 @@ const Tag = Astro.props.first ? 'h1' : 'h2';
     </div>
     <div class="hero-q-media">
       <div class="hero-q-photo"><Img src={s.image} alt={s.imageAlt} loading="eager" fetchpriority="high" sizes="(max-width: 860px) 100vw, 40vw" widths={[800, 1200, 1600]} /></div>
-      {s.image2 && <div class="ritual-sq px-fast"><Img src={s.image2} alt={s.image2Alt} loading="eager" sizes="260px" widths={[260, 520]} /></div>}
+      {s.image2 && <div class="ritual-sq"><Img src={s.image2} alt={s.image2Alt} loading="eager" sizes="260px" widths={[260, 520]} /></div>}
     </div>
   </div>
 </section>

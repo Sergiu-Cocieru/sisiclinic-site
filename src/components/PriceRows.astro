@@ -11,7 +11,7 @@ const url = treatwellUrl(site.treatwell.widgetUrl, g.treatwellServiceId);
 <ul class="menu-rows">
   {g.items.map((i) => (
     <li>
-      <a class="mrow" href={url} target="_blank" rel="noopener" data-book={`${placement}-${group.id}`} aria-label={`Book ${i.name}, ${i.free ? 'free' : money(i.price)} (opens Treatwell booking in a new tab)`}>
+      <a class="mrow" href={url} target="_blank" rel="noopener" data-book={`${placement}-${group.id}`} aria-label={`${i.name}, ${i.free ? 'free' : money(i.price)}. Book ${g.title} on Treatwell (opens in a new tab)`}>
         <span class="mrow-name">{i.name}<span class="mrow-meta caps">{i.minutes ? `${i.minutes} min` : ''}{i.note ? `${i.minutes ? ' · ' : ''}${i.note}` : ''}</span></span>
         <span class="mrow-price num">{i.free ? 'Free' : <>{i.from && <small>from</small>}{money(i.price)}</>}</span>
         <Icon name="arrow" size={18} class="mrow-go" />

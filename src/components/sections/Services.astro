@@ -12,7 +12,7 @@ const fromPrice = (ids: string[]) => {
   return prices.length ? Math.min(...prices) : undefined;
 };
 const count = (ids: string[]) => groups.filter((g) => ids.includes(g.id)).reduce((n, g) => n + g.data.items.length, 0);
-const sizes = ['(max-width: 860px) 50vw, 42vw', '(max-width: 860px) 50vw, 34vw', '(max-width: 860px) 50vw, 25vw', '(max-width: 860px) 50vw, 34vw', '(max-width: 860px) 100vw, 66vw'];
+const sizes = ['(max-width: 860px) 100vw, 42vw', '(max-width: 860px) 50vw, 34vw', '(max-width: 860px) 50vw, 25vw', '(max-width: 860px) 50vw, 34vw', '(max-width: 860px) 50vw, 66vw'];
 ---
 <section class="chapter" data-tone="cream">
   <div class="wrap">

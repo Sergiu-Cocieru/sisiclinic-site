@@ -11,6 +11,9 @@ const site = await getSite();
 <script>
   // The dock stays away while a page's own Book button is on screen, so there is always exactly one.
   const dock = document.querySelector('[data-dock]');
+  const own = document.querySelector<HTMLAnchorElement>('[data-hero-cta] a[data-service]');
+  const book = dock?.querySelector<HTMLAnchorElement>('.dock-book');
+  if (own?.dataset.service && book) book.href = own.href;
   const targets = document.querySelectorAll('[data-hero-cta], [data-band-cta]');
   if (!targets.length || !('IntersectionObserver' in window)) dock?.classList.add('is-shown');
   else {

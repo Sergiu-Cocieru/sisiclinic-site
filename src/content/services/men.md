@@ -4,6 +4,7 @@ path: sugaring-hair-removal/men
 navLabel: Men
 summary: Back, chest, shoulders, arms and legs, done calmly and without judgement. Packages from £80.
 image: /src/assets/uploads/sugaring-arm-treatment.jpg
+cardImage: /src/assets/uploads/sugaring-leg-strip.jpg
 imageAlt: Therapist in gloves sugaring an arm
 order: 4
 treatwellServiceId: TR4725456

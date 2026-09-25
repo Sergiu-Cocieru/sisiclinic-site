@@ -11,6 +11,8 @@ import { getSite, getHours } from '../lib/content';
 import { resolveImage } from '../lib/images';
 import { isPreview } from '../lib/url';
 import logo from '../assets/uploads/logo-sisi-black.png';
+import playfairUrl from '@fontsource/playfair-display/files/playfair-display-latin-400-normal.woff2?url';
+import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 
 interface Props {
   title: string;            // full <title>
@@ -84,6 +86,8 @@ const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
     <meta name="ICBM" content={`${site.geo.lat}, ${site.geo.lng}`} />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
     <link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={playfairUrl} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={interUrl} />
     {lcp && <link rel="preload" as="image" href={lcp.src} type="image/avif" fetchpriority="high" media="(max-width: 860px)" />}
     <script type="application/ld+json" set:html={jsonld} />
     <script is:inline>
@@ -127,18 +131,28 @@ const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
       if (!CSS.supports('animation-timeline: view()') && !reduce && 'IntersectionObserver' in window) {
         const els = [...document.querySelectorAll<HTMLElement>('.reveal, [data-split]')].filter((e) => e.getBoundingClientRect().top > window.innerHeight);
         els.forEach((e) => e.classList.add('pre'));
-        const io = new IntersectionObserver((entries) => { for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }, { rootMargin: '0px 0px -8% 0px' });
+        // an element already scrolled past (anchor jump, back navigation) counts as revealed
+        const io = new IntersectionObserver((entries) => { for (const e of entries) if (e.isIntersecting || e.boundingClientRect.bottom < 0) { e.target.classList.add('in'); io.unobserve(e.target); } }, { rootMargin: '0px 0px -8% 0px' });
         els.forEach((e) => io.observe(e));
+        addEventListener('hashchange', () => els.forEach((e) => { if (e.getBoundingClientRect().bottom < 0) e.classList.add('in'); }));
       }
       // Desktop: the header prints itself in cream while a dark chapter sits under it.
       const header = document.querySelector<HTMLElement>('[data-header]');
-      if (header && window.matchMedia('(min-width: 861px)').matches && 'IntersectionObserver' in window) {
-        const under = new Set<Element>();
-        const band = new IntersectionObserver((entries) => {
-          for (const e of entries) e.isIntersecting ? under.add(e.target) : under.delete(e.target);
-          document.documentElement.classList.toggle('hdr-dark', under.size > 0);
-        }, { rootMargin: `0px 0px ${-(window.innerHeight - header.offsetHeight)}px 0px`, threshold: 0 });
-        document.querySelectorAll('.chapter.dark, .site-footer').forEach((s) => band.observe(s));
+      if (header && 'IntersectionObserver' in window) {
+        const wide = window.matchMedia('(min-width: 861px)');
+        let band: IntersectionObserver | undefined; let timer = 0;
+        const setup = () => {
+          band?.disconnect();
+          if (!wide.matches) { document.documentElement.classList.remove('hdr-dark'); return; }
+          const under = new Set<Element>();
+          band = new IntersectionObserver((entries) => {
+            for (const e of entries) e.isIntersecting ? under.add(e.target) : under.delete(e.target);
+            document.documentElement.classList.toggle('hdr-dark', under.size > 0);
+          }, { rootMargin: `0px 0px ${-(window.innerHeight - header.offsetHeight)}px 0px`, threshold: 0 });
+          document.querySelectorAll('.chapter.dark, .site-footer').forEach((s) => band!.observe(s));
+        };
+        setup(); wide.addEventListener('change', setup);
+        addEventListener('resize', () => { clearTimeout(timer); timer = window.setTimeout(setup, 150); });
       }
     </script>
   </body>

@@ -95,7 +95,6 @@ const firstIsHero = kind === 'page' && d.sections?.[0]?.type === 'hero';
             <div class="stats caps">
               {service.from !== undefined && <div><b class="num">{money(service.from)}</b><span>from</span></div>}
               {service.count > 0 && <div><b class="num">{service.count}</b><span>{service.count === 1 ? 'treatment' : 'treatments'}</span></div>}
-              <div><b>Private</b><span>room, door closed</span></div>
             </div>
             <div class="btn-row" data-hero-cta>
               <BookButton serviceId={d.treatwellServiceId} placement={`service-${entry.id}`} />
@@ -113,7 +112,7 @@ const firstIsHero = kind === 'page' && d.sections?.[0]?.type === 'hero';
             <div class="aside-block">
               <span class="eyebrow">Book this treatment</span>
               {service.from !== undefined && <span class="aside-price"><small>from</small>{money(service.from)}</span>}
-              <div class="btn-row"><BookButton serviceId={d.treatwellServiceId} placement={`service-aside-${entry.id}`} /></div>
+              <div class="btn-row" data-hero-cta><BookButton serviceId={d.treatwellServiceId} placement={`service-aside-${entry.id}`} /></div>
               <a class="text-link" href={service.wa} target="_blank" rel="noopener">Ask on WhatsApp first</a>
             </div>
           </aside>

@@ -22,6 +22,8 @@ export default defineConfig({
     basePathLinks(BASE),
   ],
   vite: {
+    // lightningcss folds animation-timeline into the animation shorthand, which browsers then drop
+    build: { cssMinify: 'esbuild' },
     define: {
       'import.meta.env.PUBLIC_PREVIEW': JSON.stringify(PREVIEW ? '1' : ''),
     },

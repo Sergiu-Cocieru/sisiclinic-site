@@ -7,10 +7,12 @@ const site = await getSite();
 <section class="chapter dark band-q" data-tone="burgundy">
   <div class="wrap band-inner">
     <h2 data-split set:html={accent(s.title ?? 'Smooth skin, *calmly* done.')} />
-    {s.intro && <div class="lede" set:html={md(s.intro)} />}
-    <div class="btn-row" data-band-cta>
-      <BookButton placement="band" />
-      <a class="btn btn-ghost" href={waLink(site.whatsapp, s.whatsappText ?? 'Hi SISI Clinic, I have a question about an appointment.')} target="_blank" rel="noopener">Ask on WhatsApp</a>
+    <div class="band-side">
+      {s.intro && <div class="lede" set:html={md(s.intro)} />}
+      <div class="btn-row" data-band-cta>
+        <BookButton placement="band" />
+        <a class="btn btn-ghost" href={waLink(site.whatsapp, s.whatsappText ?? 'Hi SISI Clinic, I have a question about an appointment.')} target="_blank" rel="noopener">Ask on WhatsApp</a>
+      </div>
     </div>
   </div>
 </section>

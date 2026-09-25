@@ -19,7 +19,7 @@ const year = new Date().getFullYear();
         <address style="font-style:normal">{site.address.building}<br />{site.address.street}<br />{site.address.city} {site.address.postcode}</address>
         <p style="margin-top:10px"><a href={site.mapsUrl} target="_blank" rel="noopener">Open in Google Maps</a></p>
       </div>
-      <div>
+      <div class="footer-hours">
         <h3>Opening hours</h3>
         <table class="hours">
           {hours.weekly.map((d) => <tr data-day={d.day}><td>{d.day.slice(0, 3)}</td><td class="num">{d.closed ? 'Closed' : `${d.open}–${d.close}`}</td></tr>)}

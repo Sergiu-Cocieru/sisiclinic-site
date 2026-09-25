@@ -15,7 +15,6 @@ const hours = await getHours();
         <div><dt>Phone</dt><dd><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></dd></div>
         <div><dt>WhatsApp</dt><dd><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener">Message us on WhatsApp</a></dd></div>
         <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
-        <div><dt>Opening hours</dt><dd><table class="hours">{hours.weekly.map((d) => <tr><td>{d.day}</td><td>{d.closed ? 'Closed' : `${d.open}–${d.close}`}</td></tr>)}</table></dd></div>
       </dl>
       {s.showForm && (
         <form class="form" id="contact-form" method="post" action={asset('contact.php')} data-contact-form>

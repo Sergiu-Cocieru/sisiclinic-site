@@ -14,6 +14,6 @@ const { s } = Astro.props;
       <div class="prose" set:html={md(s.body)} />
       {s.cta && <p><a class="text-link" href={href(s.cta.link)}>{s.cta.label}</a></p>}
     </div>
-    {s.quote && <blockquote class="pull px-fast"><span>{s.quote}</span>{s.quoteBy && <cite>{s.quoteBy}</cite>}</blockquote>}
+    {s.quote && <blockquote class="pull"><span>{s.quote}</span>{s.quoteBy && <cite>{s.quoteBy}</cite>}</blockquote>}
   </div>
 </section>

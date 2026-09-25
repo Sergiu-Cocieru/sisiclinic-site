@@ -2,7 +2,7 @@
 title: "Sugaring hair removal in *Manchester*"
 path: sugaring-hair-removal
 seo:
-  title: What Is Sugaring? Sugaring vs Waxing | SISI Clinic Manchester
+  title: "Sugaring Hair Removal Manchester | Private Studio near Piccadilly | SISI Clinic"
   description: How sugaring hair removal works, how it compares with waxing, and what to expect at SISI Clinic in Manchester city centre.
 sections:
   - type: imageText

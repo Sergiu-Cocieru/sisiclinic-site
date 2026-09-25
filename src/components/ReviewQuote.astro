@@ -5,7 +5,8 @@ import { href } from '../lib/url';
 const { service } = Astro.props;
 const all = await getReviews();
 const pool = service ? all.filter((r) => r.data.service === service) : [];
-const lead = leadReview(pool.length ? pool : all);
+const homeLead = leadReview(all);
+const lead = leadReview((pool.length ? pool : all).filter((r) => r !== homeLead)) ?? homeLead;
 const site = await getSite();
 ---
 {lead && (

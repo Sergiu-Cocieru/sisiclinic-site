@@ -5,7 +5,7 @@ interface Props { eyebrow?: string; title?: string; intro?: string; center?: boo
 const { eyebrow, title, intro, center } = Astro.props;
 ---
 {(eyebrow || title || intro) && (
-  <div class={`section-head ${intro && !center ? 'row' : ''} ${center ? 'center' : ''}`}>
+  <div class={`section-head ${title && intro && !center ? 'row' : ''} ${center ? 'center' : ''}`}>
     {eyebrow && <span class="eyebrow">{eyebrow}</span>}
     {title && <h2 data-split set:html={accent(title)} />}
     {intro && <div class="lede" set:html={md(intro)} />}
