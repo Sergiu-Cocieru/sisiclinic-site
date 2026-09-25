@@ -1,5 +1,5 @@
 ---
-title: Contact SISI Clinic
+title: "Contact SISI Clinic, *Manchester*"
 path: contact
 seo:
   title: Contact SISI Clinic | Sugaring in Manchester City Centre

@@ -2,8 +2,8 @@
 title: Privacy policy
 path: privacy-policy
 seo:
-  title: "Privacy Policy: How We Use Your Information | SISI Clinic"
-  description: How SISI Clinic collects, uses and protects your personal information on this website and as a client, including bookings, health details and your rights.
+  title: "Privacy Policy | SISI Clinic Manchester"
+  description: "How SISI Clinic collects, uses and protects your personal information on this website and as a client, including bookings, health details and your rights. From SISI Clinic, a sugaring studio in Manchester city centre."
 sections: []
 ---
 This notice explains what personal information SISI Clinic collects, why we need it, how long we keep it and what your rights are. It covers this website and the information we hold when you are our client.

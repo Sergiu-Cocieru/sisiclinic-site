@@ -1,5 +1,5 @@
 ---
-title: Book an appointment
+title: "Book an appointment in *Manchester*"
 path: book-an-appointment
 seo:
   title: Book Sugaring or Laser in Manchester | SISI Clinic

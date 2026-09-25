@@ -1,9 +1,9 @@
 ---
-title: Aftercare for sugaring and laser
+title: "Sugaring and laser aftercare, from our *Manchester* studio"
 path: aftercare
 seo:
-  title: "Sugaring and Laser Aftercare: What to Do Next | SISI Clinic"
-  description: How to look after your skin after sugaring or laser hair removal, from the first 48 hours to exfoliating, ingrown hairs, SPF and when to book your next visit.
+  title: "Sugaring & Laser Aftercare | SISI Clinic Manchester"
+  description: "How to look after your skin after sugaring or laser hair removal, from the first 48 hours to exfoliating, ingrown hairs, SPF and when to book your next visit. From SISI Clinic, a sugaring studio in Manchester city centre."
 sections:
   - type: text
     eyebrow: Aftercare

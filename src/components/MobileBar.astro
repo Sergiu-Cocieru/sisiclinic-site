@@ -1,16 +1,24 @@
 ---
 import Icon from './Icon.astro';
-import { getSite } from '../lib/content';
+import { getSite, waLink } from '../lib/content';
 const site = await getSite();
 ---
 <nav class="dock" aria-label="Quick actions" data-dock>
   <a class="dock-book" href={site.treatwell.widgetUrl} target="_blank" rel="noopener" data-book="mobile-bar" aria-label="Book online (opens Treatwell booking in a new tab)"><Icon name="calendar" /><span>Book online</span></a>
-  <a class="dock-alt" href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hi SISI Clinic, I have a question about an appointment.')}`} target="_blank" rel="noopener" aria-label="WhatsApp (opens in a new tab)"><Icon name="chat" /><span>WhatsApp</span></a>
+  <a class="dock-alt" href={waLink(site.whatsapp, 'Hi SISI Clinic, I have a question about an appointment.')} target="_blank" rel="noopener" aria-label="WhatsApp (opens in a new tab)"><Icon name="chat" /><span>WhatsApp</span></a>
   <a class="dock-alt" href={`tel:${site.phone}`} aria-label={`Call ${site.phoneDisplay}`}><Icon name="phone" /><span>Call</span></a>
 </nav>
 <script>
-  // The dock slides in once the visitor scrolls past the first screen's buttons
+  // The dock stays away while a page's own Book button is on screen, so there is always exactly one.
   const dock = document.querySelector('[data-dock]');
-  const show = () => dock?.classList.toggle('is-shown', window.scrollY > 280);
-  show(); window.addEventListener('scroll', show, { passive: true });
+  const targets = document.querySelectorAll('[data-hero-cta], [data-band-cta]');
+  if (!targets.length || !('IntersectionObserver' in window)) dock?.classList.add('is-shown');
+  else {
+    const visible = new Set<Element>();
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) e.isIntersecting ? visible.add(e.target) : visible.delete(e.target);
+      dock?.classList.toggle('is-shown', visible.size === 0);
+    });
+    targets.forEach((t) => io.observe(t));
+  }
 </script>

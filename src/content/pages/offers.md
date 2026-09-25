@@ -1,5 +1,5 @@
 ---
-title: Offers and packages
+title: "Offers and packages in *Manchester*"
 path: offer-sugaring-hair-removal-service
 seo:
   title: Sugaring Offers & Packages Manchester | SISI Clinic

@@ -8,8 +8,8 @@ image: /src/assets/uploads/therapist-with-paste.jpg
 imageAlt: SISI Clinic therapist in a black uniform holding a pot of sugaring paste
 excerpt: Sugaring is often called sugar waxing, but there is no wax in it at all. Where it is said to come from, how it has changed and why people still choose it today.
 seo:
-  title: "Sugar Waxing: A Short History of Sugaring | SISI Clinic"
-  description: Where sugaring, often called sugar waxing, is said to come from, how it moved from home kitchens to the studio, and why people still choose it today.
+  title: "Sugar Waxing: A Short History | SISI Clinic Manchester"
+  description: "Where sugaring, often called sugar waxing, is said to come from, how it moved from home kitchens to the studio, and why people still choose it today. From SISI Clinic, a sugaring studio in Manchester city centre."
 ---
 People often call it sugar waxing. It is an easy name to remember, but it is not quite right, because there is no wax in it at all. The paste is made from sugar, water and lemon, and people have used it to remove hair for a very long time.
 

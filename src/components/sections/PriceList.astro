@@ -1,9 +1,11 @@
 ---
+// The full price list set like a carte: a sticky index on desktop, hairline chips on phones, groups as menu rows.
 import Head from './Head.astro';
-import BookButton from '../BookButton.astro';
-import Icon from '../Icon.astro';
-import { getPriceGroups, money } from '../../lib/content';
+import PriceRows from '../PriceRows.astro';
+import { getPriceGroups, getSite, money, accent } from '../../lib/content';
+import { treatwellUrl } from '../../lib/url';
 const { s } = Astro.props;
+const site = await getSite();
 const all = await getPriceGroups();
 const groups = s.groups?.length ? all.filter((g) => s.groups.includes(g.id)) : all;
 const short: Record<string, string> = {
@@ -12,57 +14,56 @@ const short: Record<string, string> = {
 };
 const minOf = (g: any) => { const p = g.data.items.filter((i: any) => !i.free).map((i: any) => i.price); return p.length ? Math.min(...p) : 0; };
 ---
-<section class="section">
+<section class="chapter" data-tone="cream">
   <div class="wrap">
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
-    {groups.length > 2 && <nav class="jump" aria-label="Price groups">{groups.map((g) => <a href={`#${g.id}`} data-jump={g.id}>{short[g.id] ?? g.data.title}</a>)}</nav>}
-    <div class="price-accs" data-price-accs>
-      {groups.map((g, i) => (
-        <details class="price-acc" id={g.id} open={i === 0}>
-          <summary>
-            <span class="pa-title">{g.data.title}</span>
-            <span class="pa-meta">{g.data.items.length} {g.data.items.length === 1 ? 'treatment' : 'treatments'} · {minOf(g) ? `from ${money(minOf(g))}` : 'Free'}</span>
-            <Icon name="chevron" class="pa-chev" />
-          </summary>
-          <div class="pa-body">
-            <table class="price-table">
-              <caption class="sr-only">{g.data.title} prices</caption>
-              <thead><tr><th scope="col">Treatment</th><th scope="col" class="t-min">Time</th><th scope="col" class="t-price">Price</th></tr></thead>
-              <tbody>
-                {g.data.items.map((it) => (
-                  <tr>
-                    <td class="t-name">{it.name}{it.note && <span class="t-note">{it.note}</span>}</td>
-                    <td class="t-min">{it.minutes ? `${it.minutes} min` : ''}</td>
-                    <td class="t-price">{it.free ? 'Free' : `${it.from ? 'from ' : ''}${money(it.price)}`}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {g.data.note && <p class="price-note">{g.data.note}</p>}
-            <BookButton serviceId={g.data.treatwellServiceId} label={`Book ${short[g.id]?.toLowerCase() ?? 'now'}`} size="small" placement={`prices-${g.id}`} />
-          </div>
-        </details>
-      ))}
+    <div class="price-page" data-price-page>
+      {groups.length > 2 && (
+        <>
+          <nav class="price-index" aria-label="Price groups">{groups.map((g) => <a href={`#${g.id}`} data-jump={g.id}>{short[g.id] ?? g.data.title}</a>)}</nav>
+          <nav class="jump" aria-label="Price groups">{groups.map((g) => <a href={`#${g.id}`} data-jump={g.id}>{short[g.id] ?? g.data.title}</a>)}</nav>
+        </>
+      )}
+      <div class="price-groups">
+        {groups.map((g, i) => (
+          <details class="pg" id={g.id} open={i < 2}>
+            <summary>
+              <span class="pg-title" set:html={accent(g.data.title)} />
+              <span class="pg-meta caps">{minOf(g) ? `From ${money(minOf(g))}` : 'Free'} · {g.data.items.length} {g.data.items.length === 1 ? 'treatment' : 'treatments'}</span>
+              <span class="plus" aria-hidden="true"></span>
+            </summary>
+            <div class="pg-body">
+              <PriceRows group={g} placement="prices" />
+              <div class="group-foot">
+                {g.data.note ? <p class="price-note">{g.data.note}</p> : <span />}
+                <a class="text-link" href={treatwellUrl(site.treatwell.widgetUrl, g.data.treatwellServiceId)} target="_blank" rel="noopener" data-book={`prices-${g.id}`}>Book {short[g.id]?.toLowerCase() ?? 'this group'} on Treatwell</a>
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 <script>
-  // Desktop shows every group open; phones start with the first open. Jump chips open their group.
+  // Desktop shows every group open; phones start with the first two. The index and the chips follow the scroll.
   const wide = window.matchMedia('(min-width: 861px)');
-  const accs = [...document.querySelectorAll<HTMLDetailsElement>('.price-acc')];
-  if (wide.matches) accs.forEach((d) => (d.open = true));
-  for (const a of document.querySelectorAll<HTMLAnchorElement>('[data-jump]')) {
-    a.addEventListener('click', () => { const d = document.getElementById(a.dataset.jump!) as HTMLDetailsElement | null; if (d) d.open = true; });
-  }
-  const chips = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-jump]')].map((a) => [a.dataset.jump!, a]));
-  if (chips.size && 'IntersectionObserver' in window) {
+  const accs = [...document.querySelectorAll<HTMLDetailsElement>('.pg')];
+  const sync = () => { if (wide.matches) accs.forEach((d) => (d.open = true)); };
+  sync(); wide.addEventListener('change', sync);
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-jump]')];
+  for (const a of links) a.addEventListener('click', () => { const d = document.getElementById(a.dataset.jump!) as HTMLDetailsElement | null; if (d) d.open = true; });
+  if (links.length && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) if (e.isIntersecting) {
-        chips.forEach((c) => c.removeAttribute('aria-current'));
-        const chip = chips.get(e.target.id);
-        if (chip) { chip.setAttribute('aria-current', 'true'); const bar = chip.parentElement!; bar.scrollTo({ left: chip.offsetLeft - (bar.clientWidth - chip.offsetWidth) / 2, behavior: 'smooth' }); }
+        links.forEach((l) => l.removeAttribute('aria-current'));
+        for (const l of links.filter((l) => l.dataset.jump === e.target.id)) {
+          l.setAttribute('aria-current', 'true');
+          const bar = l.parentElement!;
+          if (bar.classList.contains('jump')) bar.scrollTo({ left: l.offsetLeft - (bar.clientWidth - l.offsetWidth) / 2, behavior: 'smooth' });
+        }
       }
-    }, { rootMargin: '-35% 0px -60% 0px' });
+    }, { rootMargin: '-30% 0px -60% 0px' });
     accs.forEach((d) => io.observe(d));
   }
   if (location.hash) { const d = document.getElementById(location.hash.slice(1)) as HTMLDetailsElement | null; if (d?.tagName === 'DETAILS') d.open = true; }

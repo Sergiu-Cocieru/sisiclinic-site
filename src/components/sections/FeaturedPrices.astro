@@ -1,29 +1,32 @@
 ---
-import Head from './Head.astro';
+// Most-booked prices as a menu: the left column stays while the rows scroll; each row is one Treatwell link.
 import Icon from '../Icon.astro';
-import { getPriceGroups, getSite, money } from '../../lib/content';
+import { getPriceGroups, getSite, money, md, accent } from '../../lib/content';
 import { href, treatwellUrl } from '../../lib/url';
 const { s } = Astro.props;
 const site = await getSite();
 const groups = await getPriceGroups();
 const items = groups.flatMap((g) => g.data.items.filter((i) => i.featured).map((i) => ({ ...i, group: g.data.title, serviceId: g.data.treatwellServiceId })));
 ---
-<section class="section tint">
-  <div class="wrap">
-    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
-    <ul class="menu-list">
+<section class="chapter" data-tone="cream">
+  <div class="wrap menu-sec">
+    <div class="menu-side">
+      {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
+      {s.title && <h2 data-split set:html={accent(s.title)} />}
+      {s.intro && <div class="lede" set:html={md(s.intro)} />}
+      {s.cta && <p><a class="text-link" href={href(s.cta.link)}>{s.cta.label}</a></p>}
+    </div>
+    <ul class="menu-rows">
       {items.map((i) => (
         <li>
-          <a href={treatwellUrl(site.treatwell.widgetUrl, i.serviceId)} target="_blank" rel="noopener" data-book="featured-prices"
+          <a class="mrow" href={treatwellUrl(site.treatwell.widgetUrl, i.serviceId)} target="_blank" rel="noopener" data-book="featured-prices"
              aria-label={`Book ${i.name}, ${i.free ? 'free' : money(i.price)} (opens Treatwell booking in a new tab)`}>
-            <span class="ml-name">{i.name}<span class="ml-meta">{i.minutes ? `${i.minutes} min` : ''}</span></span>
-            <span class="ml-dots" aria-hidden="true"></span>
-            <span class="ml-price num">{i.free ? 'Free' : money(i.price)}</span>
-            <Icon name="external" size={16} class="ml-go" />
+            <span class="mrow-name">{i.name}<span class="mrow-meta caps">{i.minutes ? `${i.minutes} min` : ''}<span class="mrow-group">{i.minutes && i.group ? ' · ' : ''}{i.group}</span></span></span>
+            <span class="mrow-price num">{i.free ? 'Free' : <>{i.from && <small>from</small>}{money(i.price)}</>}</span>
+            <Icon name="arrow" size={18} class="mrow-go" />
           </a>
         </li>
       ))}
     </ul>
-    {s.cta && <p class="menu-list-more"><a class="link-arrow" href={href(s.cta.link)}>{s.cta.label}</a></p>}
   </div>
 </section>

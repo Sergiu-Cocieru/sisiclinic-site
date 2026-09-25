@@ -1,5 +1,5 @@
 ---
-title: Facial sugaring in Manchester
+title: "Facial sugaring in *Manchester*"
 path: sugaring-hair-removal/face
 navLabel: Face
 summary: Upper lip, chin, eyebrows and full face sugaring. Quick, precise and from £15.

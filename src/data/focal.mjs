@@ -3,6 +3,8 @@
 // so faces, hands and the paste are never cut off. New uploads default to the centre.
 export const FOCAL = {
   'client-neckline.jpg': '50% 40%',
+  'client-neckline-hero.jpg': '66% 50%',
+  'sugaring-paste-hand.jpg': '50% 50%',
   'client-portrait-flower.jpg': '58% 28%',
   'client-portrait-shoulder.jpg': '50% 30%',
   'client-portrait-side.jpg': '50% 30%',

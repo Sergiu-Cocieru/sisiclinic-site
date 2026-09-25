@@ -1,5 +1,5 @@
 ---
-title: Questions and answers
+title: "Questions and answers from our *Manchester* studio"
 path: faq
 seo:
   title: Sugaring and Laser FAQs, Manchester Studio | SISI Clinic

@@ -1,5 +1,5 @@
 ---
-title: Sugaring hair removal
+title: "Sugaring hair removal in *Manchester*"
 path: sugaring-hair-removal
 seo:
   title: What Is Sugaring? Sugaring vs Waxing | SISI Clinic Manchester

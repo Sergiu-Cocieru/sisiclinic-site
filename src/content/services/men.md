@@ -1,5 +1,5 @@
 ---
-title: Men's sugaring in Manchester
+title: "Men's sugaring in *Manchester*"
 path: sugaring-hair-removal/men
 navLabel: Men
 summary: Back, chest, shoulders, arms and legs, done calmly and without judgement. Packages from £80.

@@ -1,5 +1,5 @@
 ---
-title: About SISI Clinic
+title: "About SISI Clinic, *Manchester*"
 path: sugaring-hair-removal-manchester-clinic
 seo:
   title: "About Us: Private Sugaring Studio, Manchester | SISI Clinic"

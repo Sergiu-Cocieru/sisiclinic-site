@@ -1,7 +1,7 @@
 ---
+// Treatments as an editorial grid: five photos of different sizes, names under them, the whole tile is the link.
 import Head from './Head.astro';
 import Img from '../Img.astro';
-import Icon from '../Icon.astro';
 import { getServices, getPriceGroups, money } from '../../lib/content';
 import { href } from '../../lib/url';
 const { s } = Astro.props;
@@ -11,28 +11,25 @@ const fromPrice = (ids: string[]) => {
   const prices = groups.filter((g) => ids.includes(g.id)).flatMap((g) => g.data.items.filter((i) => !i.free).map((i) => i.price));
   return prices.length ? Math.min(...prices) : undefined;
 };
+const count = (ids: string[]) => groups.filter((g) => ids.includes(g.id)).reduce((n, g) => n + g.data.items.length, 0);
+const sizes = ['(max-width: 860px) 50vw, 42vw', '(max-width: 860px) 50vw, 34vw', '(max-width: 860px) 50vw, 25vw', '(max-width: 860px) 50vw, 34vw', '(max-width: 860px) 100vw, 66vw'];
 ---
-<section class="section">
+<section class="chapter" data-tone="cream">
   <div class="wrap">
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
-    <div class="svc-rail" data-rail>
+    <div class="edit-grid">
       {services.map((sv, i) => {
         const from = sv.data.fromPrice ?? fromPrice(sv.data.priceGroups);
-        // On phones and tablets the last card spans the full width when the count is odd
-        const wideLast = i === services.length - 1 && services.length % 2 === 1;
+        const n = count(sv.data.priceGroups);
+        const img = sv.data.cardImage ?? sv.data.image;
         return (
-          <a class="svc" href={href(sv.data.path)}>
-            <div class="svc-media"><Img src={sv.data.image} alt={sv.data.imageAlt} sizes={wideLast ? '(max-width: 860px) 100vw, 30vw' : '(max-width: 860px) 48vw, 30vw'} widths={[400, 800, 1200]} /></div>
-            <div class="svc-over">
-              <h3>{sv.data.navLabel}</h3>
-              {from !== undefined && <span class="svc-from">from {money(from)}</span>}
-            </div>
-            <p class="svc-sum">{sv.data.summary}</p>
-            <span class="svc-more">Details <Icon name="arrow" size={18} /></span>
+          <a class="tile" href={href(sv.data.path)}>
+            <div class="tile-media reveal" style={img === sv.data.image ? `view-transition-name:svc-${sv.id}` : undefined}><Img src={img} alt={sv.data.imageAlt} sizes={sizes[i] ?? sizes[1]} widths={[480, 800, 1200]} /></div>
+            <span class="tile-name">{sv.data.navLabel}</span>
+            <span class="tile-meta caps">{from !== undefined && `From ${money(from)}`}{n > 0 && ` · ${n} ${n === 1 ? 'treatment' : 'treatments'}`}</span>
           </a>
         );
       })}
     </div>
-    <div class="rail-dots" data-dots aria-hidden="true"></div>
   </div>
 </section>

@@ -9,7 +9,7 @@ sections:
     intro: The same prices as on our Treatwell booking page, with no booking fees. Prices checked September 2026. Each Book button opens that group of treatments.
   - type: treatwell
     eyebrow: Live availability
-    title: See free times and book on this page
+    title: "See free times and *book*"
   - type: faq
     title: Questions about booking
     category: booking

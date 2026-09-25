@@ -1,17 +1,19 @@
 ---
+// Photo and text, with an optional pull-quote that crosses the photo's edge (the one overlap in this chapter).
 import Img from '../Img.astro';
-import { md } from '../../lib/content';
+import { md, accent } from '../../lib/content';
 import { href } from '../../lib/url';
 const { s } = Astro.props;
 ---
-<section class="section">
-  <div class={`wrap split ${s.imageSide === 'left' ? 'left' : ''}`}>
-    <div class="split-copy">
+<section class="chapter" data-tone="cream">
+  <div class={`wrap about ${s.imageSide === 'right' ? 'right' : ''}`}>
+    <div class="about-media reveal"><Img src={s.image} alt={s.imageAlt} sizes="(max-width: 860px) 100vw, 40vw" widths={[800, 1200]} /></div>
+    <div class="about-copy">
       {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
-      {s.title && <h2>{s.title}</h2>}
+      {s.title && <h2 data-split set:html={accent(s.title)} />}
       <div class="prose" set:html={md(s.body)} />
-      {s.cta && <div><a class="btn btn-ghost" href={href(s.cta.link)}>{s.cta.label}</a></div>}
+      {s.cta && <p><a class="text-link" href={href(s.cta.link)}>{s.cta.label}</a></p>}
     </div>
-    <div class="split-media"><Img src={s.image} alt={s.imageAlt} /></div>
+    {s.quote && <blockquote class="pull px-fast"><span>{s.quote}</span>{s.quoteBy && <cite>{s.quoteBy}</cite>}</blockquote>}
   </div>
 </section>

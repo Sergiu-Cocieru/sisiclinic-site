@@ -4,15 +4,16 @@ import { getFaqs, md } from '../../lib/content';
 const { s } = Astro.props;
 let faqs = await getFaqs(s.category);
 if (s.limit) faqs = faqs.slice(0, s.limit);
+const group = `faq-${s.category ?? 'all'}-${s.title ?? ''}`.replace(/[^a-z0-9-]/gi, '');
 ---
-<section class="section">
+<section class="chapter" data-tone="cream">
   <div class="wrap">
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
-    <div class="faq">
+    <div class="faq-list">
       {faqs.map((f) => (
-        <details name={`faq-${s.category ?? 'all'}-${s.title ?? ''}`.replace(/[^a-z0-9-]/gi, '')}>
-          <summary>{f.data.question}</summary>
-          <div class="answer prose" set:html={md(f.data.answer)} />
+        <details class="faq-q" name={group}>
+          <summary>{f.data.question}<span class="plus" aria-hidden="true"></span></summary>
+          <div class="faq-a prose" set:html={md(f.data.answer)} />
         </details>
       ))}
     </div>

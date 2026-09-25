@@ -8,8 +8,8 @@ image: /src/assets/uploads/sugaring-leg-strip.jpg
 imageAlt: Black-gloved hands spreading golden sugaring paste along a client's leg
 excerpt: Both remove hair from the root, but they are not the same. An honest look at ingredients, temperature, comfort, results and cost, and when waxing or laser may suit you better.
 seo:
-  title: "Is Sugaring the Same as Waxing? Honest Guide | SISI Clinic"
-  description: Sugaring and waxing compared honestly. Ingredients, temperature, direction of removal, comfort, results and cost, plus when waxing or laser may suit you better.
+  title: "Is Sugaring the Same as Waxing? | SISI Clinic Manchester"
+  description: "Sugaring and waxing compared honestly. Ingredients, temperature, direction of removal, comfort, results and cost, plus when waxing or laser may suit you better. From SISI Clinic, a sugaring studio in Manchester city centre."
 ---
 It is one of the first questions people ask us. Sugaring and waxing both remove hair from the root, and both leave your skin smooth for weeks. So are they the same thing? Not quite. The differences look small on paper, but many people notice them on their skin.
 

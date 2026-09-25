@@ -8,8 +8,8 @@ image: /src/assets/uploads/client-neckline.jpg
 imageAlt: Close-up of a client's neck and collarbone above a white top
 excerpt: Ingrown hairs are common after shaving and waxing. What causes them, how sugaring may help reduce them, what you can do at home and when to see a pharmacist or GP.
 seo:
-  title: Sugaring Hair Removal and Ingrown Hairs | SISI Clinic
-  description: What causes ingrown hairs, how sugaring may help reduce them, simple home care between appointments, and when to see a pharmacist or GP about a bump.
+  title: "Sugaring and Ingrown Hairs | SISI Clinic Manchester"
+  description: "What causes ingrown hairs, how sugaring may help reduce them, simple home care between appointments, and when to see a pharmacist or GP about a bump. From SISI Clinic, a sugaring studio in Manchester city centre."
 ---
 Small red bumps after hair removal are frustrating. They can itch, look sore and take a while to settle. If you get ingrown hairs often, you are not alone. They are one of the most common reasons people come to us.
 

@@ -1,37 +1,42 @@
 ---
-import Head from './Head.astro';
-import { getSite, getReviews, fmtDate } from '../../lib/content';
+// Reviews are shown verbatim, most recent first (DMCC rules). The large slot skips comparative wording,
+// because at display size a review reads as the studio's own claim; that review still appears in the rail.
+import { getSite, getReviews, fmtDate, accent, leadReview } from '../../lib/content';
 import { href } from '../../lib/url';
 const { s } = Astro.props;
 const site = await getSite();
 const all = (await getReviews()).slice(0, s.limit ?? 6);
-const [latest, ...rest] = all;
+const lead = leadReview(all);
+const rest = all.filter((r) => r !== lead);
 ---
-<section class="section reviews-band">
-  <div class="wrap">
-    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
-    <div class="rating-line">
-      <b class="num">{site.treatwell.rating.toFixed(1)}</b>
-      <span class="stars" aria-hidden="true">★★★★★</span>
-      <span>from {site.treatwell.reviewCount} reviews on Treatwell ({site.treatwell.asOf}) · <a href={site.treatwell.widgetUrl} target="_blank" rel="noopener">Read them on Treatwell</a></span>
+<section class="chapter dark reviews" data-tone="deep">
+  <div class="wrap reviews-body">
+    <div class="rv-head">
+      {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
+      {s.title && <h2 data-split set:html={accent(s.title)} />}
+      <p class="rating-caps caps">
+        <span class="num">{site.treatwell.rating.toFixed(1)}</span><span class="stars" aria-hidden="true">★★★★★</span>
+        <span>· {site.treatwell.reviewCount} reviews on Treatwell · {site.treatwell.asOf}</span>
+        <a href={site.treatwell.widgetUrl} target="_blank" rel="noopener">Read them on Treatwell</a>
+      </p>
     </div>
-    {latest && (
-      <figure class="review-lead">
+    {lead && (
+      <figure class="rv-lead">
         <span class="quote-mark" aria-hidden="true">“</span>
-        <blockquote>{latest.data.text}</blockquote>
-        <figcaption>{latest.data.author} · {latest.data.source} review · {fmtDate(latest.data.date)}</figcaption>
+        <blockquote>{lead.data.text}</blockquote>
+        <figcaption class="caps">{lead.data.author} · {lead.data.source} review · {fmtDate(lead.data.date)}</figcaption>
       </figure>
     )}
-    <div class="reviews-grid" data-rail tabindex="0" role="region" aria-label="More client reviews">
+    <div class="rv-rail" tabindex="0" role="region" aria-label="More client reviews">
       {rest.map((r) => (
-        <figure class="review">
+        <figure class="rv-item">
           <span class="stars" aria-label={`${r.data.rating} out of 5`}>{'★'.repeat(r.data.rating)}</span>
           <blockquote>{r.data.text}</blockquote>
-          <footer><span>{r.data.author}</span><span>{r.data.source} review · {fmtDate(r.data.date)}</span></footer>
+          <footer class="caps"><span>{r.data.author}</span><span>{r.data.source} review · {fmtDate(r.data.date)}</span></footer>
         </figure>
       ))}
     </div>
-    <div class="rail-dots" data-dots aria-hidden="true"></div>
+    <div class="rv-bar" aria-hidden="true"></div>
     <p class="small review-note">We show the most recent reviews, whatever the rating. <a href={href('review-policy')}>How we handle reviews</a>.</p>
   </div>
 </section>

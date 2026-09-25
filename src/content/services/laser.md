@@ -1,9 +1,10 @@
 ---
-title: Laser hair removal in Manchester city centre
+title: "Laser hair removal in Manchester *city centre*"
 path: laser-hair-removal
 navLabel: Laser
 summary: Long-term hair reduction over a course of sessions, with a free consultation and patch test first. Face and body, from £19 per area.
 image: /src/assets/uploads/laser-therapist-underarm.jpg
+cardImage: /src/assets/uploads/laser-client-underarm.jpg
 imageAlt: Therapist using a laser hair removal device on a client's underarm, both wearing protective glasses
 order: 5
 treatwellServiceId: TR5224392

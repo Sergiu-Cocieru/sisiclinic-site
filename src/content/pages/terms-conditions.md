@@ -2,7 +2,7 @@
 title: Terms and conditions
 path: terms-conditions
 seo:
-  title: Booking and Treatment Terms and Conditions | SISI Clinic
+  title: "Booking and Treatment Terms | SISI Clinic Manchester"
   description: Terms for booking and treatments at SISI Clinic, Manchester city centre, covering bookings, cancellations, prices, health checks, results and complaints.
 sections: []
 ---

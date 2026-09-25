@@ -1,8 +1,8 @@
 ---
-title: Your first sugaring visit
+title: "Your first sugaring visit in *Manchester*"
 path: first-visit
 seo:
-  title: "Your First Sugaring Visit: What to Expect | SISI Clinic"
+  title: "Your First Sugaring Visit in Manchester: What to Expect | SISI Clinic"
   description: First time sugaring? How to prepare, what happens at our Manchester studio, how it feels and how to care for your skin afterwards, with honest answers.
 sections:
   - type: text

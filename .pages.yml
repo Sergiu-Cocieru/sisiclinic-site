@@ -192,6 +192,7 @@ content:
       - { name: summary, type: text, required: true }
       - { name: image, component: image, required: true }
       - { name: imageAlt, label: Image description, type: string, required: true }
+      - { name: cardImage, label: "Photo on the home-page tile (empty = same photo)", component: image }
       - { name: order, type: number }
       - { name: treatwellServiceId, label: Treatwell ID (TR...), type: string, pattern: "^$|^TR\\d{5,9}$" }
       - { name: fromPrice, label: "\"From\" price shown on the treatment card (£)", type: number }
@@ -229,6 +230,8 @@ content:
               - { name: text, type: text }
               - { name: image, component: image }
               - { name: imageAlt, label: Image description, type: string }
+              - { name: image2, label: "Small second photo (the paste close-up)", component: image }
+              - { name: image2Alt, label: Second photo description, type: string }
               - { name: primary, label: Main button (empty = Book online), component: link }
               - { name: secondary, label: Second button, component: link }
               - { name: showTrust, label: Show rating and location line, type: boolean }
@@ -244,6 +247,8 @@ content:
               - { name: image, component: image, required: true }
               - { name: imageAlt, label: Image description, type: string, required: true }
               - { name: imageSide, type: select, options: { values: [left, right] } }
+              - { name: quote, label: "Pull-quote (one sentence, shown large)", type: string, description: "No claims: nothing about pain, permanence or 'natural'" }
+              - { name: quoteBy, label: Who said it, type: string }
               - { name: cta, label: Button, component: link }
           - name: services
             label: Treatment cards
@@ -305,6 +310,8 @@ content:
               - { name: eyebrow, type: string }
               - { name: words, label: "Big words (1–4 lines)", type: string, list: { min: 1, max: 4 } }
               - { name: line, label: Line under the words, type: string }
+              - { name: image, label: Photo beside the words, component: image }
+              - { name: imageAlt, label: Photo description, type: string }
               - { name: items, label: Short points, component: item }
               - { name: cta, label: Button, component: link }
           - name: visit

@@ -1,8 +1,8 @@
 ---
-title: Sugaring and hair removal blog
+title: "Hair removal guides from our *Manchester* studio"
 path: blog
 seo:
-  title: "Hair Removal Blog: Sugaring Tips & Guides | SISI Clinic"
+  title: "Sugaring & Hair Removal Blog | SISI Clinic Manchester"
   description: Honest guides to sugaring and laser hair removal from SISI Clinic in Manchester city centre. What it feels like, how to prepare, aftercare and ingrown hairs.
 sections:
   - type: blogList

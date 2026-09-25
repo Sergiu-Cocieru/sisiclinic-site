@@ -17,6 +17,7 @@ const BANNED = [
   /\bhypoallergenic\b/i, /non[- ]comedogenic/i, /\bguarantee(d)?\b/i, /\bexclusively\b/i, /first and only/i,
   /only (studio|clinic) in/i, /\bsafe for everyone\b/i, /\bcompletely safe\b/i, /\b100% safe\b/i, /(?<!not )\bIPL\b/,
   /treatwell\.co\.uk\/place/i,
+  /\bgentler than\b/i, /\bless painful than\b/i, /\bsafe for all skin/i,
 ];
 const IMG_DIR = join(ROOT, 'src/assets/uploads');
 const imgOk = (p) => typeof p === 'string' && p.startsWith('/src/assets/uploads/') && existsSync(join(IMG_DIR, basename(p)));
@@ -44,6 +45,7 @@ const checkers = {
     need(f, d, ['title', 'path', 'navLabel', 'summary', 'image', 'imageAlt', 'order']);
     if (!PATH.test(d.path ?? '')) err(f, `bad path "${d.path}"`);
     if (!imgOk(d.image)) err(f, `image not found: ${d.image}`);
+    if (d.cardImage && !imgOk(d.cardImage)) err(f, `cardImage not found: ${d.cardImage}`);
     if (d.treatwellServiceId && !TW.test(d.treatwellServiceId)) err(f, 'bad treatwellServiceId');
     for (const g of d.priceGroups ?? []) if (!PRICE_GROUPS.includes(g)) err(f, `unknown price group "${g}"`);
     if (!body.trim()) err(f, 'empty body');
@@ -56,6 +58,9 @@ const checkers = {
       if (s.type === 'hero' && !s.title) err(f, `section ${i + 1}: hero needs a title`);
       if ((s.type === 'imageText') && (!imgOk(s.image) || !s.imageAlt || !s.body)) err(f, `section ${i + 1}: imageText needs body, image and imageAlt`);
       if (s.type === 'hero' && s.image && !imgOk(s.image)) err(f, `section ${i + 1}: image not found ${s.image}`);
+      if (s.type === 'statement' && s.image && !imgOk(s.image)) err(f, `section ${i + 1}: image not found ${s.image}`);
+      if (s.type === 'hero' && s.image2 && !imgOk(s.image2)) err(f, `section ${i + 1}: second image not found ${s.image2}`);
+      if (s.type === 'imageText' && s.quote && s.quote.split(/\s+/).length > 22) err(f, `section ${i + 1}: keep the pull-quote under 22 words`);
       if ((s.type === 'features' || s.type === 'steps') && !(s.items?.length)) err(f, `section ${i + 1}: needs items`);
       if (s.type === 'text' && !s.body) err(f, `section ${i + 1}: text needs body`);
       if (s.type === 'priceList') for (const g of s.groups ?? []) if (!PRICE_GROUPS.includes(g)) err(f, `unknown price group "${g}"`);
@@ -92,7 +97,8 @@ for (const f of targets) {
   const parsed = parse(f);
   if (!parsed) continue;
   checkers[dir]?.(f, parsed);
-  if (!['prices', 'settings'].includes(dir)) claims(f, parsed.raw);
+  // Reviews are shown verbatim (DMCC rules); only the studio's own words are checked for claims.
+  if (!['prices', 'settings', 'reviews'].includes(dir)) claims(f, parsed.raw);
   const p = parsed.data?.path;
   if (typeof p === 'string') { if (paths.has(p)) err(f, `path "/${p}/" also used by ${paths.get(p)}`); paths.set(p, relative(ROOT, f)); }
 }

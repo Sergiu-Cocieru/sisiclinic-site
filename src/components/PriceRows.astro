@@ -1,0 +1,21 @@
+---
+// One price group as menu rows. Each row is a link to that group on Treatwell (never the marketplace page).
+import Icon from './Icon.astro';
+import { getSite, money } from '../lib/content';
+import { treatwellUrl } from '../lib/url';
+const { group, placement = 'prices' } = Astro.props;
+const g = group.data;
+const site = await getSite();
+const url = treatwellUrl(site.treatwell.widgetUrl, g.treatwellServiceId);
+---
+<ul class="menu-rows">
+  {g.items.map((i) => (
+    <li>
+      <a class="mrow" href={url} target="_blank" rel="noopener" data-book={`${placement}-${group.id}`} aria-label={`Book ${i.name}, ${i.free ? 'free' : money(i.price)} (opens Treatwell booking in a new tab)`}>
+        <span class="mrow-name">{i.name}<span class="mrow-meta caps">{i.minutes ? `${i.minutes} min` : ''}{i.note ? `${i.minutes ? ' · ' : ''}${i.note}` : ''}</span></span>
+        <span class="mrow-price num">{i.free ? 'Free' : <>{i.from && <small>from</small>}{money(i.price)}</>}</span>
+        <Icon name="arrow" size={18} class="mrow-go" />
+      </a>
+    </li>
+  ))}
+</ul>

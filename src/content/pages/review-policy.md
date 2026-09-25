@@ -2,8 +2,8 @@
 title: How we handle reviews
 path: review-policy
 seo:
-  title: "Review Policy: How We Handle Client Reviews | SISI Clinic"
-  description: Where the reviews on the SISI Clinic website come from, how we choose which to show, and how to report a review you think may be fake. Updated September 2026.
+  title: "Review Policy | SISI Clinic Manchester"
+  description: "Where the reviews on the SISI Clinic website come from, how we choose which to show, and how to report a review you think may be fake. Updated September 2026. From SISI Clinic, a sugaring studio in Manchester city centre."
 ---
 We want the reviews on this website to give you a fair and honest picture of what it is like to visit SISI Clinic. This page explains where they come from and how we handle them.
 

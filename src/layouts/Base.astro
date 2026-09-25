@@ -20,8 +20,9 @@ interface Props {
   noindex?: boolean;
   schema?: object[];        // extra JSON-LD nodes for this page
   breadcrumbs?: { name: string; path: string }[];
+  preloadImage?: string;    // the LCP photo of this page, preloaded for phones
 }
-const { title, description, path, image, noindex = false, schema = [], breadcrumbs = [] } = Astro.props;
+const { title, description, path, image, noindex = false, schema = [], breadcrumbs = [], preloadImage } = Astro.props;
 const PROD = 'https://sisiclinic.co.uk';
 const site = await getSite();
 const hours = await getHours();
@@ -30,9 +31,10 @@ const ogSource = resolveImage(image ?? site.seo.image);
 const og = ogSource ? await getImage({ src: ogSource, width: 1200, height: 630, fit: 'cover', format: 'jpg' }) : undefined;
 const ogUrl = og ? new URL(og.src, Astro.site).href : undefined;
 const logoImg = await getImage({ src: logo, width: 600, format: 'png' });
+const lcpSource = resolveImage(preloadImage);
+const lcp = lcpSource ? await getImage({ src: lcpSource, width: 800, format: 'avif' }) : undefined;
 const robots = isPreview || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
 
-const dayMap: Record<string, string> = { Monday: 'Mo', Tuesday: 'Tu', Wednesday: 'We', Thursday: 'Th', Friday: 'Fr', Saturday: 'Sa', Sunday: 'Su' };
 const salon = {
   '@type': 'BeautySalon',
   '@id': `${PROD}/#salon`,
@@ -48,7 +50,8 @@ const salon = {
   geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
   openingHoursSpecification: hours.weekly.filter((d) => !d.closed).map((d) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: `https://schema.org/${d.day}`, opens: d.open, closes: d.close })),
   knowsLanguage: site.languages,
-  areaServed: 'Manchester',
+  areaServed: { '@type': 'City', name: 'Manchester' },
+  hasMap: site.mapsUrl,
   sameAs: [site.social.instagram, site.social.facebook, site.social.tiktok].filter(Boolean),
 };
 const graph: object[] = [salon, { '@type': 'WebSite', '@id': `${PROD}/#website`, url: `${PROD}/`, name: site.name, publisher: { '@id': `${PROD}/#salon` } }, ...schema];
@@ -75,10 +78,37 @@ const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
     {ogUrl && <meta property="og:image" content={ogUrl} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#FFF9F0" />
+    <meta name="geo.region" content="GB-MAN" />
+    <meta name="geo.placename" content="Manchester" />
+    <meta name="geo.position" content={`${site.geo.lat};${site.geo.lng}`} />
+    <meta name="ICBM" content={`${site.geo.lat}, ${site.geo.lng}`} />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
     <link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`} />
+    {lcp && <link rel="preload" as="image" href={lcp.src} type="image/avif" fetchpriority="high" media="(max-width: 860px)" />}
     <script type="application/ld+json" set:html={jsonld} />
-    <script is:inline>document.documentElement.classList.add('js');</script>
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      // Wraps each word of a heading so it can rise out of a mask. Keeps <em> and <br>, skips headings already done.
+      window.__split = function (h) {
+        if (!h || h.dataset.done) return; var i = 0;
+        (function walk(n) {
+          Array.prototype.slice.call(n.childNodes).forEach(function (c) {
+            if (c.nodeType === 3) {
+              var f = document.createDocumentFragment();
+              c.textContent.split(/(\s+)/).forEach(function (t) {
+                if (!t) return;
+                if (/^\s+$/.test(t)) { f.appendChild(document.createTextNode(t)); return; }
+                var w = document.createElement('span'); w.className = 'w';
+                var s = document.createElement('span'); s.textContent = t; s.style.setProperty('--i', Math.min(i++, 8));
+                w.appendChild(s); f.appendChild(w);
+              });
+              n.replaceChild(f, c);
+            } else if (c.nodeType === 1 && c.tagName !== 'BR') walk(c);
+          });
+        })(h);
+        h.dataset.done = '1';
+      };
+    </script>
     <script type="speculationrules" is:inline>{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
   </head>
   <body style={`--logo: url(${logoImg.src})`}>
@@ -90,18 +120,25 @@ const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
     <Footer />
     <MobileBar />
     <script>
-      // Dots for swipe rails (treatments, reviews)
-      for (const rail of document.querySelectorAll<HTMLElement>('[data-rail]')) {
-        const dots = rail.parentElement?.querySelector<HTMLElement>('[data-dots]');
-        if (!dots) continue;
-        const items = [...rail.children] as HTMLElement[];
-        dots.replaceChildren(...items.map((_, i) => { const b = document.createElement('button'); b.type = 'button'; b.tabIndex = -1; b.addEventListener('click', () => items[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' })); return b; }));
-        const mark = () => {
-          const left = rail.scrollLeft; let best = 0, dist = Infinity;
-          items.forEach((it, i) => { const d = Math.abs(it.offsetLeft - rail.offsetLeft - left - parseFloat(getComputedStyle(rail).paddingLeft || '0')); if (d < dist) { dist = d; best = i; } });
-          [...dots.children].forEach((d, i) => d.setAttribute('aria-current', String(i === best)));
-        };
-        mark(); rail.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true });
+      // Word masks on every marked heading; the hero's own heading was split inline, before first paint.
+      document.querySelectorAll<HTMLElement>('[data-split]').forEach((h) => (window as any).__split(h));
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // Browsers without scroll-driven animations (iOS 18, Firefox) get one-shot reveals, only for what starts below the first screen.
+      if (!CSS.supports('animation-timeline: view()') && !reduce && 'IntersectionObserver' in window) {
+        const els = [...document.querySelectorAll<HTMLElement>('.reveal, [data-split]')].filter((e) => e.getBoundingClientRect().top > window.innerHeight);
+        els.forEach((e) => e.classList.add('pre'));
+        const io = new IntersectionObserver((entries) => { for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }, { rootMargin: '0px 0px -8% 0px' });
+        els.forEach((e) => io.observe(e));
+      }
+      // Desktop: the header prints itself in cream while a dark chapter sits under it.
+      const header = document.querySelector<HTMLElement>('[data-header]');
+      if (header && window.matchMedia('(min-width: 861px)').matches && 'IntersectionObserver' in window) {
+        const under = new Set<Element>();
+        const band = new IntersectionObserver((entries) => {
+          for (const e of entries) e.isIntersecting ? under.add(e.target) : under.delete(e.target);
+          document.documentElement.classList.toggle('hdr-dark', under.size > 0);
+        }, { rootMargin: `0px 0px ${-(window.innerHeight - header.offsetHeight)}px 0px`, threshold: 0 });
+        document.querySelectorAll('.chapter.dark, .site-footer').forEach((s) => band.observe(s));
       }
     </script>
   </body>

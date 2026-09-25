@@ -7,7 +7,7 @@ image: /src/assets/uploads/client-portrait-flower.jpg
 imageAlt: Client in white with a white flower at her shoulder, looking to the side
 excerpt: The short answer is that it can sting for a moment. What it feels like on different areas, what makes it easier and what we do to keep you comfortable.
 seo:
-  title: "Does Sugaring Hurt? An Honest Answer by Area | SISI Clinic"
+  title: "Does Sugaring Hurt? An Honest Answer | SISI Clinic Manchester"
   description: Sugaring can sting for a moment. What it feels like on legs, underarms, bikini and face, what makes it easier, and how we keep you comfortable in Manchester.
 ---
 It is the question almost everyone asks before their first appointment, so here is a straight answer. Yes, sugaring can sting for a moment. Each time the paste is flicked off, you feel a quick, sharp sensation, and then it fades.

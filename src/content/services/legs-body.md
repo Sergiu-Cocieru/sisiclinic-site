@@ -1,5 +1,5 @@
 ---
-title: Leg, underarm and body sugaring in Manchester
+title: "Leg, underarm and body sugaring in *Manchester*"
 path: sugaring-hair-removal/legs-body
 navLabel: Legs, underarms & body
 summary: Smooth legs, underarms, arms, back and stomach with sugaring. Full legs from £60, underarms £15, and money-saving packages.

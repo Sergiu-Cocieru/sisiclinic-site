@@ -1,5 +1,5 @@
 ---
-title: Hollywood and Brazilian sugaring in Manchester
+title: "Hollywood and Brazilian sugaring in *Manchester*"
 path: sugaring-hair-removal/hollywood-brazilian
 navLabel: Hollywood & Brazilian
 summary: Intimate sugaring in a private room, by an experienced therapist who puts you at ease. Hollywood, Brazilian and bikini line.

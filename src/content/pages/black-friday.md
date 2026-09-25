@@ -1,8 +1,8 @@
 ---
-title: Black Friday at SISI Clinic
+title: "Black Friday at SISI Clinic, *Manchester*"
 path: black-friday-laser-hair-removal-sugaring-offers
 seo:
-  title: Black Friday Sugaring & Laser Offers | SISI Clinic
+  title: "Black Friday Sugaring & Laser Offers, Manchester | SISI Clinic"
   description: Black Friday sugaring and laser offers at SISI Clinic in Manchester city centre appear on this page when we run them. Until then, save with our packages.
 sections:
   - type: text

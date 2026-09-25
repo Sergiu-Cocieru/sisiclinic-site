@@ -7,8 +7,8 @@ image: /src/assets/uploads/sugaring-leg-closeup.jpg
 imageAlt: Gloved hand working golden sugaring paste on a client's leg
 excerpt: About 5 mm, the length of a grain of rice. How long to wait after shaving, what to do if your hair is too long or too short, and how to look after it between appointments.
 seo:
-  title: How Long Should Hair Be for Sugaring? | SISI Clinic
-  description: For sugaring, hair should be about 5 mm, the length of a grain of rice. How long to wait after shaving, what if it is too long, and what to do between visits.
+  title: "How Long Should Hair Be for Sugaring? | SISI Clinic Manchester"
+  description: "For sugaring, hair should be about 5 mm, the length of a grain of rice. How long to wait after shaving, what if it is too long, and what to do between visits. From SISI Clinic, a sugaring studio in Manchester city centre."
 ---
 Getting the length right is the simplest way to make your sugaring appointment go smoothly. The short answer is about 5 mm, roughly the length of a grain of rice.
 

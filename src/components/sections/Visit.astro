@@ -1,22 +1,28 @@
 ---
-import Head from './Head.astro';
 import Img from '../Img.astro';
-import { getSite, md } from '../../lib/content';
+import { getSite, getHours, md, accent } from '../../lib/content';
 const { s } = Astro.props;
 const site = await getSite();
+const hours = await getHours();
 ---
-<section class="section tint">
-  <div class="wrap split">
-    <div class="split-copy">
-      <Head eyebrow={s.eyebrow ?? 'Find us'} title={s.title ?? 'In the heart of Manchester'} intro={s.intro} />
-      <p><strong>{site.address.building}</strong>, {site.address.street}, {site.address.city} {site.address.postcode}</p>
-      <ul class="prose" style="padding-left:1.2em">
+<section class="chapter" data-tone="warm">
+  <div class="wrap visit-grid">
+    <div class="visit-media reveal framed"><Img src="/src/assets/uploads/therapist-sugaring-studio.jpg" alt="SISI Clinic therapist at work in the studio, with the SISI logo on the wall" sizes="(max-width: 860px) 86vw, 40vw" widths={[800, 1200]} /><span class="frame" aria-hidden="true"></span></div>
+    <div class="visit-copy">
+      <span class="eyebrow">{s.eyebrow ?? 'Find us'}</span>
+      <span class="postcode" aria-hidden="true">{site.address.postcode}</span>
+      <h2 data-split set:html={accent(s.title ?? 'Four minutes from *Piccadilly*.')} />
+      {s.intro && <div class="lede" set:html={md(s.intro)} />}
+      <p><b>{site.address.building}</b>, {site.address.street}, {site.address.city} {site.address.postcode}</p>
+      <ul class="facts-list">
         <li>4 minutes' walk from Manchester Piccadilly station</li>
         <li>Close to Chinatown, Piccadilly Gardens and St Peter's Square</li>
         <li>Tram stops nearby: Piccadilly Gardens and St Peter's Square</li>
       </ul>
-      <div class="btn-row"><a class="btn btn-ghost" href={site.mapsUrl} target="_blank" rel="noopener">Directions in Google Maps</a></div>
+      <table class="hours"><caption class="sr-only">Opening hours</caption>
+        {hours.weekly.map((d) => <tr data-day={d.day}><td>{d.day}</td><td class="num">{d.closed ? 'Closed' : `${d.open}–${d.close}`}</td></tr>)}
+      </table>
+      <p><a class="text-link" href={site.mapsUrl} target="_blank" rel="noopener">Directions in Google Maps</a></p>
     </div>
-    <div class="split-media arch-media"><Img src="/src/assets/uploads/therapist-sugaring-studio.jpg" alt="SISI Clinic therapist at work in the studio, with the SISI logo on the wall" /></div>
   </div>
 </section>

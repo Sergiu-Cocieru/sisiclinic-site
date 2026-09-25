@@ -21,9 +21,9 @@ const titled = { title: optionalText, eyebrow: optionalText, intro: optionalText
 
 // Page sections (Pages CMS "block" field, blockKey: type)
 const section = z.discriminatedUnion('type', [
-  z.object({ type: z.literal('hero'), eyebrow: optionalText, title: z.string(), text: optionalText, image: imagePath.optional().nullable(), imageAlt: optionalText, primary: cta, secondary: cta, showTrust: z.boolean().optional().default(true) }),
+  z.object({ type: z.literal('hero'), eyebrow: optionalText, title: z.string(), text: optionalText, image: imagePath.optional().nullable(), imageAlt: optionalText, image2: imagePath.optional().nullable().transform((v) => v || undefined), image2Alt: optionalText, primary: cta, secondary: cta, showTrust: z.boolean().optional().default(true) }),
   z.object({ type: z.literal('text'), ...titled, body: z.string() }),
-  z.object({ type: z.literal('imageText'), ...titled, body: z.string(), image: imagePath, imageAlt: z.string(), imageSide: z.enum(['left', 'right']).optional().default('right'), cta }),
+  z.object({ type: z.literal('imageText'), ...titled, body: z.string(), image: imagePath, imageAlt: z.string(), imageSide: z.enum(['left', 'right']).optional().default('right'), quote: optionalText, quoteBy: optionalText, cta }),
   z.object({ type: z.literal('services'), ...titled }),
   z.object({ type: z.literal('featuredPrices'), ...titled, cta }),
   z.object({ type: z.literal('priceList'), ...titled, groups: z.array(z.string()).optional().default([]) }),
@@ -39,7 +39,7 @@ const section = z.discriminatedUnion('type', [
   z.object({ type: z.literal('contact'), ...titled, showForm: z.boolean().optional().default(true) }),
   z.object({ type: z.literal('blogList'), ...titled }),
   z.object({ type: z.literal('visit'), ...titled }),
-  z.object({ type: z.literal('statement'), ...titled, words: z.array(z.string()).min(1).max(4), line: optionalText, items: z.array(z.object({ title: z.string(), text: z.string() })).optional().default([]), cta }),
+  z.object({ type: z.literal('statement'), ...titled, words: z.array(z.string()).min(1).max(4), line: optionalText, image: imagePath.optional().nullable().transform((v) => v || undefined), imageAlt: optionalText, items: z.array(z.object({ title: z.string(), text: z.string() })).optional().default([]), cta }),
 ]);
 
 const site = defineCollection({
@@ -116,6 +116,7 @@ const services = defineCollection({
     summary: z.string(),
     image: imagePath,
     imageAlt: z.string(),
+    cardImage: imagePath.optional().nullable().transform((v) => v || undefined),
     order: z.number(),
     treatwellServiceId: treatwellId,
     priceGroups: z.array(z.string()).optional().default([]),

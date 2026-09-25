@@ -1,5 +1,6 @@
 ---
 import { href } from '../lib/url';
+import { accent } from '../lib/content';
 interface Props { title: string; eyebrow?: string; intro?: string; crumbs?: { name: string; path: string }[] }
 const { title, eyebrow, intro, crumbs = [] } = Astro.props;
 ---
@@ -8,6 +9,6 @@ const { title, eyebrow, intro, crumbs = [] } = Astro.props;
     <nav class="crumbs" aria-label="Breadcrumb"><a href={href('')}>Home</a>{crumbs.slice(0, -1).map((c) => <> / <a href={href(c.path)}>{c.name}</a></>)} / <span aria-current="page">{crumbs[crumbs.length - 1].name}</span></nav>
   )}
   {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-  <h1>{title}</h1>
+  <h1 data-split set:html={accent(title)} />
   {intro && <p class="lede">{intro}</p>}
 </div>
