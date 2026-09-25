@@ -1,12 +1,17 @@
 ---
 import { getSite, getHours } from '../lib/content';
 import { href } from '../lib/url';
+import BookButton from './BookButton.astro';
 const site = await getSite();
 const hours = await getHours();
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
   <div class="wrap">
+    <div class="footer-cta">
+      <p>Smooth skin, <em>calmly</em> done.<br />See you in the studio.</p>
+      <BookButton placement="footer" />
+    </div>
     <div class="footer-grid">
       <div>
         <span class="footer-logo" aria-hidden="true"></span>
@@ -21,7 +26,7 @@ const year = new Date().getFullYear();
       <div>
         <h3>Opening hours</h3>
         <table class="hours">
-          {hours.weekly.map((d) => <tr><td>{d.day.slice(0, 3)}</td><td>{d.closed ? 'Closed' : `${d.open}–${d.close}`}</td></tr>)}
+          {hours.weekly.map((d) => <tr data-day={d.day}><td>{d.day.slice(0, 3)}</td><td>{d.closed ? 'Closed' : `${d.open}–${d.close}`}</td></tr>)}
         </table>
       </div>
       <div>

@@ -1,0 +1,20 @@
+---
+import { md } from '../../lib/content';
+import { href } from '../../lib/url';
+const { s } = Astro.props;
+---
+<section class="statement">
+  <div class="wrap statement-grid">
+    <div class="statement-words">
+      {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
+      <p class="words" role="heading" aria-level="2">{s.words.map((w: string) => <span>{w}</span>)}</p>
+      {s.line && <p class="statement-line">{s.line}</p>}
+    </div>
+    {s.items.length > 0 && (
+      <ul class="statement-items">
+        {s.items.map((i: any) => <li><b>{i.title}</b><span set:html={md(i.text)} /></li>)}
+      </ul>
+    )}
+    {s.cta && <a class="btn btn-secondary statement-cta" href={href(s.cta.link)}>{s.cta.label}</a>}
+  </div>
+</section>

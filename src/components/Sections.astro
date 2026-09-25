@@ -17,7 +17,8 @@ import BookingBand from './sections/BookingBand.astro';
 import Contact from './sections/Contact.astro';
 import BlogList from './sections/BlogList.astro';
 import Visit from './sections/Visit.astro';
+import Statement from './sections/Statement.astro';
 const { sections } = Astro.props;
-const map: Record<string, any> = { hero: Hero, text: Text, imageText: ImageText, services: Services, featuredPrices: FeaturedPrices, priceList: PriceList, features: Features, steps: Steps, reviews: Reviews, faq: Faq, offers: Offers, team: Team, gallery: Gallery, treatwell: Treatwell, bookingBand: BookingBand, contact: Contact, blogList: BlogList, visit: Visit };
+const map: Record<string, any> = { hero: Hero, text: Text, imageText: ImageText, services: Services, featuredPrices: FeaturedPrices, priceList: PriceList, features: Features, steps: Steps, reviews: Reviews, faq: Faq, offers: Offers, team: Team, gallery: Gallery, treatwell: Treatwell, bookingBand: BookingBand, contact: Contact, blogList: BlogList, visit: Visit, statement: Statement };
 ---
 {sections.map((s: any, i: number) => { const C = map[s.type]; return C ? <C s={s} first={i === 0} /> : null; })}

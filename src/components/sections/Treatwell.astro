@@ -11,10 +11,12 @@ const site = await getSite();
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
     <div class="tw-panel" data-tw-panel data-src={site.treatwell.widgetUrl}>
       <div class="btn-row">
-        <button type="button" class="btn btn-primary tw-load" data-tw-load>Show available times here</button>
-        <BookButton label="Open booking in a new tab" variant="ghost" placement="treatwell-panel" />
+        <button type="button" class="btn btn-primary tw-load only-wide" data-tw-load>Show available times here</button>
+        <BookButton label="See free times on Treatwell" class="only-narrow" placement="treatwell-panel" />
+        <BookButton label="Open booking in a new tab" variant="ghost" class="only-wide" placement="treatwell-panel-tab" />
       </div>
-      <p class="tw-note">Booking is handled by Treatwell. Showing it on this page loads Treatwell's booking system, which sets its own cookies. On phones it opens in a new tab.</p>
+      <p class="tw-note only-wide">Booking is handled by Treatwell. Showing it on this page loads Treatwell's booking system, which sets its own cookies.</p>
+      <p class="tw-note only-narrow">Opens Treatwell in a new tab. No booking fee.</p>
       <div data-tw-slot></div>
     </div>
   </div>

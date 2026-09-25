@@ -22,7 +22,7 @@ const IMG_DIR = join(ROOT, 'src/assets/uploads');
 const imgOk = (p) => typeof p === 'string' && p.startsWith('/src/assets/uploads/') && existsSync(join(IMG_DIR, basename(p)));
 const TW = /^TR\d{5,9}$/;
 const PATH = /^$|^[a-z0-9-]+(\/[a-z0-9-]+)*$/;
-const SECTION_TYPES = ['hero','text','imageText','services','featuredPrices','priceList','features','steps','reviews','faq','offers','team','gallery','treatwell','bookingBand','contact','blogList','visit'];
+const SECTION_TYPES = ['hero','text','imageText','services','featuredPrices','priceList','features','steps','reviews','faq','offers','team','gallery','treatwell','bookingBand','contact','blogList','visit','statement'];
 const PRICE_GROUPS = readdirSync(join(C, 'prices')).filter((f) => f.endsWith('.yml')).map((f) => f.replace(/\.yml$/, ''));
 
 function parse(file) {

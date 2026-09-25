@@ -39,6 +39,7 @@ const section = z.discriminatedUnion('type', [
   z.object({ type: z.literal('contact'), ...titled, showForm: z.boolean().optional().default(true) }),
   z.object({ type: z.literal('blogList'), ...titled }),
   z.object({ type: z.literal('visit'), ...titled }),
+  z.object({ type: z.literal('statement'), ...titled, words: z.array(z.string()).min(1).max(4), line: optionalText, items: z.array(z.object({ title: z.string(), text: z.string() })).optional().default([]), cta }),
 ]);
 
 const site = defineCollection({

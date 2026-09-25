@@ -1,5 +1,7 @@
 ---
 import BookButton from './BookButton.astro';
+import Icon from './Icon.astro';
+import OpenStatus from './OpenStatus.astro';
 import { href } from '../lib/url';
 import { getSite } from '../lib/content';
 const site = await getSite();
@@ -14,23 +16,63 @@ const nav = [
   ['blog', 'Blog'],
   ['contact', 'Contact'],
 ];
+const isCurrent = (p: string) => current.replace(/\/$/, '').endsWith('/' + p);
 const ann = site.announcement;
 ---
 {ann?.active && ann.text && (
   <div class="announce">{ann.link ? <a href={href(ann.link)}>{ann.text}</a> : ann.text}</div>
 )}
-<header class="site-header">
+<header class="site-header" data-header>
   <div class="wrap">
     <a class="brand" href={href('')} aria-label="SISI Clinic home"><span class="brand-logo" aria-hidden="true"></span></a>
     <nav class="nav" aria-label="Main">
-      {nav.map(([p, l]) => <a href={href(p)} aria-current={current.replace(/\/$/, '').endsWith('/' + p) ? 'page' : undefined}>{l}</a>)}
+      {nav.map(([p, l]) => <a href={href(p)} aria-current={isCurrent(p) ? 'page' : undefined}>{l}</a>)}
     </nav>
     <BookButton class="header-book" size="small" placement="header" />
-    <details class="menu">
-      <summary aria-label="Menu"><span></span></summary>
-      <nav class="menu-panel" aria-label="Mobile">
-        {nav.map(([p, l]) => <a href={href(p)}>{l}</a>)}
-      </nav>
-    </details>
+    <button class="menu-btn" type="button" aria-label="Open menu" aria-haspopup="dialog" data-menu-open><Icon name="menu" size={26} /></button>
   </div>
 </header>
+<dialog class="menu-sheet" aria-label="Menu" data-menu>
+  <div class="menu-top">
+    <span class="brand-logo" aria-hidden="true"></span>
+    <button class="menu-btn" type="button" aria-label="Close menu" data-menu-close><Icon name="close" size={26} /></button>
+  </div>
+  <nav class="menu-links" aria-label="Mobile">
+    <a href={href('')} style="--i:0">Home</a>
+    {nav.map(([p, l], i) => <a href={href(p)} style={`--i:${i + 1}`} aria-current={isCurrent(p) ? 'page' : undefined}>{l}</a>)}
+  </nav>
+  <div class="menu-foot">
+    <OpenStatus />
+    <BookButton placement="menu" class="menu-book" />
+    <div class="menu-contact">
+      <a href={`tel:${site.phone}`}><Icon name="phone" />{site.phoneDisplay}</a>
+      <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><Icon name="chat" />WhatsApp</a>
+    </div>
+    <p class="menu-address"><Icon name="pin" size={16} />{site.address.building}, {site.address.street}, {site.address.postcode}</p>
+  </div>
+</dialog>
+<script>
+  const dlg = document.querySelector<HTMLDialogElement>('[data-menu]');
+  const open = document.querySelector('[data-menu-open]');
+  const close = document.querySelector('[data-menu-close]');
+  open?.addEventListener('click', () => { dlg?.showModal(); document.documentElement.classList.add('menu-is-open'); });
+  const shut = () => { dlg?.close(); };
+  close?.addEventListener('click', shut);
+  dlg?.addEventListener('close', () => document.documentElement.classList.remove('menu-is-open'));
+  dlg?.addEventListener('click', (e) => { if (e.target === dlg) shut(); });
+  dlg?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setTimeout(shut, 50)));
+  // Header gains a shadow and compacts once the page scrolls
+  const header = document.querySelector('[data-header]');
+  // On phones it slides away while reading down and returns on the first scroll up
+  const phone = window.matchMedia('(max-width: 860px)');
+  const root = document.documentElement;
+  let lastY = window.scrollY;
+  const onScroll = () => {
+    const y = window.scrollY;
+    header?.classList.toggle('is-scrolled', y > 8);
+    if (phone.matches && y > 240 && y > lastY + 4) root.dataset.hdr = 'hidden';
+    else if (y < lastY - 4 || y <= 240) delete root.dataset.hdr;
+    lastY = y;
+  };
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+</script>

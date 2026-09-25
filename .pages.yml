@@ -299,6 +299,14 @@ content:
           - name: blogList
             label: Blog posts
             fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
+          - name: statement
+            label: Big statement band (burgundy)
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: words, label: "Big words (1–4 lines)", type: string, list: { min: 1, max: 4 } }
+              - { name: line, label: Line under the words, type: string }
+              - { name: items, label: Short points, component: item }
+              - { name: cta, label: Button, component: link }
           - name: visit
             label: How to find us
             fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]

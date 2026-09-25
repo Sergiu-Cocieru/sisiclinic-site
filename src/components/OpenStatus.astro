@@ -1,0 +1,45 @@
+---
+// "Open now · until 20:00" computed live in the browser (Europe/London time) from the CMS opening hours.
+// Without JavaScript it shows the weekly hours summary.
+import { getHours } from '../lib/content';
+interface Props { class?: string }
+const hours = await getHours();
+const data = JSON.stringify({ weekly: hours.weekly, exceptions: hours.exceptions.map((e) => ({ ...e, date: e.date.toISOString().slice(0, 10) })) });
+---
+<span class={`open-status ${Astro.props.class ?? ''}`} data-hours={data}><span class="dot" aria-hidden="true"></span><span class="txt">Mon–Fri 10–20 · Sat 10–18</span></span>
+<script>
+  const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  function londonNow() {
+    const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'long', hour: '2-digit', minute: '2-digit', year: 'numeric', month: '2-digit', day: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+    const get = (t: string) => parts.find((p) => p.type === t)?.value ?? '';
+    return { day: get('weekday'), time: `${get('hour')}:${get('minute')}`, date: `${get('year')}-${get('month')}-${get('day')}` };
+  }
+  function update() {
+    const day = londonNow().day;
+    document.querySelectorAll('.hours tr[data-day]').forEach((tr) => tr.toggleAttribute('aria-current', false));
+    document.querySelector(`.hours tr[data-day="${day}"]`)?.setAttribute('aria-current', 'date');
+    for (const el of document.querySelectorAll<HTMLElement>('.open-status[data-hours]')) {
+      const h = JSON.parse(el.dataset.hours!);
+      const now = londonNow();
+      const special = h.exceptions.find((e: any) => e.date === now.date);
+      const today = special ? { closed: special.closed, open: special.open, close: special.close } : h.weekly.find((d: any) => d.day === now.day);
+      let text = '', open = false;
+      if (today && !today.closed && today.open && now.time >= today.open && now.time < today.close) {
+        open = true; text = `Open now · until ${today.close}`;
+      } else {
+        let idx = DAYS.indexOf(now.day);
+        for (let i = 0; i < 8; i++) {
+          const dayName = DAYS[(idx + i) % 7];
+          const d = h.weekly.find((x: any) => x.day === dayName);
+          if (!d || d.closed || !d.open) continue;
+          if (i === 0 && now.time >= d.open) continue;
+          text = `Closed now · opens ${i === 0 ? 'today' : i === 1 ? 'tomorrow' : dayName} at ${d.open}`; break;
+        }
+      }
+      el.classList.toggle('is-open', open);
+      el.querySelector('.txt')!.textContent = text || 'See opening hours';
+    }
+  }
+  update();
+  document.addEventListener('pageshow', update);
+</script>

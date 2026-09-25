@@ -101,7 +101,7 @@ const firstIsHero = kind === 'page' && d.sections?.[0]?.type === 'hero';
         </div>
       </section>
       {d.steps.length > 0 && (
-        <section class="section dark">
+        <section class="section tint">
           <div class="wrap">
             <div class="section-head"><span class="eyebrow">Your appointment</span><h2>What happens, step by step</h2></div>
             <ol class="steps">{d.steps.map((st) => <li><h3>{st.title}</h3><div set:html={md(st.text)} /></li>)}</ol>

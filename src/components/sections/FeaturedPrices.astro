@@ -1,25 +1,29 @@
 ---
 import Head from './Head.astro';
-import BookButton from '../BookButton.astro';
-import { getPriceGroups, money } from '../../lib/content';
-import { href } from '../../lib/url';
+import Icon from '../Icon.astro';
+import { getPriceGroups, getSite, money } from '../../lib/content';
+import { href, treatwellUrl } from '../../lib/url';
 const { s } = Astro.props;
+const site = await getSite();
 const groups = await getPriceGroups();
 const items = groups.flatMap((g) => g.data.items.filter((i) => i.featured).map((i) => ({ ...i, group: g.data.title, serviceId: g.data.treatwellServiceId })));
 ---
 <section class="section tint">
   <div class="wrap">
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
-    <div class="price-cards">
+    <ul class="menu-list">
       {items.map((i) => (
-        <div class="price-card">
-          <span class="name">{i.name}</span>
-          <span class="meta">{i.group}{i.minutes ? ` · ${i.minutes} min` : ''}</span>
-          <span class="amount num">{i.free ? 'Free' : money(i.price)}</span>
-          <BookButton serviceId={i.serviceId} label="Book" variant="secondary" size="small" placement="featured-prices" />
-        </div>
+        <li>
+          <a href={treatwellUrl(site.treatwell.widgetUrl, i.serviceId)} target="_blank" rel="noopener" data-book="featured-prices"
+             aria-label={`Book ${i.name}, ${i.free ? 'free' : money(i.price)} (opens Treatwell booking in a new tab)`}>
+            <span class="ml-name">{i.name}<span class="ml-meta">{i.minutes ? `${i.minutes} min` : ''}</span></span>
+            <span class="ml-dots" aria-hidden="true"></span>
+            <span class="ml-price num">{i.free ? 'Free' : money(i.price)}</span>
+            <Icon name="external" size={16} class="ml-go" />
+          </a>
+        </li>
       ))}
-    </div>
-    {s.cta && <p style="margin-top:22px"><a class="link-arrow" href={href(s.cta.link)}>{s.cta.label}</a></p>}
+    </ul>
+    {s.cta && <p class="menu-list-more"><a class="link-arrow" href={href(s.cta.link)}>{s.cta.label}</a></p>}
   </div>
 </section>

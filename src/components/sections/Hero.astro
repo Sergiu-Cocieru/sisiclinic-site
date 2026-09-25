@@ -1,17 +1,30 @@
 ---
 import Img from '../Img.astro';
 import BookButton from '../BookButton.astro';
+import OpenStatus from '../OpenStatus.astro';
+import Icon from '../Icon.astro';
 import { getSite, md } from '../../lib/content';
 import { href } from '../../lib/url';
+import { getServices } from '../../lib/content';
 const { s } = Astro.props;
+const chips = Astro.props.first ? (await getServices()).map((sv) => [sv.data.path, sv.data.navLabel]) : [];
 const site = await getSite();
 const Tag = Astro.props.first ? 'h1' : 'h2';
+// *word* in a title becomes an italic accent
+const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const title = esc(s.title).replace(/\*([^*]+)\*/g, '<em>$1</em>');
 ---
-<section class="hero">
+<section class="hero hero-feature">
   <div class="wrap hero-grid">
+    <div class="hero-media">
+      <div class="arch"><Img src={s.image} alt={s.imageAlt} loading="eager" fetchpriority="high" sizes="(max-width: 860px) 100vw, 45vw" widths={[480, 800, 1200]} /></div>
+      <a class="hero-badge" href={site.treatwell.widgetUrl} target="_blank" rel="noopener" aria-label={`Rated ${site.treatwell.rating.toFixed(1)} from ${site.treatwell.reviewCount} reviews on Treatwell (opens in a new tab)`}>
+        <b>{site.treatwell.rating.toFixed(1)}</b><span class="stars" aria-hidden="true">★★★★★</span><span>{site.treatwell.reviewCount} Treatwell reviews</span>
+      </a>
+    </div>
     <div class="hero-copy">
       {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
-      <Tag>{s.title}</Tag>
+      <Tag set:html={title} />
       {s.text && <div class="lede" set:html={md(s.text)} />}
       <div class="btn-row">
         {s.primary ? <a class="btn btn-primary" href={href(s.primary.link)}>{s.primary.label}</a> : <BookButton placement="hero" />}
@@ -19,15 +32,16 @@ const Tag = Astro.props.first ? 'h1' : 'h2';
       </div>
       {s.showTrust && (
         <div class="trust">
-          <span>Rated {site.treatwell.rating.toFixed(1)} from {site.treatwell.reviewCount} reviews on Treatwell</span>
-          <span>4 minutes from Piccadilly</span>
-          <span>Open until 8pm on weekdays</span>
+          <OpenStatus />
+          <span><Icon name="pin" size={16} />4 min from Piccadilly</span>
         </div>
       )}
     </div>
-    <div class="hero-media">
-      <div class="arch"><Img src={s.image} alt={s.imageAlt} loading="eager" fetchpriority="high" sizes="(max-width: 860px) 90vw, 45vw" /></div>
-      <div class="hero-badge"><b>{site.treatwell.rating.toFixed(1)} ★</b><span>{site.treatwell.reviewCount} Treatwell reviews</span></div>
-    </div>
   </div>
 </section>
+{chips.length > 0 && (
+  <nav class="chips" aria-label="Treatments">
+    {chips.map(([p, l]) => <a href={href(p)}>{l}</a>)}
+    <a href={href('sugaring-prices-manchester')}>All prices</a>
+  </nav>
+)}

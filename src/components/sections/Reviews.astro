@@ -4,18 +4,26 @@ import { getSite, getReviews, fmtDate } from '../../lib/content';
 import { href } from '../../lib/url';
 const { s } = Astro.props;
 const site = await getSite();
-const reviews = (await getReviews()).slice(0, s.limit ?? 6);
+const all = (await getReviews()).slice(0, s.limit ?? 6);
+const [latest, ...rest] = all;
 ---
-<section class="section tint">
+<section class="section reviews-band">
   <div class="wrap">
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
     <div class="rating-line">
       <b class="num">{site.treatwell.rating.toFixed(1)}</b>
       <span class="stars" aria-hidden="true">★★★★★</span>
-      <span>from {site.treatwell.reviewCount} reviews on Treatwell ({site.treatwell.asOf}). <a href={site.treatwell.widgetUrl} target="_blank" rel="noopener">Read them on Treatwell</a></span>
+      <span>from {site.treatwell.reviewCount} reviews on Treatwell ({site.treatwell.asOf}) · <a href={site.treatwell.widgetUrl} target="_blank" rel="noopener">Read them on Treatwell</a></span>
     </div>
-    <div class="grid-3 reviews-grid">
-      {reviews.map((r) => (
+    {latest && (
+      <figure class="review-lead">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <blockquote>{latest.data.text}</blockquote>
+        <figcaption>{latest.data.author} · {latest.data.source} review · {fmtDate(latest.data.date)}</figcaption>
+      </figure>
+    )}
+    <div class="reviews-grid" data-rail tabindex="0" role="region" aria-label="More client reviews">
+      {rest.map((r) => (
         <figure class="review">
           <span class="stars" aria-label={`${r.data.rating} out of 5`}>{'★'.repeat(r.data.rating)}</span>
           <blockquote>{r.data.text}</blockquote>
@@ -23,7 +31,7 @@ const reviews = (await getReviews()).slice(0, s.limit ?? 6);
         </figure>
       ))}
     </div>
-    <p class="swipe-hint" aria-hidden="true">Swipe for more reviews →</p>
-    <p class="small muted" style="margin-top:18px">We show the most recent reviews, whatever the rating. <a href={href('review-policy')}>How we handle reviews</a>.</p>
+    <div class="rail-dots" data-dots aria-hidden="true"></div>
+    <p class="small review-note">We show the most recent reviews, whatever the rating. <a href={href('review-policy')}>How we handle reviews</a>.</p>
   </div>
 </section>

@@ -1,10 +1,16 @@
 ---
+import Icon from './Icon.astro';
 import { getSite } from '../lib/content';
 const site = await getSite();
-const wa = `https://wa.me/${site.whatsapp}`;
 ---
-<div class="mobile-bar" role="navigation" aria-label="Quick actions">
-  <a class="mb-book" href={site.treatwell.widgetUrl} target="_blank" rel="noopener" data-book="mobile-bar" aria-label="Book online (opens Treatwell booking in a new tab)">Book online</a>
-  <a class="mb-alt" href={wa} target="_blank" rel="noopener" aria-label="Message us on WhatsApp (opens in a new tab)">WhatsApp</a>
-  <a class="mb-alt" href={`tel:${site.phone}`}>Call</a>
-</div>
+<nav class="dock" aria-label="Quick actions" data-dock>
+  <a class="dock-book" href={site.treatwell.widgetUrl} target="_blank" rel="noopener" data-book="mobile-bar" aria-label="Book online (opens Treatwell booking in a new tab)"><Icon name="calendar" /><span>Book online</span></a>
+  <a class="dock-alt" href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hi SISI Clinic, I have a question about an appointment.')}`} target="_blank" rel="noopener" aria-label="WhatsApp (opens in a new tab)"><Icon name="chat" /><span>WhatsApp</span></a>
+  <a class="dock-alt" href={`tel:${site.phone}`} aria-label={`Call ${site.phoneDisplay}`}><Icon name="phone" /><span>Call</span></a>
+</nav>
+<script>
+  // The dock slides in once the visitor scrolls past the first screen's buttons
+  const dock = document.querySelector('[data-dock]');
+  const show = () => dock?.classList.toggle('is-shown', window.scrollY > 280);
+  show(); window.addEventListener('scroll', show, { passive: true });
+</script>
