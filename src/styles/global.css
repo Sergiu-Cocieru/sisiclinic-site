@@ -289,3 +289,7 @@ p { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+/* <picture> wrappers must fill their frame so object-fit/object-position crop correctly */
+.arch picture, .card-media picture, .split-media picture, .person .photo picture, .article-cover picture { display: block; width: 100%; height: 100%; }
+.arch img, .card-media img, .split-media img, .person .photo img, .article-cover img { width: 100%; height: 100%; object-fit: cover; }

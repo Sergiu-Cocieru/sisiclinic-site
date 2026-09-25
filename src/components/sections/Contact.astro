@@ -18,10 +18,11 @@ const hours = await getHours();
         <div><dt>Opening hours</dt><dd><table class="hours">{hours.weekly.map((d) => <tr><td>{d.day}</td><td>{d.closed ? 'Closed' : `${d.open}–${d.close}`}</td></tr>)}</table></dd></div>
       </dl>
       {s.showForm && (
-        <form class="form" method="post" action={asset('contact.php')} data-contact-form>
+        <form class="form" id="contact-form" method="post" action={asset('contact.php')} data-contact-form>
           <h3>Send us a question</h3>
           <p class="form-note">For bookings, please use <a href={site.treatwell.widgetUrl} target="_blank" rel="noopener">online booking</a>. This form is for questions only. Please don't send medical details here: we'll ask about them at your consultation.</p>
           {isPreview && <p class="notice">This is a preview. The form starts working when the new site goes live.</p>}
+          <p class="notice" data-form-error hidden role="alert"></p>
           <label>Your name<input name="name" required maxlength="80" autocomplete="name" /></label>
           <label>Email<input name="email" type="email" required maxlength="120" autocomplete="email" /></label>
           <label>Phone (optional)<input name="phone" type="tel" maxlength="30" autocomplete="tel" /></label>
@@ -39,5 +40,15 @@ const hours = await getHours();
   for (const f of document.querySelectorAll<HTMLFormElement>('[data-contact-form]')) {
     const ts = f.querySelector<HTMLInputElement>('[data-ts]');
     if (ts) ts.value = String(Math.floor(Date.now() / 1000));
+    const err = new URLSearchParams(location.search).get('error');
+    const box = f.querySelector<HTMLElement>('[data-form-error]');
+    const msg: Record<string, string> = {
+      missing: 'Please fill in your name, email and question.',
+      email: 'Please check your email address.',
+      timeout: 'The form timed out. Please try again.',
+      limit: 'Too many messages from this connection. Please call or WhatsApp us instead.',
+      send: "Sorry, your message couldn't be sent. Please call or WhatsApp us on 07840 820525.",
+    };
+    if (err && box) { box.textContent = msg[err] ?? msg.send; box.hidden = false; }
   }
 </script>

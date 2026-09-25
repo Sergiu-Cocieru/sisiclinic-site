@@ -1,0 +1,60 @@
+# Publishes the live site to the GoDaddy hosting (public_html).
+# Manual only, and only after the owner's go-ahead. Needs these repository secrets:
+#   GODADDY_SSH_HOST, GODADDY_SSH_USER, GODADDY_SSH_KEY (private key), GODADDY_KNOWN_HOSTS
+# The first switch from WordPress is done by hand (see DEPLOY.md). This workflow refuses to run
+# while WordPress files are still in public_html, so it can never delete the old site by accident.
+name: Deploy live site to GoDaddy
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: Type DEPLOY to publish the live site
+        required: true
+        type: string
+
+concurrency:
+  group: godaddy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ github.event.inputs.confirm == 'DEPLOY' }}
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check content
+        run: node scripts/validate-content.mjs
+      - name: Build the live site
+        run: npm run build
+      - name: Check the build (strict)
+        run: node scripts/check-site.mjs
+      - name: Set up SSH
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.GODADDY_SSH_KEY }}" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
+          echo "${{ secrets.GODADDY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+      - name: Refuse if WordPress is still in public_html
+        run: |
+          if ssh -i ~/.ssh/id_deploy ${{ secrets.GODADDY_SSH_USER }}@${{ secrets.GODADDY_SSH_HOST }} 'test -f ~/public_html/wp-config.php'; then
+            echo "WordPress is still in public_html. Do the first switch by hand (DEPLOY.md)."; exit 1
+          fi
+      - name: Upload
+        run: |
+          rsync -rlptzc --delete --delay-updates \
+            --exclude='.well-known/' --exclude='cgi-bin/' --exclude='.user.ini' --exclude='php.ini' \
+            -e "ssh -i ~/.ssh/id_deploy" \
+            dist/ ${{ secrets.GODADDY_SSH_USER }}@${{ secrets.GODADDY_SSH_HOST }}:~/public_html/
+      - name: Smoke test
+        run: |
+          for p in / /sugaring-hair-removal/ /sugaring-prices-manchester/ /contact/; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "https://sisiclinic.co.uk$p"); echo "$p $code"; test "$code" = 200
+          done
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://sisiclinic.co.uk/)" = 301
+          test "$(curl -s -o /dev/null -w '%{http_code}' https://sisiclinic.co.uk/wp-login.php)" = 410

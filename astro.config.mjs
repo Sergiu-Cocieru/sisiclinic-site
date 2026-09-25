@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { htaccess } from './integrations/htaccess.mjs';
+import { basePathLinks } from './integrations/basepath.mjs';
 
 // PREVIEW=1 builds the public preview (GitHub Pages): noindex everywhere, no .htaccess.
 // Without it we build the production site for sisiclinic.co.uk (GoDaddy).
@@ -18,6 +19,7 @@ export default defineConfig({
   integrations: [
     sitemap({ filter: (page) => !/\/(404|message-sent)\/$/.test(page) }),
     htaccess({ enabled: !PREVIEW }),
+    basePathLinks(BASE),
   ],
   vite: {
     define: {
