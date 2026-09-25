@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { href } from '../lib/url';
+---
+<Base title="Page not found | SISI Clinic" description="This page does not exist." path="404" noindex>
+  <PageHead title="We can't find that page" intro="It may have moved when we updated our website." />
+  <div class="wrap" style="padding-bottom:var(--section)">
+    <div class="btn-row">
+      <a class="btn btn-primary" href={href('')}>Go to the homepage</a>
+      <a class="btn btn-ghost" href={href('sugaring-prices-manchester')}>See prices</a>
+    </div>
+  </div>
+</Base>

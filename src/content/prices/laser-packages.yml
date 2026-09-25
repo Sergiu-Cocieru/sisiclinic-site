@@ -1,0 +1,31 @@
+title: "Laser packages"
+category: laser
+order: 7
+treatwellServiceId: TR5224392
+note: "A patch test is needed at least 24 hours before your first laser session."
+items:
+  - name: "Any bikini + underarms"
+    minutes: 45
+    price: 69
+    note: Ladies only
+  - name: "Back + neck + shoulders"
+    minutes: 60
+    price: 69
+  - name: "Chest + abdomen"
+    minutes: 60
+    price: 69
+  - name: "Any bikini + underarms + half legs"
+    minutes: 60
+    price: 129
+    note: Ladies only
+  - name: "Full back + full torso"
+    minutes: 95
+    price: 139
+  - name: "Any bikini + underarms + full legs"
+    minutes: 80
+    price: 149
+    note: Ladies only
+  - name: "Full body"
+    minutes: 150
+    price: 249
+    note: Ladies only

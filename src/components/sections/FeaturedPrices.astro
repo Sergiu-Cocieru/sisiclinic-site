@@ -1,0 +1,25 @@
+---
+import Head from './Head.astro';
+import BookButton from '../BookButton.astro';
+import { getPriceGroups, money } from '../../lib/content';
+import { href } from '../../lib/url';
+const { s } = Astro.props;
+const groups = await getPriceGroups();
+const items = groups.flatMap((g) => g.data.items.filter((i) => i.featured).map((i) => ({ ...i, group: g.data.title, serviceId: g.data.treatwellServiceId })));
+---
+<section class="section tint">
+  <div class="wrap">
+    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
+    <div class="price-cards">
+      {items.map((i) => (
+        <div class="price-card">
+          <span class="name">{i.name}</span>
+          <span class="meta">{i.group}{i.minutes ? ` · ${i.minutes} min` : ''}</span>
+          <span class="amount num">{i.free ? 'Free' : money(i.price)}</span>
+          <BookButton serviceId={i.serviceId} label="Book" variant="secondary" size="small" placement="featured-prices" />
+        </div>
+      ))}
+    </div>
+    {s.cta && <p style="margin-top:22px"><a class="link-arrow" href={href(s.cta.link)}>{s.cta.label}</a></p>}
+  </div>
+</section>

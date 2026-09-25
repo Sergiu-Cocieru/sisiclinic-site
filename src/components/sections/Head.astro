@@ -1,0 +1,13 @@
+---
+// Shared section heading
+import { md } from '../../lib/content';
+interface Props { eyebrow?: string; title?: string; intro?: string; center?: boolean }
+const { eyebrow, title, intro, center } = Astro.props;
+---
+{(eyebrow || title || intro) && (
+  <div class={`section-head ${center ? 'center' : ''}`}>
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    {title && <h2>{title}</h2>}
+    {intro && <div class="lede" set:html={md(intro)} />}
+  </div>
+)}

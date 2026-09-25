@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { href } from '../../lib/url';
+---
+<Base title="Message sent | SISI Clinic" description="Thank you for your message." path="message-sent" noindex>
+  <PageHead title="Thank you, your message is on its way" intro="We usually reply within one working day. For a quicker answer, message us on WhatsApp." />
+  <div class="wrap" style="padding-bottom:var(--section)"><a class="btn btn-primary" href={href('')}>Back to the homepage</a></div>
+</Base>

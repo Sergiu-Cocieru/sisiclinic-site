@@ -1,0 +1,27 @@
+title: "Laser: face"
+category: laser
+order: 9
+treatwellServiceId: TR6491855
+note: "A patch test is needed at least 24 hours before your first laser session."
+items:
+  - name: "Cheeks"
+    minutes: 35
+    price: 29
+  - name: "Chin"
+    minutes: 35
+    price: 29
+  - name: "Neck"
+    minutes: 40
+    price: 29
+  - name: "Sideburns"
+    minutes: 35
+    price: 29
+  - name: "Upper lip"
+    minutes: 35
+    price: 29
+  - name: "Half face"
+    minutes: 50
+    price: 39
+  - name: "Full face"
+    minutes: 50
+    price: 49

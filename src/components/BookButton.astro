@@ -1,0 +1,10 @@
+---
+import { getSite } from '../lib/content';
+import { treatwellUrl } from '../lib/url';
+interface Props { serviceId?: string; label?: string; variant?: 'primary' | 'secondary' | 'ghost'; size?: 'small'; class?: string; placement?: string }
+const { serviceId, label = 'Book online', variant = 'primary', size, class: cls = '', placement = '' } = Astro.props;
+const site = await getSite();
+const url = treatwellUrl(site.treatwell.widgetUrl, serviceId);
+---
+<a class={`btn btn-${variant} ${size === 'small' ? 'btn-small' : ''} ${cls}`} href={url} target="_blank" rel="noopener" data-book={placement} data-service={serviceId}
+  aria-label={`${label} (opens Treatwell booking in a new tab)`}>{label}<span class="ext" aria-hidden="true">↗</span></a>

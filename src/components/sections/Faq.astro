@@ -1,0 +1,20 @@
+---
+import Head from './Head.astro';
+import { getFaqs, md } from '../../lib/content';
+const { s } = Astro.props;
+let faqs = await getFaqs(s.category);
+if (s.limit) faqs = faqs.slice(0, s.limit);
+---
+<section class="section">
+  <div class="wrap">
+    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
+    <div class="faq">
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.data.question}</summary>
+          <div class="answer prose" set:html={md(f.data.answer)} />
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

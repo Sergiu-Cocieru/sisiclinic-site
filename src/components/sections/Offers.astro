@@ -1,0 +1,34 @@
+---
+import Head from './Head.astro';
+import Img from '../Img.astro';
+import BookButton from '../BookButton.astro';
+import { getActiveOffers, money, fmtDate } from '../../lib/content';
+import { href } from '../../lib/url';
+const { s } = Astro.props;
+const offers = await getActiveOffers();
+---
+<section class="section">
+  <div class="wrap">
+    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
+    {offers.length ? (
+      <div class="grid-3">
+        {offers.map((o) => (
+          <article class="card">
+            {o.data.image && <div class="card-media"><Img src={o.data.image} alt={o.data.imageAlt} sizes="(max-width: 620px) 100vw, 33vw" /></div>}
+            <div class="card-body">
+              <h3>{o.data.title}</h3>
+              <p>{o.data.summary}</p>
+              {o.data.price != null && <span class="from"><b>{money(o.data.price)}</b></span>}
+              {o.data.closedGroup && <p class="small">Available in the studio only, for returning clients.</p>}
+              {o.data.validTo && <p class="small">Until {fmtDate(o.data.validTo)}.</p>}
+              {o.data.terms && <p class="small">{o.data.terms}</p>}
+              <div><BookButton serviceId={o.data.treatwellServiceId} label="Book this offer" size="small" placement="offers" /></div>
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p class="notice">There are no special offers at the moment. Our packages and courses are always the best value: see our <a href={href('sugaring-prices-manchester#sugaring-packages')}>sugaring packages</a>.</p>
+    )}
+  </div>
+</section>

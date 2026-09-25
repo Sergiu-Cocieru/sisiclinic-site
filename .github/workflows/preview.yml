@@ -1,0 +1,68 @@
+# Builds the public preview and publishes it to GitHub Pages.
+# The preview is hidden from search engines (noindex + robots Disallow) so it never competes with sisiclinic.co.uk.
+name: Preview on GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Pages CMS "Publish" button and manual runs
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: Pages CMS payload as JSON
+        required: false
+        type: string
+  # Daily rebuild so dated offers and notices switch on and off by themselves
+  schedule:
+    - cron: '5 23 * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check content (fields, images, wording rules)
+        run: node scripts/validate-content.mjs
+      - name: Work out the preview address
+        id: addr
+        run: |
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          REPO="${{ github.event.repository.name }}"
+          if [ "$REPO" = "$OWNER.github.io" ]; then BASE=/; else BASE=/$REPO/; fi
+          echo "site=https://$OWNER.github.io" >> "$GITHUB_OUTPUT"
+          echo "base=$BASE" >> "$GITHUB_OUTPUT"
+      - name: Build
+        run: npm run build
+        env:
+          PREVIEW: '1'
+          SITE_URL: ${{ steps.addr.outputs.site }}
+          BASE_PATH: ${{ steps.addr.outputs.base }}
+      - name: Check the build
+        run: node scripts/check-site.mjs --preview
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

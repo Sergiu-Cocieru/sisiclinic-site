@@ -1,0 +1,43 @@
+---
+import Head from './Head.astro';
+import { getSite, getHours } from '../../lib/content';
+import { asset, href, isPreview } from '../../lib/url';
+const { s } = Astro.props;
+const site = await getSite();
+const hours = await getHours();
+---
+<section class="section">
+  <div class="wrap">
+    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
+    <div class="contact-grid">
+      <dl class="info-list">
+        <div><dt>Address</dt><dd>{site.address.building}, {site.address.street}<br />{site.address.city} {site.address.postcode}<br /><a href={site.mapsUrl} target="_blank" rel="noopener">Open in Google Maps</a></dd></div>
+        <div><dt>Phone</dt><dd><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></dd></div>
+        <div><dt>WhatsApp</dt><dd><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener">Message us on WhatsApp</a></dd></div>
+        <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+        <div><dt>Opening hours</dt><dd><table class="hours">{hours.weekly.map((d) => <tr><td>{d.day}</td><td>{d.closed ? 'Closed' : `${d.open}–${d.close}`}</td></tr>)}</table></dd></div>
+      </dl>
+      {s.showForm && (
+        <form class="form" method="post" action={asset('contact.php')} data-contact-form>
+          <h3>Send us a question</h3>
+          <p class="form-note">For bookings, please use <a href={site.treatwell.widgetUrl} target="_blank" rel="noopener">online booking</a>. This form is for questions only. Please don't send medical details here: we'll ask about them at your consultation.</p>
+          {isPreview && <p class="notice">This is a preview. The form starts working when the new site goes live.</p>}
+          <label>Your name<input name="name" required maxlength="80" autocomplete="name" /></label>
+          <label>Email<input name="email" type="email" required maxlength="120" autocomplete="email" /></label>
+          <label>Phone (optional)<input name="phone" type="tel" maxlength="30" autocomplete="tel" /></label>
+          <label>Your question<textarea name="message" required maxlength="2000"></textarea></label>
+          <label class="hp" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label>
+          <input type="hidden" name="t" value="" data-ts />
+          <p class="form-note">We use your details only to reply. See our <a href={href('privacy-policy')}>privacy policy</a>.</p>
+          <div><button class="btn btn-primary" type="submit" disabled={isPreview}>Send question</button></div>
+        </form>
+      )}
+    </div>
+  </div>
+</section>
+<script>
+  for (const f of document.querySelectorAll<HTMLFormElement>('[data-contact-form]')) {
+    const ts = f.querySelector<HTMLInputElement>('[data-ts]');
+    if (ts) ts.value = String(Math.floor(Date.now() / 1000));
+  }
+</script>

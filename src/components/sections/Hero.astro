@@ -1,0 +1,33 @@
+---
+import Img from '../Img.astro';
+import BookButton from '../BookButton.astro';
+import { getSite, md } from '../../lib/content';
+import { href } from '../../lib/url';
+const { s } = Astro.props;
+const site = await getSite();
+const Tag = Astro.props.first ? 'h1' : 'h2';
+---
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
+      <Tag>{s.title}</Tag>
+      {s.text && <div class="lede" set:html={md(s.text)} />}
+      <div class="btn-row">
+        {s.primary ? <a class="btn btn-primary" href={href(s.primary.link)}>{s.primary.label}</a> : <BookButton placement="hero" />}
+        {s.secondary && <a class="btn btn-ghost" href={href(s.secondary.link)}>{s.secondary.label}</a>}
+      </div>
+      {s.showTrust && (
+        <div class="trust">
+          <span>Rated {site.treatwell.rating.toFixed(1)} from {site.treatwell.reviewCount} reviews on Treatwell</span>
+          <span>4 minutes from Piccadilly</span>
+          <span>Open until 8pm on weekdays</span>
+        </div>
+      )}
+    </div>
+    <div class="hero-media">
+      <div class="arch"><Img src={s.image} alt={s.imageAlt} loading="eager" fetchpriority="high" sizes="(max-width: 860px) 90vw, 45vw" /></div>
+      <div class="hero-badge"><b>{site.treatwell.rating.toFixed(1)} ★</b><span>{site.treatwell.reviewCount} Treatwell reviews</span></div>
+    </div>
+  </div>
+</section>

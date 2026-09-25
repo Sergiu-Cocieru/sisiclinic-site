@@ -1,0 +1,57 @@
+title: "Laser: body"
+category: laser
+order: 8
+treatwellServiceId: TR6491806
+note: "A patch test is needed at least 24 hours before your first laser session."
+items:
+  - name: "Nipples"
+    minutes: 40
+    price: 19
+  - name: "Pubic line"
+    minutes: 40
+    price: 19
+  - name: "Perianal"
+    minutes: 40
+    price: 29
+    note: Ladies only
+  - name: "Underarm"
+    minutes: 45
+    price: 29
+  - name: "Bikini line"
+    minutes: 50
+    price: 39
+    note: Ladies only
+  - name: "Buttocks"
+    minutes: 50
+    price: 39
+  - name: "Chest"
+    minutes: 40
+    price: 39
+  - name: "Shoulders"
+    minutes: 50
+    price: 39
+  - name: "Stomach"
+    minutes: 50
+    price: 39
+  - name: "Half arm"
+    minutes: 50
+    price: 49
+  - name: "Half back"
+    minutes: 40
+    price: 49
+  - name: "Hollywood / Brazilian"
+    minutes: 60
+    price: 55
+    note: Ladies only
+  - name: "Half leg"
+    minutes: 50
+    price: 59
+  - name: "Full arms"
+    minutes: 60
+    price: 79
+  - name: "Full back"
+    minutes: 60
+    price: 79
+  - name: "Full leg"
+    minutes: 80
+    price: 99

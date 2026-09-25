@@ -1,0 +1,59 @@
+title: "Sugaring: bikini and body"
+category: sugaring-body
+order: 2
+treatwellServiceId: TR4725291
+items:
+  - name: "Nipples"
+    minutes: 15
+    price: 10
+  - name: "Perianal"
+    minutes: 15
+    price: 10
+  - name: "Pubic line"
+    minutes: 20
+    price: 10
+  - name: "Feet & toes"
+    minutes: 20
+    price: 15
+  - name: "Hands & fingers"
+    minutes: 20
+    price: 15
+  - name: "Underarms"
+    minutes: 25
+    price: 15
+    featured: true
+  - name: "Abdomen"
+    minutes: 30
+    price: 25
+  - name: "Buttocks"
+    minutes: 30
+    price: 25
+  - name: "Chest"
+    minutes: 25
+    price: 25
+  - name: "Half arms"
+    minutes: 25
+    price: 25
+  - name: "Half back"
+    minutes: 30
+    price: 25
+  - name: "Bikini line"
+    minutes: 25
+    price: 27
+  - name: "Full arms"
+    minutes: 45
+    price: 40
+  - name: "Hollywood / Brazilian (full bikini)"
+    minutes: 45
+    price: 40
+    featured: true
+  - name: "Half legs"
+    minutes: 45
+    price: 40
+  - name: "Full back"
+    minutes: 50
+    price: 45
+  - name: "Full legs"
+    minutes: 60
+    price: 60
+    featured: true

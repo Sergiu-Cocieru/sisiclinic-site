@@ -1,0 +1,14 @@
+title: "Men's sugaring packages"
+category: mens-sugaring
+order: 4
+treatwellServiceId: TR4725456
+items:
+  - name: "Chest & abdomen"
+    minutes: 60
+    price: 80
+  - name: "Full back & shoulders"
+    minutes: 60
+    price: 80
+  - name: "Full back & full torso"
+    minutes: 90
+    price: 150

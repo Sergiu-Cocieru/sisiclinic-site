@@ -1,0 +1,19 @@
+---
+import Head from './Head.astro';
+import PriceGroup from '../PriceGroup.astro';
+import { getPriceGroups } from '../../lib/content';
+const { s } = Astro.props;
+const all = await getPriceGroups();
+const groups = s.groups?.length ? all.filter((g) => s.groups.includes(g.id)) : all;
+const jumps = [
+  ['sugaring-packages', 'Packages'], ['sugaring-body', 'Bikini & body'], ['sugaring-face', 'Face'],
+  ['mens-sugaring-packages', "Men's"], ['laser-packages', 'Laser'], ['consultation', 'Patch test'],
+].filter(([id]) => groups.some((g) => g.id === id));
+---
+<section class="section">
+  <div class="wrap">
+    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
+    {jumps.length > 2 && <nav class="jump" aria-label="Price groups">{jumps.map(([id, l]) => <a href={`#${id}`}>{l}</a>)}</nav>}
+    {groups.map((g) => <PriceGroup group={g} />)}
+  </div>
+</section>

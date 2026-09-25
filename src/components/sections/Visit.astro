@@ -1,0 +1,22 @@
+---
+import Head from './Head.astro';
+import Img from '../Img.astro';
+import { getSite, md } from '../../lib/content';
+const { s } = Astro.props;
+const site = await getSite();
+---
+<section class="section tint">
+  <div class="wrap split">
+    <div class="split-copy">
+      <Head eyebrow={s.eyebrow ?? 'Find us'} title={s.title ?? 'In the heart of Manchester'} intro={s.intro} />
+      <p><strong>{site.address.building}</strong>, {site.address.street}, {site.address.city} {site.address.postcode}</p>
+      <ul class="prose" style="padding-left:1.2em">
+        <li>4 minutes' walk from Manchester Piccadilly station</li>
+        <li>Close to Chinatown, Piccadilly Gardens and St Peter's Square</li>
+        <li>Tram stops nearby: Piccadilly Gardens and St Peter's Square</li>
+      </ul>
+      <div class="btn-row"><a class="btn btn-ghost" href={site.mapsUrl} target="_blank" rel="noopener">Directions in Google Maps</a></div>
+    </div>
+    <div class="split-media"><Img placeholder="Photo of the building entrance coming soon" /></div>
+  </div>
+</section>

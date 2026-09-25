@@ -1,0 +1,41 @@
+title: "Men's sugaring: body"
+category: mens-sugaring
+order: 5
+treatwellServiceId: TR4725413
+items:
+  - name: "Feet & toes"
+    minutes: 20
+    price: 15
+  - name: "Hands & fingers"
+    minutes: 20
+    price: 15
+  - name: "Underarms"
+    minutes: 20
+    price: 25
+  - name: "Shoulders"
+    minutes: 35
+    price: 30
+  - name: "Chest"
+    minutes: 45
+    price: 35
+  - name: "Half arms"
+    minutes: 45
+    price: 35
+  - name: "Abdomen"
+    minutes: 35
+    price: 45
+  - name: "Half back"
+    minutes: 45
+    price: 45
+  - name: "Full arms"
+    minutes: 60
+    price: 55
+  - name: "Half legs"
+    minutes: 45
+    price: 60
+  - name: "Full back"
+    minutes: 60
+    price: 75
+  - name: "Full legs"
+    minutes: 70
+    price: 100

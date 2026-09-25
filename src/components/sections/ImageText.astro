@@ -1,0 +1,17 @@
+---
+import Img from '../Img.astro';
+import { md } from '../../lib/content';
+import { href } from '../../lib/url';
+const { s } = Astro.props;
+---
+<section class="section">
+  <div class={`wrap split ${s.imageSide === 'left' ? 'left' : ''}`}>
+    <div class="split-copy">
+      {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
+      {s.title && <h2>{s.title}</h2>}
+      <div class="prose" set:html={md(s.body)} />
+      {s.cta && <div><a class="btn btn-ghost" href={href(s.cta.link)}>{s.cta.label}</a></div>}
+    </div>
+    <div class="split-media"><Img src={s.image} alt={s.imageAlt} /></div>
+  </div>
+</section>

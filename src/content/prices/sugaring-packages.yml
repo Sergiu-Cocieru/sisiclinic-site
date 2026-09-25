@@ -1,0 +1,27 @@
+title: "Sugaring packages"
+category: sugaring-packages
+order: 1
+treatwellServiceId: TR5225395
+note: "Full body includes full arms, full legs, any bikini and underarms, plus any 2 small areas or 1 large area of your choice."
+items:
+  - name: "Any bikini + underarms"
+    minutes: 35
+    price: 50
+    featured: true
+  - name: "Any bikini + underarms + half legs"
+    minutes: 60
+    price: 75
+  - name: "Any bikini + underarms + full legs"
+    minutes: 90
+    price: 99
+  - name: "Hollywood / Brazilian, course of 3"
+    minutes: 35
+    price: 108
+    featured: true
+  - name: "Hollywood / Brazilian + underarms, course of 3"
+    minutes: 40
+    price: 130
+  - name: "Full body"
+    minutes: 150
+    price: 165
+    featured: true

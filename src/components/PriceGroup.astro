@@ -1,0 +1,27 @@
+---
+import BookButton from './BookButton.astro';
+import { money } from '../lib/content';
+const { group, headingLevel = 3 } = Astro.props;
+const g = group.data;
+const H = `h${headingLevel}`;
+---
+<div class="price-group" id={group.id}>
+  <div class="price-group-head">
+    <H>{g.title}</H>
+    <BookButton serviceId={g.treatwellServiceId} label="Book" size="small" placement={`prices-${group.id}`} />
+  </div>
+  <table class="price-table">
+    <caption class="sr-only">{g.title} prices</caption>
+    <thead><tr><th scope="col">Treatment</th><th scope="col" class="t-min">Time</th><th scope="col" class="t-price">Price</th></tr></thead>
+    <tbody>
+      {g.items.map((i) => (
+        <tr>
+          <td class="t-name">{i.name}{i.note && <span class="t-note">{i.note}</span>}</td>
+          <td class="t-min">{i.minutes ? `${i.minutes} min` : ''}</td>
+          <td class="t-price">{i.free ? 'Free' : `${i.from ? 'from ' : ''}${money(i.price)}`}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  {g.note && <p class="price-note">{g.note}</p>}
+</div>

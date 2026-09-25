@@ -1,0 +1,392 @@
+# Pages CMS configuration for the SISI Clinic website.
+# Editors change content here; every save rebuilds and republishes the site in 2–4 minutes.
+# Developer-only things (redirects, design, structured data) live in code, not in the CMS.
+
+settings:
+  commit:
+    identity: user
+    templates:
+      create: "Add {path} ({userName} via CMS)"
+      update: "Update {path} ({userName} via CMS)"
+      delete: "Delete {path} ({userName} via CMS)"
+      rename: "Rename {oldPath} to {newPath} ({userName} via CMS)"
+
+media:
+  - name: images
+    label: Photos
+    input: src/assets/uploads
+    output: /src/assets/uploads
+    rename: safe
+    extensions: [jpg, jpeg, png, webp]
+
+components:
+  image:
+    type: image
+    options:
+      media: images
+  seo:
+    type: object
+    label: Google (title and description)
+    fields:
+      - name: title
+        label: Title shown in Google
+        type: string
+        description: About 50–60 characters. Leave empty to use the page title.
+      - name: description
+        label: Description shown in Google
+        type: text
+        description: About 140–160 characters.
+      - name: image
+        label: Image for sharing (optional)
+        component: image
+      - name: noindex
+        label: Hide this page from Google
+        type: boolean
+  link:
+    type: object
+    fields:
+      - name: label
+        type: string
+      - name: link
+        type: string
+        description: A page address like first-visit, or a full https:// link
+  item:
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: "{title}"
+    fields:
+      - name: title
+        type: string
+        required: true
+      - name: text
+        type: text
+        required: true
+
+content:
+  - name: settings-group
+    label: Clinic details
+    type: group
+    items:
+      - name: site
+        label: Contact, address, Treatwell
+        type: file
+        path: src/content/settings/site.yml
+        operations: { delete: false }
+        fields:
+          - { name: name, label: Business name, type: string, required: true }
+          - { name: tagline, label: Tagline, type: string, required: true }
+          - { name: description, label: Short description, type: text, required: true }
+          - { name: phone, label: Phone (international, for links), type: string, required: true }
+          - { name: phoneDisplay, label: Phone (as shown), type: string, required: true }
+          - { name: whatsapp, label: WhatsApp number (digits only, e.g. 447840820525), type: string, required: true, pattern: "^\\d{10,15}$" }
+          - { name: email, label: Email, type: string, required: true }
+          - name: address
+            label: Address
+            type: object
+            fields:
+              - { name: building, type: string }
+              - { name: street, type: string }
+              - { name: city, type: string }
+              - { name: postcode, type: string }
+          - name: geo
+            label: Map position
+            type: object
+            fields:
+              - { name: lat, type: number }
+              - { name: lng, type: number }
+          - { name: mapsUrl, label: Google Maps link, type: string }
+          - name: social
+            label: Social media
+            type: object
+            fields:
+              - { name: instagram, type: string }
+              - { name: facebook, type: string }
+              - { name: tiktok, type: string }
+          - name: treatwell
+            label: Treatwell
+            type: object
+            fields:
+              - { name: widgetUrl, label: Booking widget link (widget.treatwell.co.uk only), type: string, required: true, pattern: { regex: "^https://widget\\.treatwell\\.co\\.uk/", message: "Use the widget link, never the marketplace page" } }
+              - { name: rating, label: Treatwell rating (e.g. 5), type: number }
+              - { name: reviewCount, label: Number of Treatwell reviews, type: number }
+              - { name: asOf, label: Rating checked (month and year), type: string }
+          - { name: languages, label: Languages spoken, type: string, list: true }
+          - name: announcement
+            label: Banner at the top of every page
+            type: object
+            fields:
+              - { name: active, label: Show the banner, type: boolean }
+              - { name: text, type: string }
+              - { name: link, type: string }
+          - name: seo
+            label: Default Google title and description
+            type: object
+            fields:
+              - { name: title, type: string }
+              - { name: description, type: text }
+              - { name: image, component: image }
+      - name: hours
+        label: Opening hours
+        type: file
+        path: src/content/settings/hours.yml
+        operations: { delete: false }
+        fields:
+          - name: weekly
+            label: Weekly hours
+            type: object
+            list: { min: 7, max: 7, collapsible: { collapsed: true, summary: "{day}" } }
+            fields:
+              - { name: day, type: select, options: { values: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday] } }
+              - { name: open, label: Opens (e.g. 10:00), type: string, pattern: "^$|^\\d{2}:\\d{2}$" }
+              - { name: close, label: Closes (e.g. 20:00), type: string, pattern: "^$|^\\d{2}:\\d{2}$" }
+              - { name: closed, label: Closed all day, type: boolean }
+          - name: exceptions
+            label: Holidays and special days
+            type: object
+            list: { collapsible: { collapsed: true, summary: "{label}" } }
+            fields:
+              - { name: date, type: date }
+              - { name: label, type: string, description: "e.g. Christmas Day" }
+              - { name: closed, label: Closed all day, type: boolean }
+              - { name: open, type: string }
+              - { name: close, type: string }
+
+  - name: prices
+    label: Prices
+    type: collection
+    path: src/content/prices
+    format: yaml
+    view: { fields: [title, category], primary: title, sort: [order], default: { sort: order, order: asc } }
+    operations: { delete: false, rename: false }
+    fields:
+      - { name: title, type: string, required: true }
+      - { name: category, type: select, options: { values: [sugaring-packages, sugaring-body, sugaring-face, mens-sugaring, laser, consultation] } }
+      - { name: order, type: number }
+      - { name: treatwellServiceId, label: Treatwell ID (TR...), type: string, pattern: "^$|^TR\\d{5,9}$", description: "Opens this group in the Treatwell booking widget" }
+      - { name: note, label: Note under the table, type: text }
+      - name: items
+        label: Treatments
+        type: object
+        list: { collapsible: { collapsed: true, summary: "{name} · £{price}" } }
+        fields:
+          - { name: name, type: string, required: true }
+          - { name: minutes, type: number }
+          - { name: price, label: Price (£), type: number, required: true, description: "Must never be lower than the Treatwell price" }
+          - { name: free, label: Show as Free, type: boolean }
+          - { name: from, label: Show as "from", type: boolean }
+          - { name: featured, label: Show on the homepage, type: boolean }
+          - { name: note, type: string }
+
+  - name: services
+    label: Treatments
+    type: collection
+    path: src/content/services
+    view: { fields: [navLabel, path], primary: title, sort: [order] }
+    operations: { delete: false, rename: false }
+    fields:
+      - { name: title, label: Page heading, type: string, required: true }
+      - { name: path, label: Address, type: string, readonly: true }
+      - { name: navLabel, label: Short name, type: string, required: true }
+      - { name: summary, type: text, required: true }
+      - { name: image, component: image, required: true }
+      - { name: imageAlt, label: Image description, type: string, required: true }
+      - { name: order, type: number }
+      - { name: treatwellServiceId, label: Treatwell ID (TR...), type: string, pattern: "^$|^TR\\d{5,9}$" }
+      - { name: priceGroups, label: Price groups shown, type: string, list: true }
+      - { name: whoFor, label: Who it's for, type: rich-text }
+      - { name: steps, label: What happens, component: item }
+      - { name: feel, label: How it feels, type: rich-text }
+      - { name: prep, label: Before you come, type: string, list: true }
+      - { name: aftercare, label: Afterwards, type: string, list: true }
+      - { name: faqCategory, label: FAQ shown, type: select, options: { values: [general, sugaring, laser, booking, men] } }
+      - { name: seo, component: seo }
+      - { name: body, label: Main text, type: rich-text, options: { media: images } }
+
+  - name: pages
+    label: Pages
+    type: collection
+    path: src/content/pages
+    view: { fields: [title, path], primary: title }
+    operations: { delete: false, rename: false }
+    fields:
+      - { name: title, type: string, required: true }
+      - { name: path, label: "Address (e.g. first-visit)", type: string, pattern: { regex: "^$|^[a-z0-9-]+(/[a-z0-9-]+)*$", message: "Lowercase words joined by hyphens" } }
+      - { name: seo, component: seo }
+      - name: sections
+        label: Sections
+        type: block
+        list: { collapsible: { collapsed: true, summary: "{type}: {title}" } }
+        blockKey: type
+        blocks:
+          - name: hero
+            label: Top banner with photo
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: title, type: string, required: true }
+              - { name: text, type: text }
+              - { name: image, component: image }
+              - { name: imageAlt, label: Image description, type: string }
+              - { name: primary, label: Main button (empty = Book online), component: link }
+              - { name: secondary, label: Second button, component: link }
+              - { name: showTrust, label: Show rating and location line, type: boolean }
+          - name: text
+            label: Text
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: body, type: rich-text, options: { media: images } }]
+          - name: imageText
+            label: Photo and text
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: title, type: string }
+              - { name: body, type: rich-text }
+              - { name: image, component: image, required: true }
+              - { name: imageAlt, label: Image description, type: string, required: true }
+              - { name: imageSide, type: select, options: { values: [left, right] } }
+              - { name: cta, label: Button, component: link }
+          - name: services
+            label: Treatment cards
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
+          - name: featuredPrices
+            label: Most booked prices
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: cta, label: Link under the cards, component: link }]
+          - name: priceList
+            label: Price list
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: groups, label: "Only these groups (empty = all)", type: string, list: true }]
+          - name: features
+            label: Three points
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: items, component: item }]
+          - name: steps
+            label: Numbered steps
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: items, component: item }, { name: cta, label: Button, component: link }]
+          - name: reviews
+            label: Reviews
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: limit, label: How many, type: number }]
+          - name: faq
+            label: Questions
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: title, type: string }
+              - { name: intro, type: text }
+              - { name: category, type: select, options: { values: [all, general, sugaring, laser, booking, men] } }
+              - { name: limit, label: How many (empty = all), type: number }
+          - name: offers
+            label: Current offers
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
+          - name: team
+            label: Team
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
+          - name: gallery
+            label: Photo gallery
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: title, type: string }
+              - { name: intro, type: text }
+              - name: images
+                type: object
+                list: true
+                fields: [{ name: image, component: image, required: true }, { name: alt, label: Image description, type: string, required: true }]
+          - name: treatwell
+            label: Treatwell booking (loads after a click)
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
+          - name: bookingBand
+            label: Book now band
+            fields: [{ name: title, type: string }, { name: intro, type: text }]
+          - name: contact
+            label: Contact details and form
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: showForm, label: Show the question form, type: boolean }]
+          - name: blogList
+            label: Blog posts
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
+          - name: visit
+            label: How to find us
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
+      - { name: body, label: "Simple page text (used by policy pages)", type: rich-text }
+
+  - name: offers
+    label: Offers
+    type: collection
+    path: src/content/offers
+    view: { fields: [title, active, validTo], primary: title }
+    fields:
+      - { name: title, type: string, required: true }
+      - { name: summary, type: text, required: true }
+      - { name: price, label: Price (£), type: number, description: "Never lower than Treatwell unless 'Studio only' is ticked" }
+      - { name: image, component: image }
+      - { name: imageAlt, label: Image description, type: string }
+      - { name: validFrom, label: Show from, type: date, default: "" }
+      - { name: validTo, label: Show until, type: date, default: "" }
+      - { name: closedGroup, label: "Studio only / returning clients (allowed to be cheaper)", type: boolean }
+      - { name: treatwellServiceId, label: Treatwell ID (TR...), type: string }
+      - { name: terms, type: text }
+      - { name: active, label: Live, type: boolean }
+      - { name: order, type: number }
+      - { name: body, type: rich-text }
+
+  - name: reviews
+    label: Reviews
+    type: collection
+    path: src/content/reviews
+    format: yaml
+    view: { fields: [author, rating, date], primary: author, sort: [date], default: { sort: date, order: desc } }
+    fields:
+      - { name: author, label: "Name (first name and initial)", type: string, required: true }
+      - { name: rating, type: number, options: { min: 1, max: 5 } }
+      - { name: text, label: "Review text (copy exactly as written on Google; add the newest each month whatever the rating; never Treatwell reviews)", type: text, required: true }
+      - { name: date, type: date, required: true }
+      - { name: source, type: select, options: { values: [Google, Direct] } }
+      - { name: service, type: string }
+
+  - name: faq
+    label: Questions (FAQ)
+    type: collection
+    path: src/content/faq
+    format: yaml
+    view: { fields: [question, category], primary: question, sort: [order] }
+    fields:
+      - { name: question, type: string, required: true }
+      - { name: answer, type: rich-text, required: true }
+      - { name: category, type: select, options: { values: [general, sugaring, laser, booking, men] } }
+      - { name: order, type: number }
+
+  - name: team
+    label: Team
+    type: collection
+    path: src/content/team
+    fields:
+      - { name: name, type: string, required: true }
+      - { name: role, type: string, required: true }
+      - { name: photo, component: image }
+      - { name: photoAlt, label: Photo description, type: string }
+      - { name: languages, type: string, list: true }
+      - { name: order, type: number }
+      - { name: body, label: Bio, type: rich-text }
+
+  - name: blog
+    label: Blog
+    type: collection
+    path: src/content/blog
+    filename: "{fields.path}.md"
+    view: { fields: [title, date, draft], primary: title, sort: [date], default: { sort: date, order: desc } }
+    operations: { delete: false }
+    fields:
+      - { name: title, type: string, required: true }
+      - { name: path, label: "Address (e.g. sugaring-on-your-period)", type: string, required: true, pattern: { regex: "^[a-z0-9-]+$", message: "Lowercase words joined by hyphens" } }
+      - { name: date, type: date, required: true }
+      - { name: updated, type: date, default: "" }
+      - { name: author, type: string }
+      - { name: image, component: image, required: true }
+      - { name: imageAlt, label: Image description, type: string, required: true }
+      - { name: excerpt, label: Short summary, type: text, required: true }
+      - { name: draft, label: Draft (not published), type: boolean }
+      - { name: seo, component: seo }
+      - { name: body, type: rich-text, options: { media: images } }
+
+actions:
+  - name: publish
+    label: Publish now
+    workflow: preview.yml
+    confirm:
+      title: Publish the website?
+      message: The site is rebuilt and published in about 2–4 minutes.
+      button: Publish

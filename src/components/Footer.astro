@@ -1,0 +1,44 @@
+---
+import { getSite, getHours } from '../lib/content';
+import { href } from '../lib/url';
+const site = await getSite();
+const hours = await getHours();
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <span class="footer-logo" aria-hidden="true"></span>
+        <p>{site.tagline}.</p>
+        <p class="langs">We speak English, Romanian and Russian · Vorbim română · Говорим по-русски</p>
+      </div>
+      <div>
+        <h3>Visit</h3>
+        <address style="font-style:normal">{site.address.building}<br />{site.address.street}<br />{site.address.city} {site.address.postcode}</address>
+        <p style="margin-top:10px"><a href={site.mapsUrl} target="_blank" rel="noopener">Open in Google Maps</a></p>
+      </div>
+      <div>
+        <h3>Opening hours</h3>
+        <table class="hours">
+          {hours.weekly.map((d) => <tr><td>{d.day.slice(0, 3)}</td><td>{d.closed ? 'Closed' : `${d.open}–${d.close}`}</td></tr>)}
+        </table>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener">WhatsApp</a></li>
+          {site.social.instagram && <li><a href={site.social.instagram} target="_blank" rel="noopener">Instagram</a></li>}
+          {site.social.facebook && <li><a href={site.social.facebook} target="_blank" rel="noopener">Facebook</a></li>}
+          {site.social.tiktok && <li><a href={site.social.tiktok} target="_blank" rel="noopener">TikTok</a></li>}
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {year} SISI Clinic Ltd</span>
+      <span><a href={href('privacy-policy')}>Privacy</a> · <a href={href('terms-conditions')}>Terms</a> · <a href={href('review-policy')}>Review policy</a> · <a href={href('faq')}>FAQ</a></span>
+    </div>
+  </div>
+</footer>

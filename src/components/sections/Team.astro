@@ -1,0 +1,26 @@
+---
+import Head from './Head.astro';
+import Img from '../Img.astro';
+import { getTeam } from '../../lib/content';
+import { render } from 'astro:content';
+const { s } = Astro.props;
+const team = await getTeam();
+const rendered = await Promise.all(team.map(async (t) => ({ t, Content: (await render(t)).Content })));
+---
+<section class="section">
+  <div class="wrap">
+    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
+    <div class="grid-3">
+      {rendered.map(({ t, Content }) => (
+        <div class="person">
+          <div class="photo"><Img src={t.data.photo} alt={t.data.photoAlt} placeholder={`Portrait of ${t.data.name} coming soon`} sizes="(max-width: 620px) 100vw, 33vw" /></div>
+          <div>
+            <h3>{t.data.name}</h3>
+            <p class="muted">{t.data.role}{t.data.languages.length ? ` · ${t.data.languages.join(', ')}` : ''}</p>
+          </div>
+          <div class="prose"><Content /></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,158 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Sections from '../components/Sections.astro';
+import PageHead from '../components/PageHead.astro';
+import Img from '../components/Img.astro';
+import BookButton from '../components/BookButton.astro';
+import PriceGroup from '../components/PriceGroup.astro';
+import Faq from '../components/sections/Faq.astro';
+import BookingBand from '../components/sections/BookingBand.astro';
+import { getPriceGroups, getServices, getSite, fmtDate, md, money } from '../lib/content';
+import { href } from '../lib/url';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  const services = await getCollection('services');
+  const posts = await getCollection('blog', (p) => !p.data.draft);
+  const all = [
+    ...pages.map((e) => ({ kind: 'page', path: e.data.path, entry: e })),
+    ...services.map((e) => ({ kind: 'service', path: e.data.path, entry: e })),
+    ...posts.map((e) => ({ kind: 'post', path: e.data.path, entry: e })),
+  ];
+  const seen = new Map();
+  for (const r of all) {
+    if (seen.has(r.path)) throw new Error(`Two entries use the same address "/${r.path}/": ${seen.get(r.path)} and ${r.entry.id}`);
+    seen.set(r.path, r.entry.id);
+  }
+  return all.map((r) => ({ params: { path: r.path || undefined }, props: r }));
+}
+
+const { kind, path, entry } = Astro.props as any;
+const site = await getSite();
+const d = entry.data;
+const nice = (t: string) => `${t} | SISI Clinic Manchester`;
+
+let title = '', description = '', image: string | undefined, crumbs: { name: string; path: string }[] = [], schema: object[] = [];
+let Content: any = null;
+if (kind === 'page') {
+  title = d.seo?.title ?? (path === '' ? site.seo.title : nice(d.title));
+  description = d.seo?.description ?? site.seo.description;
+  image = d.seo?.image;
+  if (path) crumbs = [{ name: d.title, path }];
+  Content = (await render(entry)).Content;
+}
+let service: any = null;
+if (kind === 'service') {
+  title = d.seo?.title ?? nice(d.title);
+  description = d.seo?.description ?? d.summary;
+  image = d.image;
+  crumbs = path.startsWith('sugaring-hair-removal/') ? [{ name: 'Sugaring', path: 'sugaring-hair-removal' }, { name: d.navLabel, path }] : [{ name: d.navLabel, path }];
+  const groups = (await getPriceGroups()).filter((g) => d.priceGroups.includes(g.id));
+  const services = await getServices();
+  service = { groups, related: services.filter((s) => s.id !== entry.id).slice(0, 3) };
+  Content = (await render(entry)).Content;
+  schema.push({
+    '@type': 'Service', name: d.title, description: d.summary, provider: { '@id': 'https://sisiclinic.co.uk/#salon' }, areaServed: 'Manchester',
+    hasOfferCatalog: { '@type': 'OfferCatalog', name: `${d.navLabel} prices`, itemListElement: groups.flatMap((g) => g.data.items.map((i) => ({ '@type': 'Offer', name: i.name, price: i.free ? 0 : i.price, priceCurrency: 'GBP' }))) },
+  });
+}
+let post: any = null;
+if (kind === 'post') {
+  title = d.seo?.title ?? nice(d.title);
+  description = d.seo?.description ?? d.excerpt;
+  image = d.image;
+  crumbs = [{ name: 'Blog', path: 'blog' }, { name: d.title, path }];
+  Content = (await render(entry)).Content;
+  post = true;
+  schema.push({ '@type': 'BlogPosting', headline: d.title, datePublished: d.date.toISOString(), dateModified: (d.updated ?? d.date).toISOString(), author: d.author ? { '@type': 'Person', name: d.author } : { '@id': 'https://sisiclinic.co.uk/#salon' }, publisher: { '@id': 'https://sisiclinic.co.uk/#salon' }, mainEntityOfPage: `https://sisiclinic.co.uk/${path}/` });
+}
+const firstIsHero = kind === 'page' && d.sections?.[0]?.type === 'hero';
+---
+<Base title={title} description={description} path={path} image={image} noindex={d.seo?.noindex} schema={schema} breadcrumbs={crumbs}>
+  {kind === 'page' && (
+    <>
+      {!firstIsHero && <PageHead title={d.title} crumbs={crumbs} />}
+      {entry.body?.trim() && <div class="wrap"><div class="prose" style="padding-bottom:var(--section)"><Content /></div></div>}
+      <Sections sections={d.sections} />
+    </>
+  )}
+
+  {kind === 'service' && (
+    <>
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <nav class="crumbs" aria-label="Breadcrumb"><a href={href('')}>Home</a>{crumbs.slice(0, -1).map((c) => <> / <a href={href(c.path)}>{c.name}</a></>)} / <span aria-current="page">{d.navLabel}</span></nav>
+            <h1>{d.title}</h1>
+            <p class="lede">{d.summary}</p>
+            <div class="btn-row">
+              <BookButton serviceId={d.treatwellServiceId} placement={`service-${entry.id}`} />
+              {service.groups.length > 0 && <a class="btn btn-ghost" href="#prices">See prices</a>}
+            </div>
+          </div>
+          <div class="hero-media"><div class="arch"><Img src={d.image} alt={d.imageAlt} loading="eager" fetchpriority="high" sizes="(max-width: 860px) 90vw, 45vw" /></div></div>
+        </div>
+      </section>
+      <section class="section" style="padding-top:0">
+        <div class="wrap split">
+          <div class="prose"><Content /></div>
+          {d.whoFor && <div class="tw-panel"><span class="eyebrow">Who it's for</span><div class="prose" set:html={md(d.whoFor)} /></div>}
+        </div>
+      </section>
+      {d.steps.length > 0 && (
+        <section class="section dark">
+          <div class="wrap">
+            <div class="section-head"><span class="eyebrow">Your appointment</span><h2>What happens, step by step</h2></div>
+            <ol class="steps">{d.steps.map((st) => <li><h3>{st.title}</h3><div set:html={md(st.text)} /></li>)}</ol>
+          </div>
+        </section>
+      )}
+      {(d.feel || d.prep.length || d.aftercare.length) && (
+        <section class="section">
+          <div class="wrap grid-3">
+            {d.feel && <div class="feature"><h3>How it feels</h3><div set:html={md(d.feel)} /></div>}
+            {d.prep.length > 0 && <div class="feature"><h3>Before you come</h3><ul class="prose">{d.prep.map((x) => <li>{x}</li>)}</ul></div>}
+            {d.aftercare.length > 0 && <div class="feature"><h3>Afterwards</h3><ul class="prose">{d.aftercare.map((x) => <li>{x}</li>)}</ul></div>}
+          </div>
+        </section>
+      )}
+      {service.groups.length > 0 && (
+        <section class="section tint" id="prices">
+          <div class="wrap">
+            <div class="section-head"><span class="eyebrow">Prices</span><h2>{d.navLabel} prices</h2><p class="lede">The same prices as on Treatwell. Book online, or call us if you have a question first.</p></div>
+            {service.groups.map((g) => <PriceGroup group={g} />)}
+            <p class="small muted" style="margin-top:16px"><a href={href('sugaring-prices-manchester')}>See the full price list</a></p>
+          </div>
+        </section>
+      )}
+      {d.faqCategory && <Faq s={{ title: 'Questions we often hear', category: d.faqCategory, limit: 6 }} />}
+      <section class="section" style="padding-top:0">
+        <div class="wrap">
+          <div class="section-head"><span class="eyebrow">Also at SISI</span><h2>Related treatments</h2></div>
+          <div class="grid-3">
+            {service.related.map((r) => (
+              <a class="tw-panel" href={href(r.data.path)} style="text-decoration:none;color:inherit"><h3>{r.data.navLabel}</h3><p class="muted">{r.data.summary}</p><span class="link-arrow">Details</span></a>
+            ))}
+          </div>
+        </div>
+      </section>
+      <BookingBand s={{ title: 'Book your appointment', intro: 'Choose a time online in a minute, or message us on WhatsApp if you have a question first.' }} />
+    </>
+  )}
+
+  {kind === 'post' && (
+    <article>
+      <div class="wrap narrow article-hero">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href={href('')}>Home</a> / <a href={href('blog')}>Blog</a></nav>
+        <h1>{d.title}</h1>
+        <div class="post-meta"><time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time>{d.updated && <span>Updated {fmtDate(d.updated)}</span>}{d.author && <span>By {d.author}</span>}</div>
+      </div>
+      <div class="wrap narrow">
+        <div class="article-cover"><Img src={d.image} alt={d.imageAlt} loading="eager" sizes="(max-width: 800px) 100vw, 760px" /></div>
+        <div class="prose"><Content /></div>
+      </div>
+      <BookingBand s={{ title: 'Ready to try sugaring?', intro: 'Book online in a minute, or message us on WhatsApp with any question.' }} />
+    </article>
+  )}
+</Base>

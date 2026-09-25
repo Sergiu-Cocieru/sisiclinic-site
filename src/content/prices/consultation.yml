@@ -1,0 +1,9 @@
+title: "Consultation and patch test"
+category: consultation
+order: 10
+treatwellServiceId: TR4725166
+items:
+  - name: "Patch test & consultation"
+    minutes: 45
+    price: 0
+    free: true

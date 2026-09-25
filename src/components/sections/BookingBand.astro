@@ -1,0 +1,20 @@
+---
+import BookButton from '../BookButton.astro';
+import { getSite, md } from '../../lib/content';
+const { s } = Astro.props;
+const site = await getSite();
+---
+<section class="section">
+  <div class="wrap">
+    <div class="band">
+      <div style="display:grid;gap:10px">
+        <h2>{s.title ?? 'Ready when you are'}</h2>
+        {s.intro && <div set:html={md(s.intro)} />}
+      </div>
+      <div class="btn-row">
+        <BookButton placement="band" />
+        <a class="btn btn-ghost" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener">Ask on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>

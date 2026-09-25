@@ -1,0 +1,37 @@
+name: SISI Clinic
+tagline: Sugaring specialists in Manchester city centre
+description: Sugaring hair removal for women and men in Manchester city centre, with laser hair removal also available. A calm private studio four minutes from Piccadilly.
+phone: "+447840820525"
+phoneDisplay: 07840 820525
+whatsapp: "447840820525"
+email: contact@sisiclinic.co.uk
+address:
+  building: St James Tower
+  street: 7 Charlotte Street
+  city: Manchester
+  postcode: M1 4DZ
+geo:
+  lat: 53.4792294
+  lng: -2.2392124
+mapsUrl: https://www.google.com/maps/search/?api=1&query=SISI+Clinic+7+Charlotte+Street+Manchester+M1+4DZ
+social:
+  instagram: https://www.instagram.com/sisi.clinic/
+  facebook: https://www.facebook.com/share/1DSsh8oY1N/
+  tiktok: https://www.tiktok.com/@sisi.clinic
+treatwell:
+  widgetUrl: https://widget.treatwell.co.uk/place/sisi-clinic/
+  rating: 5
+  reviewCount: 385
+  asOf: September 2026
+languages:
+  - English
+  - Romanian
+  - Russian
+announcement:
+  active: false
+  text: ""
+  link: ""
+seo:
+  title: Sugaring Hair Removal in Manchester City Centre | SISI Clinic
+  description: Sugaring hair removal for women and men in Manchester city centre, plus laser hair removal. Gentle, precise and private. Rated 5.0 on Treatwell. Book online.
+  image: /src/assets/uploads/sugaring-paste-shoulder.jpg

@@ -1,0 +1,23 @@
+---
+import Hero from './sections/Hero.astro';
+import Text from './sections/Text.astro';
+import ImageText from './sections/ImageText.astro';
+import Services from './sections/Services.astro';
+import FeaturedPrices from './sections/FeaturedPrices.astro';
+import PriceList from './sections/PriceList.astro';
+import Features from './sections/Features.astro';
+import Steps from './sections/Steps.astro';
+import Reviews from './sections/Reviews.astro';
+import Faq from './sections/Faq.astro';
+import Offers from './sections/Offers.astro';
+import Team from './sections/Team.astro';
+import Gallery from './sections/Gallery.astro';
+import Treatwell from './sections/Treatwell.astro';
+import BookingBand from './sections/BookingBand.astro';
+import Contact from './sections/Contact.astro';
+import BlogList from './sections/BlogList.astro';
+import Visit from './sections/Visit.astro';
+const { sections } = Astro.props;
+const map: Record<string, any> = { hero: Hero, text: Text, imageText: ImageText, services: Services, featuredPrices: FeaturedPrices, priceList: PriceList, features: Features, steps: Steps, reviews: Reviews, faq: Faq, offers: Offers, team: Team, gallery: Gallery, treatwell: Treatwell, bookingBand: BookingBand, contact: Contact, blogList: BlogList, visit: Visit };
+---
+{sections.map((s: any, i: number) => { const C = map[s.type]; return C ? <C s={s} first={i === 0} /> : null; })}

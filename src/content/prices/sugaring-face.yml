@@ -1,0 +1,29 @@
+title: "Sugaring: face"
+category: sugaring-face
+order: 3
+treatwellServiceId: TR4725337
+items:
+  - name: "Chin"
+    minutes: 20
+    price: 15
+  - name: "Upper lip"
+    minutes: 20
+    price: 15
+  - name: "Cheeks"
+    minutes: 15
+    price: 20
+  - name: "Eyebrows"
+    minutes: 10
+    price: 20
+  - name: "Neck"
+    minutes: 20
+    price: 20
+  - name: "Sides"
+    minutes: 15
+    price: 20
+  - name: "Half face"
+    minutes: 30
+    price: 25
+  - name: "Full face"
+    minutes: 40
+    price: 35
