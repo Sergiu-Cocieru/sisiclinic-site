@@ -1,0 +1,36 @@
+---
+// Call to action band: title, text and one button (e.g. "Chat With Us" to WhatsApp)
+import Img from '../Img.astro';
+import { md, accent, getSite, waLink } from '../../lib/content';
+import { href } from '../../lib/url';
+const { s } = Astro.props;
+const site = await getSite();
+const link = s.cta?.link === 'whatsapp' ? waLink(site.whatsapp, 'Hi SISI Clinic, I have a question.') : s.cta ? href(s.cta.link) : undefined;
+const external = !!link && /^https?:/.test(link);
+---
+{s.image ? (
+  <section class="cta-photo">
+    <div class="cta-photo-media reveal"><Img src={s.image} alt={s.imageAlt ?? ''} sizes="100vw" widths={[800, 1200, 1600, 2400]} /></div>
+    <div class="wrap">
+      <div class="cta-card">
+        {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
+        {s.title && <h2 data-split set:html={accent(s.title)} />}
+        {s.intro && <div class="lede" set:html={md(s.intro)} />}
+        {s.cta && <div class="btn-row" data-band-cta><a class="btn btn-primary" href={link} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>{s.cta.label}</a></div>}
+      </div>
+    </div>
+  </section>
+) : (
+  <section class="section">
+    <div class="wrap">
+      <div class="band cta-band">
+        <div style="display:grid;gap:12px">
+          {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
+          {s.title && <h2 data-split set:html={accent(s.title)} />}
+          {s.intro && <div set:html={md(s.intro)} />}
+        </div>
+        {s.cta && <div class="btn-row" data-band-cta><a class="btn btn-primary" href={link} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>{s.cta.label}</a></div>}
+      </div>
+    </div>
+  </section>
+)}

@@ -225,8 +225,10 @@ content:
           - name: hero
             label: Top banner with photo
             fields:
+              - { name: variant, label: Style, type: select, options: { values: [feature, banner] }, description: "feature = photo beside the text (home page); banner = full-width photo with the title on it" }
               - { name: eyebrow, type: string }
               - { name: title, type: string, required: true }
+              - { name: subtitle, label: Small line under the title (banner only), type: string }
               - { name: text, type: text }
               - { name: image, component: image }
               - { name: imageAlt, label: Image description, type: string }
@@ -252,7 +254,7 @@ content:
               - { name: cta, label: Button, component: link }
           - name: services
             label: Treatment cards
-            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
+            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: body, label: Text above the cards, type: rich-text }, { name: cta, label: Button, component: link }]
           - name: featuredPrices
             label: Most booked prices
             fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: cta, label: Link under the cards, component: link }]
@@ -274,8 +276,15 @@ content:
               - { name: eyebrow, type: string }
               - { name: title, type: string }
               - { name: intro, type: text }
-              - { name: category, type: select, options: { values: [all, general, sugaring, laser, booking, men] } }
+              - { name: category, type: select, options: { values: [all, general, sugaring, laser, booking, men] }, description: "Used only when the list below is empty" }
               - { name: limit, label: How many (empty = all), type: number }
+              - name: items
+                label: Questions written here (instead of the shared FAQ list)
+                type: object
+                list: { collapsible: { collapsed: true, summary: "{question}" } }
+                fields: [{ name: question, type: string, required: true }, { name: answer, type: text, required: true }]
+              - { name: image, label: Photo beside the questions, component: image }
+              - { name: imageAlt, label: Photo description, type: string }
           - name: offers
             label: Current offers
             fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
@@ -300,10 +309,82 @@ content:
             fields: [{ name: title, type: string }, { name: intro, type: text }]
           - name: contact
             label: Contact details and form
-            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }, { name: showForm, label: Show the question form, type: boolean }]
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: title, type: string }
+              - { name: intro, type: text }
+              - { name: showForm, label: Show the question form, type: boolean }
+              - { name: image, label: Photo on the left, component: image }
+              - { name: imageAlt, label: Photo description, type: string }
+              - { name: cards, label: "Show address, phone and email as three cards", type: boolean }
+              - { name: mapLink, label: Show the Google Maps card, type: boolean }
           - name: blogList
             label: Blog posts
-            fields: [{ name: eyebrow, type: string }, { name: title, type: string }, { name: intro, type: text }]
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: title, type: string }
+              - { name: intro, type: text }
+              - { name: limit, label: How many (empty = all), type: number }
+              - { name: posts, label: "Only these posts, in this order (the post address, e.g. is-sugaring-the-same-as-waxing)", type: string, list: true }
+          - name: why
+            label: Why choose us (photo, counter and ticked list)
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: title, type: string }
+              - { name: body, type: rich-text }
+              - { name: image, component: image, required: true }
+              - { name: imageAlt, label: Image description, type: string, required: true }
+              - { name: imageSide, type: select, options: { values: [left, right] } }
+              - name: counter
+                label: Number on the photo (e.g. 10+ Years of Experience)
+                type: object
+                fields: [{ name: value, type: number }, { name: suffix, label: "After the number (e.g. +)", type: string }, { name: label, type: string }]
+              - { name: items, label: Ticked points, type: string, list: true, description: "No claims: nothing about pain, permanence or '100% natural'" }
+              - { name: cta, label: Button, component: link }
+          - name: ticker
+            label: Moving words band
+            fields:
+              - { name: words, type: string, list: { min: 1 }, description: "No claims: nothing about pain, burns or '100% natural'" }
+              - { name: tone, label: Colour, type: select, options: { values: [dark, light] } }
+          - name: cta
+            label: Call to action (photo with a card, or a band)
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: title, type: string }
+              - { name: intro, type: text }
+              - { name: image, label: "Background photo (empty = plain band)", component: image }
+              - { name: imageAlt, label: Photo description, type: string }
+              - { name: cta, label: "Button (link 'whatsapp' opens WhatsApp)", component: link }
+          - name: checklist
+            label: Checklists (before / after treatment)
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: title, type: string }
+              - { name: intro, type: text }
+              - { name: tint, label: Beige background, type: boolean }
+              - name: groups
+                label: Lists
+                type: object
+                list: { collapsible: { collapsed: true, summary: "{title}" } }
+                fields: [{ name: title, type: string }, { name: items, type: string, list: { min: 1 } }]
+          - name: offerTable
+            label: Offer price tables
+            fields:
+              - { name: eyebrow, type: string }
+              - { name: title, type: string }
+              - { name: intro, type: text }
+              - name: tables
+                type: object
+                list: { collapsible: { collapsed: true, summary: "{title}" } }
+                fields:
+                  - { name: title, type: string, required: true }
+                  - { name: column, label: "Small label on the right (e.g. Single)", type: string }
+                  - { name: treatwellServiceId, label: Treatwell ID (TR...), type: string, pattern: "^$|^TR\\d{5,9}$" }
+                  - name: rows
+                    type: object
+                    list: true
+                    fields: [{ name: name, type: string, required: true }, { name: price, label: Price (£), type: number, required: true, description: "Must never be lower than the Treatwell price" }]
+              - { name: cta, label: Link under the tables, component: link }
           - name: statement
             label: Big statement band (burgundy)
             fields:

@@ -1,24 +1,15 @@
 ---
-// The ritual: on desktop the left column stays pinned with one giant numeral that changes as the steps pass;
-// on phones a line down the left fills as you scroll. Everything is CSS; without support the first numeral stays.
-import { md, accent } from '../../lib/content';
+import Head from './Head.astro';
+import { md } from '../../lib/content';
 import { href } from '../../lib/url';
 const { s } = Astro.props;
-const items = s.items.slice(0, 6);
 ---
-<section class="chapter dark ritual" data-tone="plum">
-  <div class="wrap ritual-grid">
-    <div class="ritual-side">
-      {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
-      {s.title && <h2 data-split set:html={accent(s.title)} />}
-      {s.intro && <div class="lede" set:html={md(s.intro)} />}
-      <div class="ritual-nums" aria-hidden="true">{items.map((_: any, i: number) => <span class="ritual-n">{i + 1}</span>)}</div>
-    </div>
-    <div>
-      <ol class="ritual-steps">
-        {items.map((i: any, n: number) => <li style={`view-timeline-name:--s${n + 1}`}><h3 set:html={accent(i.title)} /><div set:html={md(i.text)} /></li>)}
-      </ol>
-      {s.cta && <p class="ritual-cta"><a class="text-link" href={href(s.cta.link)}>{s.cta.label}</a></p>}
-    </div>
+<section class="section tint">
+  <div class="wrap">
+    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
+    <ol class="steps">
+      {s.items.map((i) => <li><h3>{i.title}</h3><div set:html={md(i.text)} /></li>)}
+    </ol>
+    {s.cta && <p style="margin-top:32px"><a class="btn btn-secondary" href={href(s.cta.link)}>{s.cta.label}</a></p>}
   </div>
 </section>

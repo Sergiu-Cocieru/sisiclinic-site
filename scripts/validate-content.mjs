@@ -16,14 +16,14 @@ const BANNED = [
   /\bpermanent(ly)?\b/i, /100% natural/i, /\b0% (risk|burn)/i, /zero risk/i, /no risk/i, /\bno ingrown/i,
   /\bhypoallergenic\b/i, /non[- ]comedogenic/i, /\bguarantee(d)?\b/i, /\bexclusively\b/i, /first and only/i,
   /only (studio|clinic) in/i, /\bsafe for everyone\b/i, /\bcompletely safe\b/i, /\b100% safe\b/i, /(?<!not )\bIPL\b/,
-  /treatwell\.co\.uk\/place/i,
+  /(?<!widget\.)treatwell\.co\.uk\/place/i,
   /\bgentler than\b/i, /\bless painful than\b/i, /\bsafe for all skin/i,
 ];
 const IMG_DIR = join(ROOT, 'src/assets/uploads');
 const imgOk = (p) => typeof p === 'string' && p.startsWith('/src/assets/uploads/') && existsSync(join(IMG_DIR, basename(p)));
 const TW = /^TR\d{5,9}$/;
 const PATH = /^$|^[a-z0-9-]+(\/[a-z0-9-]+)*$/;
-const SECTION_TYPES = ['hero','text','imageText','services','featuredPrices','priceList','features','steps','reviews','faq','offers','team','gallery','treatwell','bookingBand','contact','blogList','visit','statement'];
+const SECTION_TYPES = ['hero','text','imageText','services','featuredPrices','priceList','features','steps','reviews','faq','offers','team','gallery','treatwell','bookingBand','contact','blogList','visit','statement','why','ticker','cta','checklist','offerTable'];
 const PRICE_GROUPS = readdirSync(join(C, 'prices')).filter((f) => f.endsWith('.yml')).map((f) => f.replace(/\.yml$/, ''));
 
 function parse(file) {
@@ -99,7 +99,8 @@ for (const f of targets) {
   if (!parsed) continue;
   checkers[dir]?.(f, parsed);
   // Reviews are shown verbatim (DMCC rules); only the studio's own words are checked for claims.
-  if (!['prices', 'settings', 'reviews'].includes(dir)) claims(f, parsed.raw);
+  // Legal pages use words like "guarantee" in their legal sense; reviews are verbatim (DMCC).
+  if (!['prices', 'settings', 'reviews'].includes(dir) && !/(privacy-policy|terms-conditions)\.md$/.test(f)) claims(f, parsed.raw);
   const p = parsed.data?.path;
   if (typeof p === 'string') { if (paths.has(p)) err(f, `path "/${p}/" also used by ${paths.get(p)}`); paths.set(p, relative(ROOT, f)); }
 }

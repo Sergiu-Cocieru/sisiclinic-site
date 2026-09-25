@@ -1,0 +1,10 @@
+---
+// A band of words that drifts sideways (static and wrapped with reduced motion)
+const { s } = Astro.props;
+const words: string[] = s.words ?? [];
+---
+<section class={`ticker ${s.tone === 'light' ? '' : 'dark'}`} aria-label={words.join(', ')}>
+  <div class="ticker-track" aria-hidden="true">
+    {[0, 1].map(() => <ul>{words.map((w) => <li>{w}</li>)}</ul>)}
+  </div>
+</section>

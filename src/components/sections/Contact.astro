@@ -1,37 +1,69 @@
 ---
 import Head from './Head.astro';
-import { getSite, getHours } from '../../lib/content';
+import Icon from '../Icon.astro';
+import Img from '../Img.astro';
+import { getSite } from '../../lib/content';
 import { asset, href, isPreview } from '../../lib/url';
 const { s } = Astro.props;
 const site = await getSite();
-const hours = await getHours();
 ---
-<section class="chapter" data-tone="cream">
+<section class={`section contact-sec ${s.image ? 'has-photo' : ''}`}>
   <div class="wrap">
+    <div class="contact-wrap">
+    {s.image && <div class="contact-photo reveal"><Img src={s.image} alt={s.imageAlt ?? ''} sizes="(max-width: 860px) 100vw, 40vw" widths={[800, 1200]} /></div>}
+    <div class="contact-body">
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
     <div class="contact-grid">
-      <dl class="info-list">
-        <div><dt>Address</dt><dd>{site.address.building}, {site.address.street}<br />{site.address.city} {site.address.postcode}<br /><a href={site.mapsUrl} target="_blank" rel="noopener">Open in Google Maps</a></dd></div>
-        <div><dt>Phone</dt><dd><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></dd></div>
-        <div><dt>WhatsApp</dt><dd><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener">Message us on WhatsApp</a></dd></div>
-        <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
-      </dl>
+      <div class="contact-info">
+        {!s.cards && (
+          <>
+            <h3>Contact Information</h3>
+            <dl class="info-list">
+              <div><dt>Address</dt><dd><a href={site.mapsUrl} target="_blank" rel="noopener">{site.address.street}, {site.address.building}, {site.address.city}, {site.address.postcode}</a></dd></div>
+              <div><dt>Phone Number</dt><dd><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></dd></div>
+              <div><dt>E-Mail</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+            </dl>
+          </>
+        )}
+        <h3 style={s.cards ? '' : 'margin-top:22px'}>Follow Us</h3>
+        <div class="follow">
+          {site.social.facebook && <a href={site.social.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" size={18} /></a>}
+          {site.social.instagram && <a href={site.social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={18} /></a>}
+          {site.social.tiktok && <a href={site.social.tiktok} target="_blank" rel="noopener" aria-label="TikTok"><Icon name="tiktok" size={18} /></a>}
+        </div>
+        {s.mapLink && (
+          <a class="map-card" href={site.mapsUrl} target="_blank" rel="noopener">
+            <Icon name="pin" size={22} />
+            <span><b>{site.address.building}</b><br />{site.address.street}, {site.address.city} {site.address.postcode}</span>
+            <span class="link-arrow">Open in Google Maps</span>
+          </a>
+        )}
+      </div>
       {s.showForm && (
         <form class="form" id="contact-form" method="post" action={asset('contact.php')} data-contact-form>
-          <h3>Send us a question</h3>
+          <h3>Send us a message</h3>
           <p class="form-note">For bookings, please use <a href={site.treatwell.widgetUrl} target="_blank" rel="noopener">online booking</a>. This form is for questions only. Please don't send medical details here: we'll ask about them at your consultation.</p>
           {isPreview && <p class="notice">This is a preview. The form starts working when the new site goes live.</p>}
           <p class="notice" data-form-error hidden role="alert"></p>
-          <label>Your name<input name="name" required maxlength="80" autocomplete="name" /></label>
-          <label>Email<input name="email" type="email" required maxlength="120" autocomplete="email" /></label>
-          <label>Phone (optional)<input name="phone" type="tel" maxlength="30" autocomplete="tel" /></label>
-          <label>Your question<textarea name="message" required maxlength="2000"></textarea></label>
+          <label>Your Name<input name="name" required maxlength="80" autocomplete="name" /></label>
+          <label>Email Address<input name="email" type="email" required maxlength="120" autocomplete="email" /></label>
+          <label>Phone Number<input name="phone" type="tel" maxlength="30" autocomplete="tel" /></label>
+          <label>Message<textarea name="message" required maxlength="2000"></textarea></label>
           <label class="hp" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label>
           <input type="hidden" name="t" value="" data-ts />
           <p class="form-note">We use your details only to reply. See our <a href={href('privacy-policy')}>privacy policy</a>.</p>
-          <div><button class="btn btn-primary" type="submit" disabled={isPreview}>Send question</button></div>
+          <div><button class="btn btn-primary" type="submit" disabled={isPreview}>Send Message Here</button></div>
         </form>
       )}
+    </div>
+    {s.cards && (
+      <div class="info-cards">
+        <a class="info-card" href={site.mapsUrl} target="_blank" rel="noopener"><span class="ic"><Icon name="pin" size={20} /></span><span><b>Address</b>{site.address.street}, {site.address.building}, {site.address.city}, {site.address.postcode}</span></a>
+        <a class="info-card" href={`tel:${site.phone}`}><span class="ic"><Icon name="phone" size={20} /></span><span><b>Phone Number</b>{site.phoneDisplay}</span></a>
+        <a class="info-card" href={`mailto:${site.email}`}><span class="ic"><Icon name="mail" size={20} /></span><span><b>E-Mail</b>{site.email}</span></a>
+      </div>
+    )}
+    </div>
     </div>
   </div>
 </section>

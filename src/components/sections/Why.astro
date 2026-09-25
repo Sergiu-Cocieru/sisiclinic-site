@@ -1,0 +1,44 @@
+---
+// "Why choose us": photo with a counter, text, and a two-column list of reasons
+import Img from '../Img.astro';
+import Icon from '../Icon.astro';
+import { md, accent } from '../../lib/content';
+import { href, ext } from '../../lib/url';
+const { s } = Astro.props;
+---
+<section class="section why">
+  <div class={`wrap split ${s.imageSide === 'right' ? '' : 'left'}`}>
+    <div class="why-media">
+      <div class="split-media reveal"><Img src={s.image} alt={s.imageAlt} sizes="(max-width: 860px) 100vw, 45vw" widths={[800, 1200]} /></div>
+      {s.counter && (
+        <div class="why-counter" data-count={s.counter.value}>
+          <b class="num"><span data-count-to={s.counter.value}>{s.counter.value}</span>{s.counter.suffix ?? '+'}</b>
+          <span>{s.counter.label}</span>
+        </div>
+      )}
+    </div>
+    <div class="split-copy">
+      {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
+      {s.title && <h2 data-split set:html={accent(s.title)} />}
+      {s.body && <div class="prose" set:html={md(s.body)} />}
+      {s.items?.length > 0 && <ul class="why-list">{s.items.map((i: string) => <li><Icon name="check" size={18} />{i}</li>)}</ul>}
+      {s.cta && <div><a class="btn btn-primary" href={href(s.cta.link)} {...ext(s.cta.link)}>{s.cta.label}</a></div>}
+    </div>
+  </div>
+</section>
+<script>
+  // Counts up once when the number comes into view (the final number is already in the HTML).
+  const els = document.querySelectorAll<HTMLElement>('[data-count-to]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) {
+        io.unobserve(e.target);
+        const el = e.target as HTMLElement; const to = Number(el.dataset.countTo) || 0; const t0 = performance.now();
+        const tick = (t: number) => { const k = Math.min(1, (t - t0) / 1200); el.textContent = String(Math.round(to * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(tick); };
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: .6 });
+    els.forEach((el) => io.observe(el));
+  }
+</script>

@@ -1,17 +1,14 @@
 ---
 // Treatwell booking panel. The iframe loads only after a click: until then no Treatwell cookies or trackers reach this site.
+import Head from './Head.astro';
 import BookButton from '../BookButton.astro';
-import { getSite, accent, md } from '../../lib/content';
+import { getSite } from '../../lib/content';
 const { s } = Astro.props;
 const site = await getSite();
 ---
-<section class="chapter dark" data-tone="deep">
+<section class="section">
   <div class="wrap">
-    <div class="section-head">
-      {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
-      <h2 data-split set:html={accent(s.title ?? 'See free times and *book*')} />
-      {s.intro && <div class="lede" set:html={md(s.intro)} />}
-    </div>
+    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
     <div class="tw-panel" data-tw-panel data-src={site.treatwell.widgetUrl}>
       <div class="btn-row">
         <button type="button" class="btn btn-primary tw-load only-wide" data-tw-load>Show available times here</button>
@@ -19,7 +16,7 @@ const site = await getSite();
         <BookButton label="Open booking in a new tab" variant="ghost" class="only-wide" placement="treatwell-panel-tab" />
       </div>
       <p class="tw-note only-wide">Booking is handled by Treatwell. Showing it on this page loads Treatwell's booking system, which sets its own cookies.</p>
-      <p class="tw-note only-narrow">Opens Treatwell in a new tab · no booking fee.</p>
+      <p class="tw-note only-narrow">Opens Treatwell in a new tab. No booking fee.</p>
       <div data-tw-slot></div>
     </div>
   </div>

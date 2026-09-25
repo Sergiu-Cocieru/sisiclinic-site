@@ -1,0 +1,19 @@
+---
+// Before/after checklists as cards with ticked items
+import Head from './Head.astro';
+import Icon from '../Icon.astro';
+const { s } = Astro.props;
+---
+<section class={`section ${s.tint ? 'tint' : ''}`}>
+  <div class="wrap">
+    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
+    <div class="checklist">
+      {s.groups.map((g: any) => (
+        <div class="check-card">
+          {g.title && <h3>{g.title}</h3>}
+          <ul>{g.items.map((i: string) => <li><Icon name="check" size={18} /><span>{i}</span></li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

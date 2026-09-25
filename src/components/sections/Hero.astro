@@ -1,40 +1,48 @@
 ---
-// Home hero: the result (skin) on the right, the ritual (paste) as a small square that crosses into the next chapter.
 import Img from '../Img.astro';
 import BookButton from '../BookButton.astro';
 import OpenStatus from '../OpenStatus.astro';
 import Icon from '../Icon.astro';
-import { getSite, md, accent, minPrice, money } from '../../lib/content';
-import { href } from '../../lib/url';
+import { getSite, md } from '../../lib/content';
+import { href, ext } from '../../lib/url';
+import { getServices } from '../../lib/content';
 const { s } = Astro.props;
+const chips = Astro.props.first ? (await getServices()).map((sv) => [sv.data.path, sv.data.navLabel]) : [];
 const site = await getSite();
-const from = await minPrice();
 const Tag = Astro.props.first ? 'h1' : 'h2';
+// *word* in a title becomes an italic accent
+const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const title = esc(s.title).replace(/\*([^*]+)\*/g, '<em>$1</em>');
 ---
-<section class="hero-q chapter" data-tone="cream">
-  <div class="bleed hero-q-grid">
-    <div class="hero-q-copy">
+<section class="hero hero-feature">
+  <div class="wrap hero-grid">
+    <div class="hero-media">
+      <div class="arch"><Img src={s.image} alt={s.imageAlt} loading="eager" fetchpriority="high" sizes="(max-width: 860px) 100vw, 45vw" widths={[480, 800, 1200]} /></div>
+      <a class="hero-badge" href={site.treatwell.widgetUrl} target="_blank" rel="noopener" aria-label={`Rated ${site.treatwell.rating.toFixed(1)} from ${site.treatwell.reviewCount} reviews on Treatwell (opens in a new tab)`}>
+        <b>{site.treatwell.rating.toFixed(1)}</b><span class="stars" aria-hidden="true">★★★★★</span><span>{site.treatwell.reviewCount} Treatwell reviews</span>
+      </a>
+    </div>
+    <div class="hero-copy">
       {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
-      <Tag data-split set:html={accent(s.title)} />
+      <Tag data-split set:html={title} />
       {s.text && <div class="lede" set:html={md(s.text)} />}
-      <div class="hero-q-actions" data-hero-cta>
-        {s.primary ? <a class="btn btn-primary" href={href(s.primary.link)}>{s.primary.label}</a> : <BookButton placement="hero" />}
-        {s.secondary
-          ? <a class="text-link" href={href(s.secondary.link)}>{s.secondary.label}</a>
-          : from !== undefined && <a class="text-link" href={href('sugaring-prices-manchester')}>Prices from {money(from)}</a>}
+      <div class="btn-row" data-hero-cta>
+        {s.primary ? <a class="btn btn-primary" href={href(s.primary.link)} {...ext(s.primary.link)}>{s.primary.label}</a> : <BookButton placement="hero" />}
+        {s.secondary && <a class="btn btn-ghost" href={href(s.secondary.link)}>{s.secondary.label}</a>}
       </div>
       {s.showTrust && (
-        <div class="trust-line caps">
-          <span><a href={site.treatwell.widgetUrl} target="_blank" rel="noopener" style="color:inherit;text-decoration:none">{site.treatwell.rating.toFixed(1)} ★ · {site.treatwell.reviewCount} reviews on Treatwell, {site.treatwell.asOf}</a></span>
+        <div class="trust">
           <OpenStatus />
-          <span><Icon name="pin" size={14} />4 min from Piccadilly</span>
+          <span><Icon name="pin" size={16} />4 min from Piccadilly</span>
         </div>
       )}
     </div>
-    <div class="hero-q-media">
-      <div class="hero-q-photo"><Img src={s.image} alt={s.imageAlt} loading="eager" fetchpriority="high" sizes="(max-width: 860px) 100vw, 40vw" widths={[800, 1200, 1600]} /></div>
-      {s.image2 && <div class="ritual-sq"><Img src={s.image2} alt={s.image2Alt} loading="eager" sizes="260px" widths={[260, 520]} /></div>}
-    </div>
   </div>
 </section>
-<script is:inline>window.__split && window.__split(document.querySelector('.hero-q [data-split]'));</script>
+{chips.length > 0 && (
+  <nav class="chips" aria-label="Treatments">
+    {chips.map(([p, l]) => <a href={href(p)}>{l}</a>)}
+    <a href={href('sugaring-prices-manchester')}>All prices</a>
+  </nav>
+)}
+<script is:inline>window.__split && window.__split(document.querySelector('.hero-feature [data-split]'));</script>

@@ -124,6 +124,19 @@ const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
     <Footer />
     <MobileBar />
     <script>
+      // Dots for swipe rails (treatments, reviews)
+      for (const rail of document.querySelectorAll<HTMLElement>('[data-rail]')) {
+        const dots = rail.parentElement?.querySelector<HTMLElement>('[data-dots]');
+        if (!dots) continue;
+        const items = [...rail.children] as HTMLElement[];
+        dots.replaceChildren(...items.map((_, i) => { const b = document.createElement('button'); b.type = 'button'; b.tabIndex = -1; b.addEventListener('click', () => items[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' })); return b; }));
+        const mark = () => {
+          const left = rail.scrollLeft; let best = 0, dist = Infinity;
+          items.forEach((it, i) => { const d = Math.abs(it.offsetLeft - rail.offsetLeft - left - parseFloat(getComputedStyle(rail).paddingLeft || '0')); if (d < dist) { dist = d; best = i; } });
+          [...dots.children].forEach((d, i) => d.setAttribute('aria-current', String(i === best)));
+        };
+        mark(); rail.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true });
+      }
       // Word masks on every marked heading; the hero's own heading was split inline, before first paint.
       document.querySelectorAll<HTMLElement>('[data-split]').forEach((h) => (window as any).__split(h));
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -148,8 +161,10 @@ const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
           band = new IntersectionObserver((entries) => {
             for (const e of entries) e.isIntersecting ? under.add(e.target) : under.delete(e.target);
             document.documentElement.classList.toggle('hdr-dark', under.size > 0);
+            const top = [...under].pop();
+            if (top) document.documentElement.style.setProperty('--hdr-bg', getComputedStyle(top).backgroundColor);
           }, { rootMargin: `0px 0px ${-(window.innerHeight - header.offsetHeight)}px 0px`, threshold: 0 });
-          document.querySelectorAll('.chapter.dark, .site-footer').forEach((s) => band!.observe(s));
+          document.querySelectorAll('.statement, .reviews-band, .section.dark, .ticker.dark, .site-footer').forEach((s) => band!.observe(s));
         };
         setup(); wide.addEventListener('change', setup);
         addEventListener('resize', () => { clearTimeout(timer); timer = window.setTimeout(setup, 150); });

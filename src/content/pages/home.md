@@ -3,91 +3,100 @@ title: Home
 path: ""
 seo:
   title: Sugaring Hair Removal in Manchester City Centre | SISI Clinic
-  description: Sugaring hair removal for women and men in Manchester city centre, plus laser hair removal. A calm private studio four minutes from Piccadilly. Rated 5.0 on Treatwell.
+  description: Sugaring hair removal in Manchester at SISI Clinic. A gentle, natural alternative to waxing for smooth, radiant skin, four minutes from Piccadilly.
 sections:
   - type: hero
-    eyebrow: Sugaring studio · Manchester M1
-    title: "Sugaring hair removal in Manchester, the *calm* way."
-    text: Warm sugar paste, a private room and one therapist who takes her time. Four minutes from Piccadilly.
-    image: /src/assets/uploads/client-neckline-hero.jpg
-    imageAlt: Smooth skin at the neck and shoulder, a thin gold chain and a white top
-    image2: /src/assets/uploads/sugaring-paste-hand.jpg
-    image2Alt: A gloved hand holding a ball of golden sugar paste against the skin
+    eyebrow: The Art of Sugaring in Manchester
+    title: "Sugaring Hair Removal in *Manchester*"
+    text: At SISI Clinic, **sugaring hair removal** is more than a treatment — it’s a gentle, natural ritual designed to care for your skin while delivering beautifully smooth results. Discover a new level of self-assurance, a feeling of empowerment that truly redefines your personal beauty.
+    image: /src/assets/uploads/woman-hands-face.png
+    imageAlt: Woman with smooth skin touching her face
+    primary:
+      label: Book Free Consultation
+      link: https://widget.treatwell.co.uk/place/sisi-clinic/?serviceIds=TR4725166
     showTrust: true
-  - type: statement
-    eyebrow: What's in the paste
-    words:
-      - Sugar.
-      - Water.
-      - Lemon.
-    line: That's the whole paste. Warm, never hot.
-    image: /src/assets/uploads/sugaring-arm-treatment.jpg
-    imageAlt: Gloved hands working golden sugar paste along a forearm
-    items:
-      - title: A private room, door closed
-        text: Disposable underwear if you want it. We go at your pace.
-      - title: Honest about how it feels
-        text: It stings for a second with each flick. Most clients tell us it was easier than they feared.
-      - title: Smooth for weeks
-        text: Hair comes out from the root, so results usually last three to five weeks.
-    cta:
-      label: Your first visit, step by step
-      link: first-visit
-  - type: services
-    eyebrow: Treatments
-    title: What we *do*
-    intro: Sugaring for every area, for women and men, plus laser hair removal for longer-term reduction.
-  - type: featuredPrices
-    eyebrow: Most booked
-    title: The same prices as on *Treatwell*.
-    intro: No booking fees. Each row opens that treatment on Treatwell.
-    cta:
-      label: All prices
-      link: sugaring-prices-manchester
-  - type: steps
-    eyebrow: Your first visit
-    title: Nervous about your first time? That's *normal*.
-    intro: Most of our clients were once first-timers. Here is what happens.
-    items:
-      - title: Grow it
-        text: Let the hair grow to about 5 mm, roughly two weeks after shaving. Skip moisturiser on the day.
-      - title: Book online
-        text: Choose your treatment and a time that suits you. Evenings until 8pm on weekdays.
-      - title: A quick chat
-        text: We ask about your skin and any medication, explain each step and answer your questions.
-      - title: Smooth and cared for
-        text: The treatment itself takes 15 to 60 minutes. You leave with simple aftercare advice.
-    cta:
-      label: Read the first-visit guide
-      link: first-visit
   - type: imageText
-    eyebrow: About SISI
-    title: A private studio, not a busy *salon*
+    eyebrow: About Us
+    title: "Welcome to SISI Clinic, a Manchester studio dedicated to sugaring hair removal — a natural, gentle, and *skin-loving* alternative to waxing."
     body: |
-      SISI Clinic is a small sugaring studio in St James Tower, in the centre of Manchester. You are looked after by an experienced therapist in a quiet room, with single-use tools and fresh disposable gloves for every client.
+      At SISI, we believe that beauty rituals should be sacred — not rushed, not harsh, but deeply caring. Each treatment is an invitation to slow down, reconnect with your body, and embrace the confidence that comes from feeling smooth, radiant, and at ease in your own skin.
 
-      We welcome women and men, first-timers and regulars. We speak English, Romanian and Russian.
-    image: /src/assets/uploads/therapist-with-paste.jpg
-    imageAlt: Alina, the SISI Clinic therapist, holding a jar of golden sugar paste in the studio
-    imageSide: left
-    quote: You are in a private room, door closed. We go at your pace.
-    quoteBy: Alina · therapist and owner
+      We believe that every woman deserves to feel beautiful, no matter what. If having smooth, hair free skin makes you feel more confident and beautiful, we are here to help you achieve that. Removing hair doesn’t have to be something you do for ‘beauty standards’. It’s something you can do for you, to feel more confident in yourself!
+
+      - NATURAL INGREDIENTS
+      - LESS IRRITATION, MORE GLOW
+      - KIND TO SENSITIVE SKIN
+    image: /src/assets/uploads/two-women-torsos.jpg
+    imageAlt: Two women in nude underwear with smooth skin
+    imageSide: right
     cta:
-      label: Meet Alina
-      link: sugaring-hair-removal-manchester-clinic
+      label: Learn More
+      link: sugaring-hair-removal
+  - type: services
+    eyebrow: Your Path to Radiance
+    title: "The Softest Touch in *Hair Removal*"
+    intro: Sugaring is more than a beauty treatment — it’s a return to simplicity.
+    body: |
+      **Sugaring Hair Removal.** Sugaring is a rising star in the world of hair removal. Using just three ingredients; water, sugar and lemon, sugaring paste removes hair in the natural direction of growth, leaving you with smooth, hair free skin. Suitable for most skin types and all areas of the body, with results lasting up to 5 weeks. Unlike traditional waxing, sugaring is not hot and is kind to the skin — it simply leaves you with the kind of softness you can’t stop touching.
+    cta:
+      label: Book Now
+      link: https://widget.treatwell.co.uk/place/sisi-clinic/
+  - type: why
+    eyebrow: Why Choose Us
+    title: "Because Beauty Should Feel *Peaceful*"
+    body: |
+      We’ve reimagined hair removal as a ritual — quiet, minimal, and deeply feminine. Our studio in central Manchester was designed to feel like a breath of calm: warm light, clean lines, and an energy that invites you to pause. From your first consultation to your final touch of post-care balm, every detail is curated to make you feel comfortable, confident, and cared for.
+
+      Our certified hair removal specialists bring their expertise and dedication to every treatment, ensuring that you receive exceptional care and outstanding results each time you visit our Manchester clinic.
+    image: /src/assets/uploads/two-women-laughing.jpg
+    imageAlt: Two smiling women in underwear against a beige backdrop
+    imageSide: left
+    counter:
+      value: 10
+      suffix: "+"
+      label: Years of Experience
+    items:
+      - Professional, highly experienced therapists
+      - Results that speak for themselves
+      - Free consultation before any treatment
+      - Welcoming, safe, and supportive atmosphere
+      - Comfortable, friendly, and positive
+      - Nonjudgmental environment
+      - High standard of hygiene
+      - Only disposable tools
   - type: reviews
-    eyebrow: Reviews
-    title: What our clients *say*
-    limit: 6
-  - type: faq
-    eyebrow: Questions
-    title: Before you *book*
-    category: general
-    limit: 4
-  - type: visit
-    eyebrow: Find us
-    title: Four minutes from *Piccadilly*.
-  - type: bookingBand
-    title: Smooth skin, *calmly* done.
-    intro: Choose a time online in about a minute. Questions first? Message us on WhatsApp.
+    eyebrow: Our Testimonial
+    title: "What They Say *About Us*"
+    intro: We take pride in delivering personalized care that leaves our clients feeling confident and radiant. Our expert approach, combined with advanced treatments, ensures you receive exceptional results every time you visit our clinic.
+    limit: 10
+  - type: contact
+    title: "Ready to Meet the Softest Version of Yourself? Book Your Appointment *Now!*"
+    intro: We would love to hear from you! Whether you have a question, feedback, or would like to schedule an appointment, our friendly team is here to assist you. Feel free to get in touch with us!
+    image: /src/assets/uploads/three-women-contact.jpg
+    imageAlt: Three smiling women with smooth, glowing skin
+    showForm: true
+  - type: ticker
+    words:
+      - SUGARING HAIR REMOVAL
+      - NATURAL INGREDIENTS
+      - LESS IRRITATION
+      - WARM, NEVER HOT
+      - KIND TO SENSITIVE SKIN
+      - GENTLE EXFOLIATION
+  - type: cta
+    title: "Discover why our clients love SISI Clinic for sugaring in *Manchester*."
+    intro: SISI Clinic invites you to experience Manchester’s most refined approach to hair removal — natural, effective, and beautifully kind to your skin. Your body deserves softness. Your skin deserves care. You deserve SISI Clinic.
+    image: /src/assets/uploads/sugaring-arm-treatment.jpg
+    imageAlt: Therapist applying sugar paste to a leg
+    cta:
+      label: Chat With Us
+      link: whatsapp
+  - type: blogList
+    eyebrow: Articles & News
+    title: "Insights & Inspiration from the World of *Beauty*"
+    limit: 3
+    posts:
+      - sugaring-hair-removal-ingrown-hairs
+      - is-sugaring-the-same-as-waxing
+      - sugar-waxing-a-history
 ---

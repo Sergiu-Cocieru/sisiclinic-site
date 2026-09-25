@@ -1,24 +1,20 @@
 ---
-import Img from '../Img.astro';
 import { md } from '../../lib/content';
 import { href } from '../../lib/url';
 const { s } = Astro.props;
 ---
-<section class="chapter dark statement" data-tone="burgundy">
-  <div class="wrap">
-    <div class="statement-grid">
-      <div>
-        {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
-        <p class="words" role="heading" aria-level="2">{s.words.map((w: string) => <span>{w}</span>)}</p>
-        {s.line && <p class="statement-line">{s.line}</p>}
-        {s.items.length > 0 && (
-          <ul class="facts">
-            {s.items.map((i: any) => <li><b>{i.title}</b><span set:html={md(i.text)} /></li>)}
-          </ul>
-        )}
-        {s.cta && <p class="statement-cta"><a class="text-link" href={href(s.cta.link)}>{s.cta.label}</a></p>}
-      </div>
-      {s.image && <div class="statement-photo reveal"><Img src={s.image} alt={s.imageAlt} sizes="(max-width: 860px) 100vw, 40vw" widths={[800, 1200]} /></div>}
+<section class="statement">
+  <div class="wrap statement-grid">
+    <div class="statement-words">
+      {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
+      <p class="words" role="heading" aria-level="2">{s.words.map((w: string) => <span>{w}</span>)}</p>
+      {s.line && <p class="statement-line">{s.line}</p>}
     </div>
+    {s.items.length > 0 && (
+      <ul class="statement-items">
+        {s.items.map((i: any) => <li><b>{i.title}</b><span set:html={md(i.text)} /></li>)}
+      </ul>
+    )}
+    {s.cta && <a class="btn btn-secondary statement-cta" href={href(s.cta.link)}>{s.cta.label}</a>}
   </div>
 </section>

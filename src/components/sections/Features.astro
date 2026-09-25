@@ -1,13 +1,13 @@
 ---
 import Head from './Head.astro';
-import { md, accent } from '../../lib/content';
+import { md } from '../../lib/content';
 const { s } = Astro.props;
 ---
-<section class="chapter" data-tone="cream">
+<section class="section">
   <div class="wrap">
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
     <div class="features">
-      {s.items.map((i) => <div class="feature"><h3 set:html={accent(i.title)} /><div set:html={md(i.text)} /></div>)}
+      {s.items.map((i) => <div class="feature"><h3>{i.title}</h3><div set:html={md(i.text)} /></div>)}
     </div>
   </div>
 </section>

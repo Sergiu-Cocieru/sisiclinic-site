@@ -4,14 +4,16 @@ import { getSite, md, accent, waLink } from '../../lib/content';
 const { s } = Astro.props;
 const site = await getSite();
 ---
-<section class="chapter dark band-q" data-tone="burgundy">
-  <div class="wrap band-inner">
-    <h2 data-split set:html={accent(s.title ?? 'Smooth skin, *calmly* done.')} />
-    <div class="band-side">
-      {s.intro && <div class="lede" set:html={md(s.intro)} />}
+<section class="section">
+  <div class="wrap">
+    <div class="band">
+      <div style="display:grid;gap:10px">
+        <h2 data-split set:html={accent(s.title ?? 'Ready when you are')} />
+        {s.intro && <div set:html={md(s.intro)} />}
+      </div>
       <div class="btn-row" data-band-cta>
         <BookButton placement="band" />
-        <a class="btn btn-ghost" href={waLink(site.whatsapp, s.whatsappText ?? 'Hi SISI Clinic, I have a question about an appointment.')} target="_blank" rel="noopener">Ask on WhatsApp</a>
+        <a class="btn btn-ghost" href={waLink(site.whatsapp, 'Hi SISI Clinic, I have a question about an appointment.')} target="_blank" rel="noopener">Ask on WhatsApp</a>
       </div>
     </div>
   </div>

@@ -4,19 +4,23 @@ import Img from '../Img.astro';
 import { getPosts, fmtDate } from '../../lib/content';
 import { href } from '../../lib/url';
 const { s } = Astro.props;
-const posts = await getPosts();
+const all = await getPosts();
+const chosen = s.posts?.length ? s.posts.map((p: string) => all.find((x) => x.data.path === p)).filter(Boolean) : all;
+const posts = chosen.slice(0, s.limit ?? 99);
 ---
-<section class="chapter" data-tone="cream">
+<section class="section">
   <div class="wrap">
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
-    <div class="cards">
+    <div class="grid-3">
       {posts.map((p) => (
-        <article class="post">
-          <a class="tile-media reveal" href={href(p.data.path)} tabindex="-1" aria-hidden="true"><Img src={p.data.image} alt={p.data.imageAlt} sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 33vw" /></a>
-          <div class="post-meta caps"><time datetime={p.data.date.toISOString()}>{fmtDate(p.data.updated ?? p.data.date)}</time></div>
-          <h3><a href={href(p.data.path)}>{p.data.title}</a></h3>
-          <p>{p.data.excerpt}</p>
-          <a class="text-link" href={href(p.data.path)}>Read<span class="sr-only"> {p.data.title}</span></a>
+        <article class="card post-card">
+          <a class="card-media reveal" href={href(p.data.path)} tabindex="-1" aria-hidden="true"><Img src={p.data.image} alt={p.data.imageAlt} sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 33vw" /></a>
+          <div class="card-body">
+            <div class="post-meta"><time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time></div>
+            <h3><a href={href(p.data.path)} style="color:inherit;text-decoration:none">{p.data.title}</a></h3>
+            <p>{p.data.excerpt}</p>
+            <a class="link-arrow" href={href(p.data.path)}>Read<span class="sr-only"> {p.data.title}</span></a>
+          </div>
         </article>
       ))}
     </div>

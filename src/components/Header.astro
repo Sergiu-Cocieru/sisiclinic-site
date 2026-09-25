@@ -7,16 +7,15 @@ import { getSite } from '../lib/content';
 const site = await getSite();
 const current = Astro.url.pathname;
 const nav = [
+  ['', 'Home'],
+  ['sugaring-hair-removal-manchester-clinic', 'About us'],
   ['sugaring-hair-removal', 'Sugaring'],
-  ['laser-hair-removal', 'Laser'],
-  ['sugaring-prices-manchester', 'Prices'],
-  ['first-visit', 'First visit'],
-  ['offer-sugaring-hair-removal-service', 'Offers'],
-  ['sugaring-hair-removal-manchester-clinic', 'About'],
+  ['sugaring-prices-manchester', 'Pricing'],
+  ['offer-sugaring-hair-removal-service', 'Offer'],
   ['blog', 'Blog'],
   ['contact', 'Contact'],
 ];
-const isCurrent = (p: string) => current === `${import.meta.env.BASE_URL}${p}/` || current.startsWith(`${import.meta.env.BASE_URL}${p}/`);
+const isCurrent = (p: string) => p === '' ? current === import.meta.env.BASE_URL : current === `${import.meta.env.BASE_URL}${p}/` || current.startsWith(`${import.meta.env.BASE_URL}${p}/`);
 const ann = site.announcement;
 ---
 {ann?.active && ann.text && (
@@ -28,7 +27,8 @@ const ann = site.announcement;
     <nav class="nav" aria-label="Main">
       {nav.map(([p, l]) => <a href={href(p)} aria-current={isCurrent(p) ? 'page' : undefined}>{l}</a>)}
     </nav>
-    <BookButton class="header-book" size="small" placement="header" />
+    <a class="header-call" href={`tel:${site.phone}`} aria-label={`Call ${site.phoneDisplay}`}><Icon name="phone" size={18} /></a>
+    <BookButton class="header-book" size="small" label="Book Now" placement="header" />
     <button class="menu-btn" type="button" aria-label="Open menu" aria-haspopup="dialog" data-menu-open><Icon name="menu" size={26} /></button>
   </div>
 </header>
@@ -38,8 +38,7 @@ const ann = site.announcement;
     <button class="menu-btn" type="button" aria-label="Close menu" data-menu-close><Icon name="close" size={26} /></button>
   </div>
   <nav class="menu-links" aria-label="Mobile">
-    <a href={href('')} style="--i:0">Home</a>
-    {nav.map(([p, l], i) => <a href={href(p)} style={`--i:${i + 1}`} aria-current={isCurrent(p) ? 'page' : undefined}>{l}</a>)}
+    {nav.map(([p, l], i) => <a href={href(p)} style={`--i:${i}`} aria-current={isCurrent(p) ? 'page' : undefined}>{l}</a>)}
   </nav>
   <div class="menu-foot">
     <OpenStatus />

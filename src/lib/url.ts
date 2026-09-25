@@ -18,3 +18,8 @@ export function treatwellUrl(widgetUrl: string, serviceId?: string): string {
 }
 
 export const isPreview = import.meta.env.PUBLIC_PREVIEW === '1';
+
+// External links (Treatwell, WhatsApp) open in a new tab; internal ones stay in the page.
+export function ext(link?: string): { target?: string; rel?: string } {
+  return link && /^https?:/.test(link) ? { target: '_blank', rel: 'noopener' } : {};
+}

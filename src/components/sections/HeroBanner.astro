@@ -1,0 +1,24 @@
+---
+// Inner-page banner like the original site: a full-width photo, the page title and a short line on top of it.
+import Img from '../Img.astro';
+import { md, accent } from '../../lib/content';
+import { href, ext } from '../../lib/url';
+const { s } = Astro.props;
+const Tag = Astro.props.first ? 'h1' : 'h2';
+---
+<section class="banner">
+  <div class="banner-media">{s.image && <Img src={s.image} alt={s.imageAlt ?? ''} loading="eager" fetchpriority="high" sizes="100vw" widths={[800, 1200, 1600, 2400]} />}</div>
+  <div class="wrap banner-copy">
+    {s.eyebrow && <span class="eyebrow">{s.eyebrow}</span>}
+    <Tag data-split set:html={accent(s.title)} />
+    {s.subtitle && <p class="banner-sub">{s.subtitle}</p>}
+    {s.text && <div class="lede" set:html={md(s.text)} />}
+    {(s.primary || s.secondary) && (
+      <div class="btn-row" data-hero-cta>
+        {s.primary && <a class="btn btn-primary" href={href(s.primary.link)} {...ext(s.primary.link)}>{s.primary.label}</a>}
+        {s.secondary && <a class="btn btn-ghost" href={href(s.secondary.link)}>{s.secondary.label}</a>}
+      </div>
+    )}
+  </div>
+</section>
+<script is:inline>window.__split && window.__split(document.querySelector('.banner [data-split]'));</script>

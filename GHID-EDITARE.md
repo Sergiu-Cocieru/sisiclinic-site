@@ -15,7 +15,13 @@ rămâne online versiunea bună. Mesajul de eroare îl vezi la butonul **Publish
   decât pe Treatwell. Schimbi întâi pe Treatwell, apoi aici, în aceeași zi.
   Bifa „Show on the homepage” pune tratamentul la „Most booked”.
 - **Treatments**: paginile de sugaring și laser (texte, pași, pregătire, îngrijire).
-- **Pages**: celelalte pagini, construite din secțiuni (Add section).
+- **Pages**: celelalte pagini, construite din secțiuni (Add section). Cele folosite acum:
+  „Top banner with photo” (stilul *banner* = poză pe toată lățimea, cu titlul pe ea),
+  „Photo and text”, „Why choose us” (poză cu cifra 10+ și listă bifată), „Checklists”,
+  „Questions”, „Reviews”, „Moving words band”, „Call to action”, „Offer price tables”,
+  „Contact details and form”, „Blog posts”. Un cuvânt pus între steluțe în titlu (*Manchester*)
+  apare în italic, în altă culoare. Prețurile din „Offer price tables” respectă aceeași regulă
+  Treatwell ca la Prices.
 - **Offers**: oferte cu dată de început și de sfârșit. Apar și dispar singure.
   O ofertă mai ieftină decât pe Treatwell e permisă doar dacă bifezi „Studio only”.
 - **Reviews**: recenzii Google copiate exact cum sunt scrise. Adaugă lunar cele mai noi,

@@ -3,11 +3,11 @@ import Head from './Head.astro';
 import Img from '../Img.astro';
 const { s } = Astro.props;
 ---
-<section class="chapter" data-tone="cream">
+<section class="section">
   <div class="wrap">
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
-    <div class="cards">
-      {s.images.map((g) => <div class="tile-media reveal"><Img src={g.image} alt={g.alt} sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 33vw" /></div>)}
-    </div>
+    {s.images.length === 1
+      ? <div class="gallery-one reveal"><Img src={s.images[0].image} alt={s.images[0].alt} sizes="(max-width: 1100px) 100vw, 1040px" widths={[800, 1200, 1600]} /></div>
+      : <div class="grid-3">{s.images.map((g) => <div class="card-media reveal" style="border-radius:var(--radius)"><Img src={g.image} alt={g.alt} sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 33vw" /></div>)}</div>}
   </div>
 </section>

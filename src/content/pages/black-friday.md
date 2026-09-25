@@ -3,24 +3,18 @@ title: "Black Friday at SISI Clinic, *Manchester*"
 path: black-friday-laser-hair-removal-sugaring-offers
 seo:
   title: "Black Friday Sugaring & Laser Offers, Manchester | SISI Clinic"
-  description: Black Friday sugaring and laser offers at SISI Clinic in Manchester city centre appear on this page when we run them. Until then, save with our packages.
+  description: Black Friday sugaring and laser hair removal offers at SISI Clinic in Manchester city centre. See our current prices and book online.
 sections:
-  - type: text
-    eyebrow: Seasonal offers
-    title: Black Friday sugaring and laser offers
-    body: |
-      When we run Black Friday offers, we publish them on this page in November, with their dates and terms. Until then, our [packages and courses](/offer-sugaring-hair-removal-service/) are the easiest way to save all year round.
-
-      Thinking of a laser offer? Book your free consultation and patch test early. It needs to be at least 24 hours before your first laser session, and laser is for clients aged 18 and over. Most people need a course of 6 to 10 sessions, 4 to 6 weeks apart.
-  - type: offers
-    eyebrow: Offers
-    title: Current offers
-  - type: priceList
-    eyebrow: Available all year
-    title: Sugaring and laser packages
-    intro: The same prices as on our online booking page.
-    groups: [sugaring-packages, laser-packages]
-  - type: bookingBand
-    title: Book your appointment
-    intro: Choose a treatment and a time online. Questions first? Message us on WhatsApp.
+  - type: gallery
+    title: "Black Friday *offers*"
+    intro: This Black Friday offer ran in November 2023 and has now ended. See our current prices and packages below.
+    images:
+      - image: /src/assets/uploads/black-friday-2023.jpg
+        alt: "Black Friday 2023 offers: up to 50% off laser hair removal courses of 6 sessions and up to 40% off sugaring packages"
+  - type: cta
+    title: "Book *Now*"
+    intro: See today's prices and free times on Treatwell.
+    cta:
+      label: BOOK NOW
+      link: https://widget.treatwell.co.uk/place/sisi-clinic/
 ---

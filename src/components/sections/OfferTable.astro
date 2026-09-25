@@ -1,0 +1,34 @@
+---
+// Offer tables shown as menu rows (name, dotted leader, price); each row opens Treatwell
+import Head from './Head.astro';
+import Icon from '../Icon.astro';
+import { getSite, money } from '../../lib/content';
+import { treatwellUrl, href } from '../../lib/url';
+const { s } = Astro.props;
+const site = await getSite();
+---
+<section class="section">
+  <div class="wrap">
+    <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
+    <div class="offer-tables">
+      {s.tables.map((t: any) => (
+        <div class="offer-table">
+          <div class="offer-head"><h3>{t.title}</h3>{t.column && <span class="offer-col">{t.column}</span>}</div>
+          <ul class="menu-list">
+            {t.rows.map((r: any) => (
+              <li>
+                <a href={treatwellUrl(site.treatwell.widgetUrl, t.treatwellServiceId)} target="_blank" rel="noopener" data-book="offers" aria-label={`${r.name}, ${money(r.price)}. Book on Treatwell (opens in a new tab)`}>
+                  <span class="ml-name">{r.name}</span>
+                  <span class="ml-dots" aria-hidden="true"></span>
+                  <span class="ml-price num">{money(r.price)}</span>
+                  <Icon name="external" size={16} class="ml-go" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    {s.cta && <p class="menu-list-more"><a class="link-arrow" href={href(s.cta.link)}>{s.cta.label}</a></p>}
+  </div>
+</section>

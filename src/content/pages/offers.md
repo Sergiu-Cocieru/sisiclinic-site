@@ -1,33 +1,35 @@
 ---
-title: "Offers and packages in *Manchester*"
+title: "Offers"
 path: offer-sugaring-hair-removal-service
 seo:
-  title: Sugaring Offers & Packages Manchester | SISI Clinic
-  description: Sugaring and laser packages at SISI Clinic in Manchester city centre. Bikini and underarms £50, Hollywood course of 3 £108, laser packages from £69.
+  title: "Sugaring Offers & Packages Manchester | SISI Clinic"
+  description: Sugaring hair removal offers at SISI Clinic in Manchester city centre. Bikini, underarm and leg packages for women, back and chest packages for men.
 sections:
-  - type: text
-    eyebrow: Packages and courses
-    title: The simplest way to save
-    body: |
-      Our packages combine popular areas in one appointment at a set price, and our courses let you book several visits together. They are the same prices as on our online booking page.
-
-      Some examples at current prices:
-
-      - **Hollywood or Brazilian, course of 3:** £108, which works out at £36 a visit instead of £40.
-      - **Hollywood or Brazilian with underarms:** £50 as a package, instead of £55 booked separately.
-      - **Men's full back and shoulders:** £80, instead of £105 booked separately.
-
-      Laser packages start at £69. For laser (not IPL), your first step is a free consultation and patch test, at least 24 hours before your first session. Laser is for clients aged 18 and over. See the full [price list](/sugaring-prices-manchester/) for every single area.
-  - type: offers
-    eyebrow: Current offers
-    title: Limited-time offers
-    intro: When we run a limited-time offer, you will find it here with its dates and terms.
-  - type: priceList
-    eyebrow: Price list
-    title: Packages and courses
-    intro: Each Book button opens that group of treatments on our booking page.
-    groups: [sugaring-packages, mens-sugaring-packages, laser-packages]
-  - type: bookingBand
-    title: Book a package
-    intro: Choose your package and a time online. Questions first? Message us on WhatsApp.
+  - type: hero
+    variant: banner
+    title: "*Offers*"
+    subtitle: Hair Removal Service
+    image: /src/assets/uploads/two-women-laughing.jpg
+    imageAlt: Two smiling women in underwear against a beige backdrop
+  - type: offerTable
+    title: "Sugaring hair removal *offers*"
+    tables:
+      - title: Ladies sugaring hair removal offers
+        column: Single
+        treatwellServiceId: TR4725291
+        rows:
+          - { name: "Any Bikini + Under Arms", price: 50 }
+          - { name: "Any Bikini + Under Arms + Half Legs", price: 75 }
+          - { name: "Any Bikini + Under Arms + Full Legs", price: 99 }
+          - { name: "Full Body", price: 165 }
+      - title: Men sugaring hair removal offers
+        column: Single
+        treatwellServiceId: TR4725456
+        rows:
+          - { name: "Back + Shoulders", price: 80 }
+          - { name: "Chest + Abdomen", price: 80 }
+          - { name: "Full Back + Full Torso", price: 150 }
+    cta:
+      label: See the full price list
+      link: sugaring-prices-manchester
 ---

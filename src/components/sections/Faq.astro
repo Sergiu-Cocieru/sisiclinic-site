@@ -1,21 +1,26 @@
 ---
 import Head from './Head.astro';
+import Img from '../Img.astro';
 import { getFaqs, md } from '../../lib/content';
 const { s } = Astro.props;
-let faqs = await getFaqs(s.category);
+let faqs: { q: string; a: string }[] = s.items?.length
+  ? s.items.map((i: any) => ({ q: i.question, a: i.answer }))
+  : (await getFaqs(s.category)).map((f) => ({ q: f.data.question, a: f.data.answer }));
 if (s.limit) faqs = faqs.slice(0, s.limit);
-const group = `faq-${s.category ?? 'all'}-${s.title ?? ''}`.replace(/[^a-z0-9-]/gi, '');
 ---
-<section class="chapter" data-tone="cream">
-  <div class="wrap">
+<section class="section">
+  <div class={`wrap ${s.image ? 'faq-split' : ''}`}>
+    <div>
     <Head eyebrow={s.eyebrow} title={s.title} intro={s.intro} />
-    <div class="faq-list">
+    <div class="faq">
       {faqs.map((f) => (
-        <details class="faq-q" name={group}>
-          <summary>{f.data.question}<span class="plus" aria-hidden="true"></span></summary>
-          <div class="faq-a prose" set:html={md(f.data.answer)} />
+        <details name={`faq-${s.category ?? 'all'}-${s.title ?? ''}`.replace(/[^a-z0-9-]/gi, '')}>
+          <summary>{f.q}</summary>
+          <div class="answer prose" set:html={md(f.a)} />
         </details>
       ))}
     </div>
+    </div>
+    {s.image && <div class="split-media faq-media reveal"><Img src={s.image} alt={s.imageAlt ?? ''} sizes="(max-width: 860px) 100vw, 40vw" widths={[800, 1200]} /></div>}
   </div>
 </section>
