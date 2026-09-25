@@ -194,6 +194,7 @@ content:
       - { name: imageAlt, label: Image description, type: string, required: true }
       - { name: order, type: number }
       - { name: treatwellServiceId, label: Treatwell ID (TR...), type: string, pattern: "^$|^TR\\d{5,9}$" }
+      - { name: fromPrice, label: "\"From\" price shown on the treatment card (£)", type: number }
       - { name: priceGroups, label: Price groups shown, type: string, list: true }
       - { name: whoFor, label: Who it's for, type: rich-text }
       - { name: steps, label: What happens, component: item }

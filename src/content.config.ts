@@ -118,6 +118,7 @@ const services = defineCollection({
     order: z.number(),
     treatwellServiceId: treatwellId,
     priceGroups: z.array(z.string()).optional().default([]),
+    fromPrice: z.number().optional().nullable().transform((v) => v ?? undefined),
     whoFor: optionalText,
     steps: z.array(z.object({ title: z.string(), text: z.string() })).optional().default([]),
     feel: optionalText,

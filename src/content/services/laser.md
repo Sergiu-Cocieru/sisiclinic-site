@@ -7,6 +7,7 @@ image: /src/assets/uploads/laser-therapist-underarm.jpg
 imageAlt: Therapist using a laser hair removal device on a client's underarm, both wearing protective glasses
 order: 5
 treatwellServiceId: TR5224392
+fromPrice: 19
 priceGroups: [laser-packages, laser-body, laser-face, consultation]
 whoFor: |
   Anyone who wants to shave or sugar less often over time. Results depend on your skin tone and hair colour, so everyone starts with a **free consultation and patch test** at least 24 hours before the first session.

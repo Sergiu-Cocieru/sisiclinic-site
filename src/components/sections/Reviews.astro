@@ -14,7 +14,7 @@ const reviews = (await getReviews()).slice(0, s.limit ?? 6);
       <span class="stars" aria-hidden="true">★★★★★</span>
       <span>from {site.treatwell.reviewCount} reviews on Treatwell ({site.treatwell.asOf}). <a href={site.treatwell.widgetUrl} target="_blank" rel="noopener">Read them on Treatwell</a></span>
     </div>
-    <div class="grid-3">
+    <div class="grid-3 reviews-grid">
       {reviews.map((r) => (
         <figure class="review">
           <span class="stars" aria-label={`${r.data.rating} out of 5`}>{'★'.repeat(r.data.rating)}</span>
@@ -23,6 +23,7 @@ const reviews = (await getReviews()).slice(0, s.limit ?? 6);
         </figure>
       ))}
     </div>
+    <p class="swipe-hint" aria-hidden="true">Swipe for more reviews →</p>
     <p class="small muted" style="margin-top:18px">We show the most recent reviews, whatever the rating. <a href={href('review-policy')}>How we handle reviews</a>.</p>
   </div>
 </section>

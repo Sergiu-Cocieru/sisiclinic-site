@@ -7,6 +7,7 @@ image: /src/assets/uploads/sugaring-bikini-line.jpg
 imageAlt: Client lying on a treatment bed during bikini-line sugaring
 order: 1
 treatwellServiceId: TR4725291
+fromPrice: 27
 priceGroups: [sugaring-packages, sugaring-body]
 whoFor: |
   Anyone who wants smooth skin in the bikini area without shaving rash, including first-timers. **Hollywood** removes all the hair. **Brazilian** leaves a small strip at the front. **Bikini line** tidies the edges that show outside your underwear.

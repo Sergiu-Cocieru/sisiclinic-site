@@ -7,6 +7,7 @@ image: /src/assets/uploads/client-portrait-side.jpg
 imageAlt: Client with smooth skin looking over her shoulder
 order: 3
 treatwellServiceId: TR4725337
+fromPrice: 15
 priceGroups: [sugaring-face]
 whoFor: |
   Anyone who wants a neat upper lip, chin or brows without the regrowth of threading or shaving. Suitable for fine facial hair.

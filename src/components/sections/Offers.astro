@@ -14,7 +14,7 @@ const offers = await getActiveOffers();
       <div class="grid-3">
         {offers.map((o) => (
           <article class="card">
-            {o.data.image && <div class="card-media"><Img src={o.data.image} alt={o.data.imageAlt} sizes="(max-width: 620px) 100vw, 33vw" /></div>}
+            {o.data.image && <div class="card-media"><Img src={o.data.image} alt={o.data.imageAlt} sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 33vw" /></div>}
             <div class="card-body">
               <h3>{o.data.title}</h3>
               <p>{o.data.summary}</p>
@@ -28,7 +28,7 @@ const offers = await getActiveOffers();
         ))}
       </div>
     ) : (
-      <p class="notice">There are no special offers at the moment. Our packages and courses are always the best value: see our <a href={href('sugaring-prices-manchester#sugaring-packages')}>sugaring packages</a>.</p>
+      <p class="notice">There are no special offers at the moment. See our <a href={href('sugaring-prices-manchester#sugaring-packages')}>packages and courses</a>, including the Hollywood or Brazilian course of three.</p>
     )}
   </div>
 </section>

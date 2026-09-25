@@ -7,6 +7,7 @@ image: /src/assets/uploads/therapist-sugaring-leg.jpg
 imageAlt: Therapist sugaring a client's leg in the studio
 order: 2
 treatwellServiceId: TR4725291
+fromPrice: 15
 priceGroups: [sugaring-packages, sugaring-body]
 whoFor: |
   Anyone tired of shaving every other day. Sugaring suits legs, underarms, arms, back, stomach and buttocks, and it is a popular choice for sensitive skin.

@@ -7,6 +7,7 @@ image: /src/assets/uploads/sugaring-arm-treatment.jpg
 imageAlt: Therapist in gloves sugaring an arm
 order: 4
 treatwellServiceId: TR4725456
+fromPrice: 15
 priceGroups: [mens-sugaring-packages, mens-sugaring-body, mens-sugaring-face]
 whoFor: |
   Men who want a smooth or tidier back, chest, shoulders, arms or legs, whether for sport, holidays or comfort. Our men's menu does not include intimate areas.
